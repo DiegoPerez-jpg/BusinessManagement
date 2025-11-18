@@ -1,3 +1,4 @@
+package com.mycompany.businessmanagement.DAOS;
 import com.mycompany.businessmanagement.conexion.Conexion;
 import com.mycompany.businessmanagement.modelos.Proveedor;
 
