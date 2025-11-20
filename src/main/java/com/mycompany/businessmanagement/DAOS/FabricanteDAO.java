@@ -67,6 +67,21 @@ public List<Fabricante> findAll() {
 }
 
 
+public Fabricante findByName(String nombre) {
+    String sql = "SELECT * FROM fabricante WHERE nombre = ?";
+    try (Connection conn = Conexion.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, nombre);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Fabricante(rs.getInt("id"), rs.getString("nombre"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
 public Fabricante findById(int id) {
     String sql = "SELECT * FROM fabricante WHERE id = ?";
     try (Connection conn = Conexion.getConnection();
