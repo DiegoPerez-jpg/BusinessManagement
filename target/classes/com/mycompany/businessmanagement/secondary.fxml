@@ -7,34 +7,38 @@
 <VBox xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.mycompany.businessmanagement.SecondaryController"
-      spacing="10" alignment="TOP_CENTER" prefWidth="420.0" prefHeight="320.0"
-      style="-fx-padding: 16;">
+      spacing="10" alignment="TOP_CENTER" prefWidth="420.0" prefHeight="360.0"
+      style="-fx-padding: 16; -fx-background-color: #fafafa;">
+
    <children>
       <Label text="Crear nueva empresa" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
       <GridPane hgap="10" vgap="8">
          <columnConstraints>
-            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints minWidth="140" />
             <ColumnConstraints minWidth="240" />
          </columnConstraints>
 
          <children>
-            <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfNombre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Código (num):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfCodigo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-            <Label text="CIF:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfCif" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfNombre" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <Label text="Dirección:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfDireccion" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Web:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfWeb" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-            <Label text="Teléfono:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfTelefono" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="FK id Direccion (num):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfFkDireccion" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="FK id Informacion (num):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfFkInformacion" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
          </children>
       </GridPane>
 
       <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 6;">
-         <Button fx:id="btnGuardar" text="Guardar" prefWidth="90"/>
-         <Button fx:id="btnCancelar" text="Cancelar" prefWidth="90"/>
+         <Button fx:id="btnGuardar" text="Guardar" prefWidth="90" style="-fx-background-color: #5cb85c; -fx-text-fill: white;"/>
+         <Button fx:id="btnCancelar" text="Cancelar" prefWidth="90" style="-fx-background-color: #d9534f; -fx-text-fill: white;"/>
       </HBox>
    </children>
 </VBox>

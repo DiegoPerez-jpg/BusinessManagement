@@ -1,5 +1,6 @@
 package com.mycompany.businessmanagement;
 
+import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,8 +39,8 @@ public class PrimaryController {
     @FXML
     private Label centerLabel;
 
-    // Aquí puedes usar tu DAO real (EmpresaDAO). Dejo comentario para que lo sustituyas.
-    // private final EmpresaDAO empresaDAO = new EmpresaDAO();
+    // Creamos el DAO aquí y se lo pasamos al secondary controller cuando se abra la ventana.
+    private final EmpresaDAO empresaDAO = new EmpresaDAO();
 
     @FXML
     private void initialize() {
@@ -55,7 +56,6 @@ public class PrimaryController {
 
         // Cargar imagen desde resources/imagenes/imagencrearempresa.png
         try {
-            // ruta basada en tu estructura: resources/imagenes/imagencrearempresa.png
             Image img = new Image(getClass().getResourceAsStream("/imagenes/imagencrearempresa.png"));
             if (centerImage != null) centerImage.setImage(img);
         } catch (Exception ex) {
@@ -93,10 +93,17 @@ public class PrimaryController {
 
     @FXML
     private void botonAbrirAction() {
-        // Ejemplo: mostrar listado. Sustituye por tu llamada a EmpresaDAO.findAll()
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Empresa A", "Empresa B" // ej. reemplazar por datos reales
-        );
+        // Muestra lista de empresas usando el DAO
+        ObservableList<String> items;
+        try {
+            // obtenemos la lista de entidades Empresa y la convertimos a strings sencillos (nombre)
+            var empresas = empresaDAO.findAll();
+            items = FXCollections.observableArrayList();
+            //empresas.forEach(e -> items.add(e.getNombre() + " (id:" + e.getId() + ")"));
+        } catch (Exception ex) {
+            // fallback si algo falla en la BD
+            items = FXCollections.observableArrayList("No se pudieron cargar empresas (error BD)", "Comprueba conexión");
+        }
 
         ListView<String> listView = new ListView<>(items);
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -116,15 +123,14 @@ public class PrimaryController {
 
     private void openCreateCompanyWindow() {
         try {
-            // Ruta absoluta en classpath a tus fxml (tu carpeta resources/com.mycompany.businessmanagement)
+            // Ruta a tu secondary.fxml dentro de resources conforme a tu estructura:
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/businessmanagement/secondary.fxml"));
 
-            // Usa Parent para evitar ClassCastException si la raíz del FXML no es AnchorPane
             Parent root = loader.load();
 
-            // Si vas a pasar DAO real, obtén el controlador y pásalo:
-            // SecondaryController controller = loader.getController();
-            // controller.setEmpresaDAO(empresaDAO);
+            // Obtenemos el controlador y le pasamos el DAO real para que haga insert en BD
+            SecondaryController controller = loader.getController();
+            controller.setEmpresaDAO(empresaDAO);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
