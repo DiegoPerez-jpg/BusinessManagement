@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.PrimaryController">
-   <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.PrimaryController">
+
+    <left>
+        <VBox fx:id="panelOrga" alignment="TOP_CENTER" prefWidth="160.0" spacing="12.0" style="-fx-background-color: #c0c0c0; -fx-padding: 12;">
+            <children>
+                <Button fx:id="botonNuevo" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #a8ee87; -fx-font-weight: bold;" text="Nuevo" translateY="150.0" />
+                <Button fx:id="botonAbrir" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #87ceeb; -fx-font-weight: bold;" text="Abrir" translateY="200.0" />
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <AnchorPane fx:id="panelContenido" style="-fx-background-color: #ffffff;">
+            <!-- Al principio la imagen y el label no se muestran; se activan al pulsar "Nuevo" -->
+            <children>
+                <ImageView fx:id="centerImage" fitHeight="140.0" fitWidth="170.0" layoutX="315.0" layoutY="120.0" managed="false" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="25.0" visible="false" />
+                <Label fx:id="centerLabel" layoutX="340.0" layoutY="270.0" managed="false" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Nueva empresa" translateX="-158.0" visible="false" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
