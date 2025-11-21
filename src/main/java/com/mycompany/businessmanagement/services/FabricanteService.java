@@ -6,11 +6,16 @@ package com.mycompany.businessmanagement.services;
 import com.mycompany.businessmanagement.DAOS.FabricanteDAO;
 import com.mycompany.businessmanagement.exceptions.FabricanteException;
 import com.mycompany.businessmanagement.modelos.Fabricante;
+import com.mycompany.businessmanagement.modelos.Informacion;
+import com.mycompany.businessmanagement.util.Factory;
+
+import java.util.List;
+
 /**
  *
  * @author alexd
  */
-public class FabricanteService {
+public class FabricanteService{
     private FabricanteDAO fabricanteDAO;
     public FabricanteService(){
         this.fabricanteDAO = new FabricanteDAO();
@@ -31,11 +36,11 @@ public class FabricanteService {
     }
     
     public void updateFabricante(Fabricante fabricante) throws FabricanteException{
-    if (fabricanteDAO.findById(fabricante.getId())==null){
-        throw new FabricanteException("El fabricante no existe");
-    }
+        if (fabricanteDAO.findById(fabricante.getId())==null)throw new FabricanteException("El fabricante no existe");
       fabricanteDAO.update(fabricante);
     }
-    
-    
+
+    public List<Fabricante> selectAll(){
+        return fabricanteDAO.findAll();
+    }
 }

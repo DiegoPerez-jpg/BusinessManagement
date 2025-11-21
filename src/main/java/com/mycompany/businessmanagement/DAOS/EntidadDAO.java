@@ -87,6 +87,21 @@ public Entidad findById(int id) {
     }
     return null;
 }
+    public Entidad findByName(String name) {
+        String sql = "SELECT * FROM entidad WHERE id = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Entidad(rs.getInt("id"), rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("fk_id_informacion"), rs.getInt("fk_id_direccion"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
 }

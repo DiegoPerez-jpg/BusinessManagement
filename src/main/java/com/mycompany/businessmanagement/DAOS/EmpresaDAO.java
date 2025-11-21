@@ -89,6 +89,20 @@ public Empresa findById(int id) {
     }
     return null;
 }
+    public Empresa findByName(String name) {
+        String sql = "SELECT * FROM empresa WHERE name = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Empresa(rs.getInt("id"), rs.getInt("codigo"), rs.getString("nombre"), rs.getString("web"), rs.getInt("fk_id_direccion"), rs.getInt("fk_id_informacion"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 }

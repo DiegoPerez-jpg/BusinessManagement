@@ -29,6 +29,71 @@ try (ResultSet rs = ps.getGeneratedKeys()) {
         return null;
     }
 }
+    public Direccion findByAll(String direccion, String codigopostal, String ciudad,
+                               String provincia, String pais, String etiqueta) {
+
+        String baseSql = "SELECT * FROM direccion";
+        List<String> condiciones = new ArrayList<>();
+        List<String> valores = new ArrayList<>();
+
+        if (direccion != null && !direccion.isEmpty()) {
+            condiciones.add("direccion = ?");
+            valores.add(direccion);
+        }
+        if (codigopostal != null && !codigopostal.isEmpty()) {
+            condiciones.add("codigopostal = ?");
+            valores.add(codigopostal);
+        }
+        if (ciudad != null && !ciudad.isEmpty()) {
+            condiciones.add("ciudad = ?");
+            valores.add(ciudad);
+        }
+        if (provincia != null && !provincia.isEmpty()) {
+            condiciones.add("provincia = ?");
+            valores.add(provincia);
+        }
+        if (pais != null && !pais.isEmpty()) {
+            condiciones.add("pais = ?");
+            valores.add(pais);
+        }
+        if (etiqueta != null && !etiqueta.isEmpty()) {
+            condiciones.add("etiqueta = ?");
+            valores.add(etiqueta);
+        }
+
+        if (condiciones.isEmpty()) {
+            return null;
+        }
+
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < valores.size(); i++) {
+                ps.setString(i + 1, valores.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Direccion(
+                        rs.getInt("id"),
+                        rs.getString("direccion"),
+                        rs.getString("codigopostal"),
+                        rs.getString("ciudad"),
+                        rs.getString("provincia"),
+                        rs.getString("pais"),
+                        rs.getString("etiqueta")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
 public void update(Direccion direccion) {

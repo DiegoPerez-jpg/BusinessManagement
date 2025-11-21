@@ -10,16 +10,13 @@ import java.util.List;
 public class ClienteDAO {
 
 public Cliente insert(Cliente entity) {
-    String sql = "INSERT INTO cliente () VALUES ()";
-long idGenerado = -1;
+    String sql = "INSERT INTO cliente (id) VALUES (?)";
     try (Connection conn = Conexion.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setLong(1, entity.getId());
         ps.executeUpdate();
-try (ResultSet rs = ps.getGeneratedKeys()) {
-        if (rs.next()) {
-            idGenerado = rs.getLong(1);
-        }
-    }entity.setId((int)idGenerado);        return entity;    } catch (SQLException e) {
+        return entity;
+    } catch (SQLException e) {
         e.printStackTrace();
         return null;
     }

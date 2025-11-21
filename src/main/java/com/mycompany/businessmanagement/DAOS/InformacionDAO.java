@@ -71,20 +71,76 @@ public List<Informacion> findAll() {
 }
 
 
-public Informacion findById(int id) {
-    String sql = "SELECT * FROM informacion WHERE id = ?";
-    try (Connection conn = Conexion.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return new Informacion(rs.getInt("id"), rs.getString("nif"), rs.getString("email"), rs.getString("telefono"));
+    public Informacion findById(int id) {
+        String sql = "SELECT * FROM informacion WHERE id = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Informacion(rs.getInt("id"), rs.getString("nif"), rs.getString("email"), rs.getString("telefono"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
+
+    public List<Informacion> filterByAll(String nif, String email, String telefono) {
+
+        String baseSql = "SELECT * FROM informacion";
+        List<String> condiciones = new ArrayList<>();
+        List<String> valores = new ArrayList<>();
+
+        if (nif != null && !nif.isEmpty()) {
+            condiciones.add("nif = ?");
+            valores.add(nif);
+        }
+
+        if (email != null && !email.isEmpty()) {
+            condiciones.add("email = ?");
+            valores.add(email);
+        }
+
+        if (telefono != null && !telefono.isEmpty()) {
+            condiciones.add("telefono = ?");
+            valores.add(telefono);
+        }
+
+        List<Informacion> resultado = new ArrayList<>();
+
+        if (condiciones.isEmpty()) {
+            return resultado;
+        }
+
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < valores.size(); i++) {
+                ps.setString(i + 1, valores.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                resultado.add(new Informacion(
+                        rs.getInt("id"),
+                        rs.getString("nif"),
+                        rs.getString("email"),
+                        rs.getString("telefono")
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
+    }
+
+
 
 
 }
