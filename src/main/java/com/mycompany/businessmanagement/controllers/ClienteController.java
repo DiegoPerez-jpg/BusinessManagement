@@ -3,20 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.businessmanagement.controllers;
-import com.mycompany.businessmanagement.modelos.Fabricante;
-import com.mycompany.businessmanagement.services.FabricanteService;
+
+import com.mycompany.businessmanagement.modelos.Cliente;
+
 /**
  *
  * @author alexd
  */
-public class FabricanteController {
-    public Fabricante crearFabricante(Fabricante fabricante){
+public class ClienteController {
+    public Cliente crearCliente(Cliente cliente){
         //regex
         //si hay error throw exception
-        return fabricante;
+        return cliente;
     }
     
-    public static FabricanteController create(){
-        return new FabricanteController();
+    public static ClienteController create(){
+        return new ClienteController();
     }
 }
