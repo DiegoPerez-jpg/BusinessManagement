@@ -97,5 +97,54 @@ public Fabricante findById(int id) {
     return null;
 }
 
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id, String nombre) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
 
+
+    public String getFindByAllSql(List<Object> valores,Integer id, String nombre){String baseSql = "SELECT * FROM fabricante";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        if (nombre != null) {
+            condiciones.add("nombre = ?");
+            valores.add(nombre);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Fabricante> findByAll(Integer id, String nombre) {
+        List<Object> valores = new ArrayList<>();        List<Fabricante> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id,nombre))) {
+
+            setupParameters(ps,valores, id,nombre);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Fabricante(rs.getInt("id"), rs.getString("nombre")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 }

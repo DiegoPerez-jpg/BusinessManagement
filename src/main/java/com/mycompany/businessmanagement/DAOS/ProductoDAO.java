@@ -100,5 +100,92 @@ public Producto findById(int id) {
     return null;
 }
 
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id, String codigo, String descripcion, String descripcion_aux, Double precio_coste, Double precio_venta, String referencia_proveedor, Double stock, Integer fk_id_proveedor, Integer fk_id_fabricante, Integer fk_id_tipoiva) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
+
+
+    public String getFindByAllSql(List<Object> valores,Integer id, String codigo, String descripcion, String descripcion_aux, Double precio_coste, Double precio_venta, String referencia_proveedor, Double stock, Integer fk_id_proveedor, Integer fk_id_fabricante, Integer fk_id_tipoiva){String baseSql = "SELECT * FROM producto";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        if (codigo != null) {
+            condiciones.add("codigo = ?");
+            valores.add(codigo);
+        }
+        if (descripcion != null) {
+            condiciones.add("descripcion = ?");
+            valores.add(descripcion);
+        }
+        if (descripcion_aux != null) {
+            condiciones.add("descripcion_aux = ?");
+            valores.add(descripcion_aux);
+        }
+        if (precio_coste != null) {
+            condiciones.add("precio_coste = ?");
+            valores.add(precio_coste);
+        }
+        if (precio_venta != null) {
+            condiciones.add("precio_venta = ?");
+            valores.add(precio_venta);
+        }
+        if (referencia_proveedor != null) {
+            condiciones.add("referencia_proveedor = ?");
+            valores.add(referencia_proveedor);
+        }
+        if (stock != null) {
+            condiciones.add("stock = ?");
+            valores.add(stock);
+        }
+        if (fk_id_proveedor != null) {
+            condiciones.add("fk_id_proveedor = ?");
+            valores.add(fk_id_proveedor);
+        }
+        if (fk_id_fabricante != null) {
+            condiciones.add("fk_id_fabricante = ?");
+            valores.add(fk_id_fabricante);
+        }
+        if (fk_id_tipoiva != null) {
+            condiciones.add("fk_id_tipoiva = ?");
+            valores.add(fk_id_tipoiva);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Producto> findByAll(Integer id, String codigo, String descripcion, String descripcion_aux, Double precio_coste, Double precio_venta, String referencia_proveedor, Double stock, Integer fk_id_proveedor, Integer fk_id_fabricante, Integer fk_id_tipoiva) {
+        List<Object> valores = new ArrayList<>();        List<Producto> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id,codigo,descripcion,descripcion_aux,precio_coste,precio_venta,referencia_proveedor,stock,fk_id_proveedor,fk_id_fabricante,fk_id_tipoiva))) {
+
+            setupParameters(ps,valores, id,codigo,descripcion,descripcion_aux,precio_coste,precio_venta,referencia_proveedor,stock,fk_id_proveedor,fk_id_fabricante,fk_id_tipoiva);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Producto(rs.getInt("id"), rs.getString("codigo"), rs.getString("descripcion"), rs.getString("descripcion_aux"), rs.getDouble("precio_coste"), rs.getDouble("precio_venta"), rs.getString("referencia_proveedor"), rs.getDouble("stock"), rs.getInt("fk_id_proveedor"), rs.getInt("fk_id_fabricante"), rs.getInt("fk_id_tipoiva")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
 
 }
