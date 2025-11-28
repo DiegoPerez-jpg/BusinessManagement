@@ -1,27 +1,27 @@
 package com.mycompany.businessmanagement.services;
 
-import com.mycompany.businessmanagement.DAOS.DireccionDAO;
-import com.mycompany.businessmanagement.exceptions.DireccionException;
-import com.mycompany.businessmanagement.modelos.Direccion;
+import com.mycompany.businessmanagement.DAOS.FacturaDAO;
+import com.mycompany.businessmanagement.modelos.Factura;
 
 import java.util.List;
 
 public class FacturaService {
-    private DireccionDAO direccionDAO =  new DireccionDAO();
 
-    public Direccion crearDireccion(Direccion direccion){
-        return direccionDAO.insert(direccion);
+    private FacturaDAO facturaDAO = new FacturaDAO();
+
+    public void eliminarFactura(Factura factura) {
+        facturaDAO.delete(factura.getId());
     }
 
-    public void eliminarDireccion(Direccion direccion) {
-        direccionDAO.delete(direccion.getId());
+    public List<Factura> selectAll() {
+        return facturaDAO.findAll();
     }
 
-    public void updateDireccion(Direccion direccion) throws DireccionException {
-        if (direccionDAO.findById(direccion.getId())==null)throw new DireccionException("El direccion no existe");
-        direccionDAO.update(direccion);
+    public void crearFactura(Factura factura) throws IllegalArgumentException {
+        facturaDAO.insert(factura);
     }
-    public List<Direccion> selectAll(){
-        return direccionDAO.findAll();
+
+    public void updateFactura(Factura factura) throws IllegalArgumentException {
+        facturaDAO.update(factura);
     }
 }
