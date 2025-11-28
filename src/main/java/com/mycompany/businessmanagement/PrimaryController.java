@@ -1,7 +1,15 @@
 package com.mycompany.businessmanagement;
 
+import com.mycompany.businessmanagement.DAOS.DireccionDAO;
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
+import com.mycompany.businessmanagement.DAOS.InformacionDAO;
+import com.mycompany.businessmanagement.conexion.Conexion;
+import com.mycompany.businessmanagement.controllers.DireccionController;
+import com.mycompany.businessmanagement.controllers.EmpresaController;
+import com.mycompany.businessmanagement.controllers.InformacionController;
+import com.mycompany.businessmanagement.modelos.Direccion;
 import com.mycompany.businessmanagement.modelos.Empresa;
+import com.mycompany.businessmanagement.modelos.Informacion;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,12 +30,27 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.SelectionMode;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import javafx.scene.control.TextField;
 
 public class PrimaryController {
-    
-    
+
+
+    public TextField nifTextField;
+    public TextField emailTextField;
+    public TextField telefonoTextField;
+    public TextField etiquetaTextField;
+    public TextField paisTextField;
+    public TextField provinciaTextField;
+    public TextField ciudadTextField;
+    public TextField codigoPostalTextField;
+    public TextField direccionTextField;
+    public TextField webTextField;
+    public TextField nombreTextField;
+    public TextField codigoTextField;
+    public Label IdError;
     @FXML
     private AnchorPane nuevoPanel;
     @FXML
@@ -61,10 +84,37 @@ public class PrimaryController {
         // conectar botones con acciones (si no lo haces en FXML)
         nuevoButton.setOnMouseClicked(e -> botonNuevoAction());
         abrirButton.setOnMouseClicked(e -> botonAbrirAction());
+        guardarButton.setOnMouseClicked(e -> guardarAction());
+
+
         
 //        if (guardarButton != null) guardarButton.setOnAction(e -> guardarEmpresa());
 //        if (cancelarButton != null) cancelarButton.setOnAction(e -> cerrarVentana());
     }
+
+    private void guardarAction() {
+        Connection conn = Conexion.getConnection();
+        try{
+            conn.setAutoCommit(false);
+            Informacion informacion = new InformacionController().create(nifTextField.getText(),emailTextField.getText(), telefonoTextField.getText());
+            Direccion direccion = new DireccionController().create(direccionTextField.getText(),codigoPostalTextField.getText(),ciudadTextField.getText(),provinciaTextField.getText(),paisTextField.getText(),etiquetaTextField.getText());
+            new InformacionDAO().insert(informacion);
+            new DireccionDAO().insert(direccion);
+            Empresa empresa = new EmpresaController().create(codigoTextField.getText(),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId());
+            new EmpresaDAO().insert(empresa);
+            conn.commit();
+        } catch (Exception e){
+            try{
+                conn.rollback();
+                conn.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            IdError.setVisible(true);
+            IdError.setText(e.getMessage());
+        }
+    }
+
 
     private void botonNuevoAction() {
         nuevoPanel.setVisible(true);        
@@ -97,53 +147,6 @@ public class PrimaryController {
     }
 
 
-//    private void guardarEmpresa() {
-//        try {
-//            String nombre = tfNombre != null ? tfNombre.getText().trim() : "";
-//            String web = tfWeb != null ? tfWeb.getText().trim() : "";
-//            int codigo = 0;
-//            int fkDireccion = 0;
-//            int fkInformacion = 0;
-//
-//            if (tfCodigo != null && !tfCodigo.getText().trim().isEmpty()) {
-//                codigo = Integer.parseInt(tfCodigo.getText().trim());
-//            }
-//            if (tfFkDireccion != null && !tfFkDireccion.getText().trim().isEmpty()) {
-//                fkDireccion = Integer.parseInt(tfFkDireccion.getText().trim());
-//            }
-//            if (tfFkInformacion != null && !tfFkInformacion.getText().trim().isEmpty()) {
-//                fkInformacion = Integer.parseInt(tfFkInformacion.getText().trim());
-//            }
-//
-//            if (nombre.isEmpty()) {
-//                System.err.println("El nombre es obligatorio");
-//                return;
-//            }
-//
-//            // Usamos el constructor que nos indicaste: Empresa(int id, int codigo, String nombre, String web, int fk_id_direccion, int fk_id_informacion)
-//            Empresa e = new Empresa(0, codigo, nombre, web, fkDireccion, fkInformacion);
-//
-//            if (empresaDAO != null) {
-//                Empresa inserted = empresaDAO.insert(e); // el DAO debería asignar el id generado
-//                if (inserted != null) {
-//                    System.out.println("Empresa guardada con id = " + inserted.getId());
-//                } else {
-//                    System.err.println("Error al guardar la empresa (DAO devolvió null).");
-//                }
-//            } else {
-//                System.err.println("empresaDAO no inyectado: la empresa no se ha guardado en BD.");
-//            }
-//
-//            // Cierra ventana después de guardar
-//            cerrarVentana();
-//
-//        } catch (NumberFormatException nfe) {
-//            System.err.println("Los campos numéricos deben contener números válidos: " + nfe.getMessage());
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            System.err.println("Error guardando empresa: " + ex.getMessage());
-//        }
-//    }
 //
 //    private void cerrarVentana() {
 //        if (btnCancelar != null && btnCancelar.getScene() != null) {

@@ -29,40 +29,40 @@
                                     </columnConstraints>
                                     <children>
                                         <Label text="Código (num):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <TextField fx:id="codigoTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <TextField id="codigoTextField" fx:id="codigoTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                                         <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <TextField fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField id="nombreTextField" fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                                         <Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                        <TextField fx:id="webTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField id="webTextField" fx:id="webTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                                         <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                        <TextField fx:id="direccionTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField id="direccionTextField" fx:id="direccionTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                                         <Label text="Código postal:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                                        <TextField fx:id="codigoPostalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <TextField id="cpTextField" fx:id="codigoPostalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                                         <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                                        <TextField fx:id="ciudadTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <TextField id="ciudadTextField" fx:id="ciudadTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                                         <Label text="Provincia:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                                        <TextField fx:id="provinciaTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                        <TextField id="provinciaTextField" fx:id="provinciaTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
                                         <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                                        <TextField fx:id="paisTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                        <TextField id="paisTextField" fx:id="paisTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                                         <Label text="Etiqueta:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                                        <TextField fx:id="etiquetaTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                        <TextField id="etiquetaTextField" fx:id="etiquetaTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
                                         <Label text="NIF:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                                        <TextField fx:id="nifTextField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                        <TextField id="nifTextField" fx:id="nifTextField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
                                         <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-                                        <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                        <TextField id="emailTextField" fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
                                         <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-                                        <TextField fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                        <TextField id="telefonoTextField" fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                                     </children>
                                     <rowConstraints>
                                         <RowConstraints />
@@ -87,7 +87,7 @@
                                 </HBox>
 
                                 <Button fx:id="guardarButton" prefWidth="90" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Guardar" translateX="-25.0" translateY="-1.0" />
-                        <Label fx:id="IdError" text="Error" textFill="RED" translateX="-175.0" translateY="-30.0" />
+                        <Label id="errorLabel" fx:id="IdError" text="Error" textFill="RED" translateX="-175.0" translateY="-30.0" />
                             </children>
                         </VBox>
                     </children>
