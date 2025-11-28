@@ -79,4 +79,51 @@ public Cliente findById(int id) {
 }
 
 
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
+
+
+    public String getFindByAllSql(List<Object> valores,Integer id){String baseSql = "SELECT * FROM cliente";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Cliente> findByAll(Integer id) {
+        List<Object> valores = new ArrayList<>();        List<Cliente> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id))) {
+
+            setupParameters(ps,valores, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Cliente(rs.getInt("id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
 }

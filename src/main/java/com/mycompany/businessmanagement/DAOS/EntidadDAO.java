@@ -103,5 +103,68 @@ public Entidad findById(int id) {
     }
 
 
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id, Integer codigo, String nombre, Integer fk_id_informacion, Integer fk_id_direccion) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
+
+
+    public String getFindByAllSql(List<Object> valores,Integer id, Integer codigo, String nombre, Integer fk_id_informacion, Integer fk_id_direccion){String baseSql = "SELECT * FROM entidad";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        if (codigo != null) {
+            condiciones.add("codigo = ?");
+            valores.add(codigo);
+        }
+        if (nombre != null) {
+            condiciones.add("nombre = ?");
+            valores.add(nombre);
+        }
+        if (fk_id_informacion != null) {
+            condiciones.add("fk_id_informacion = ?");
+            valores.add(fk_id_informacion);
+        }
+        if (fk_id_direccion != null) {
+            condiciones.add("fk_id_direccion = ?");
+            valores.add(fk_id_direccion);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Entidad> findByAll(Integer id, Integer codigo, String nombre, Integer fk_id_informacion, Integer fk_id_direccion) {
+        List<Object> valores = new ArrayList<>();        List<Entidad> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id,codigo,nombre,fk_id_informacion,fk_id_direccion))) {
+
+            setupParameters(ps,valores, id,codigo,nombre,fk_id_informacion,fk_id_direccion);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Entidad(rs.getInt("id"), rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("fk_id_informacion"), rs.getInt("fk_id_direccion")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
 
 }

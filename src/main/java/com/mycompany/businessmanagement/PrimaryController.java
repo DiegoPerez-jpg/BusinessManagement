@@ -1,6 +1,7 @@
 package com.mycompany.businessmanagement;
 
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
+import com.mycompany.businessmanagement.modelos.Empresa;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,129 +22,138 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.SelectionMode;
 
 import java.io.IOException;
+import java.util.List;
+import javafx.scene.control.TextField;
 
 public class PrimaryController {
-
+    
+    
     @FXML
-    private Button botonNuevo;
-
+    private AnchorPane nuevoPanel;
     @FXML
-    private Button botonAbrir;
+    private AnchorPane cargarPanel;
 
+    
+    @FXML 
+    private Button nuevoButton;
+    @FXML 
+    private Button abrirButton;
+    @FXML 
+    private Button guardarButton;
+    @FXML 
+    private Button cancelarButton;
+    
     @FXML
-    private AnchorPane panelContenido;
-
+    private ListView empresasListView;
     @FXML
-    private ImageView centerImage;
+    private Button cargarButton;
+            
+        
+    
+    private EmpresaDAO empresaDAO = new EmpresaDAO(); // inyectado desde PrimaryController
 
-    @FXML
-    private Label centerLabel;
 
-    // Creamos el DAO aquí y se lo pasamos al secondary controller cuando se abra la ventana.
-    private final EmpresaDAO empresaDAO = new EmpresaDAO();
 
     @FXML
     private void initialize() {
-        // Inicialmente ocultamos la imagen/label si existen (protección null)
-        if (centerImage != null) {
-            centerImage.setVisible(false);
-            centerImage.setManaged(false);
-        }
-        if (centerLabel != null) {
-            centerLabel.setVisible(false);
-            centerLabel.setManaged(false);
-        }
-
-        // Cargar imagen desde resources/imagenes/imagencrearempresa.png
-        try {
-            Image img = new Image(getClass().getResourceAsStream("/imagenes/imagencrearempresa.png"));
-            if (centerImage != null) centerImage.setImage(img);
-        } catch (Exception ex) {
-            System.err.println("No se pudo cargar la imagen desde /imagenes/imagencrearempresa.png : " + ex.getMessage());
-        }
-
-        // cursor/efecto al pasar ratón (si image existe)
-        if (centerImage != null) {
-            centerImage.setOnMouseEntered(ev -> centerImage.setStyle("-fx-opacity: 0.9; -fx-cursor: hand;"));
-            centerImage.setOnMouseExited(ev -> centerImage.setStyle("-fx-opacity: 1.0;"));
-        }
+        
 
         // conectar botones con acciones (si no lo haces en FXML)
-        if (botonNuevo != null) botonNuevo.setOnAction(e -> botonNuevoAction());
-        if (botonAbrir != null) botonAbrir.setOnAction(e -> botonAbrirAction());
+        nuevoButton.setOnMouseClicked(e -> botonNuevoAction());
+        abrirButton.setOnMouseClicked(e -> botonAbrirAction());
+        
+//        if (guardarButton != null) guardarButton.setOnAction(e -> guardarEmpresa());
+//        if (cancelarButton != null) cancelarButton.setOnAction(e -> cerrarVentana());
     }
 
-    @FXML
     private void botonNuevoAction() {
-        // Mostrar la imagen y label en el panel central para que el usuario clickee
-        if (centerImage != null) {
-            centerImage.setVisible(true);
-            centerImage.setManaged(true);
-        }
-        if (centerLabel != null) {
-            centerLabel.setVisible(true);
-            centerLabel.setManaged(true);
-        }
+        nuevoPanel.setVisible(true);        
+        nuevoPanel.setDisable(false);
+        
+        cargarPanel.setVisible(false);        
+        cargarPanel.setDisable(true);
 
-        // Al hacer clic en la imagen abrimos la ventana de creación (secondary.fxml)
-        if (centerImage != null) {
-            centerImage.setOnMouseClicked((MouseEvent me) -> openCreateCompanyWindow());
-        }
     }
 
-    @FXML
     private void botonAbrirAction() {
-        // Muestra lista de empresas usando el DAO
-        ObservableList<String> items;
+        
+        cargarPanel.setVisible(true);        
+        cargarPanel.setDisable(false);
+        
+        nuevoPanel.setVisible(false);        
+        nuevoPanel.setDisable(true);
+        
+        final ObservableList<String> items;
         try {
             // obtenemos la lista de entidades Empresa y la convertimos a strings sencillos (nombre)
-            var empresas = empresaDAO.findAll();
-            items = FXCollections.observableArrayList();
-            //empresas.forEach(e -> items.add(e.getNombre() + " (id:" + e.getId() + ")"));
+            List<Empresa> empresas = empresaDAO.findAll();
+             items = FXCollections.observableArrayList();
+            empresas.forEach(e -> items.add(e.getNombre() + " (id:" + e.getId() + ")"));
         } catch (Exception ex) {
             // fallback si algo falla en la BD
-            items = FXCollections.observableArrayList("No se pudieron cargar empresas (error BD)", "Comprueba conexión");
+//            items = FXCollections.observableArrayList("No se pudieron cargar empresas (error BD)", "Comprueba conexión");
         }
 
-        ListView<String> listView = new ListView<>(items);
-        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listView.setPrefSize(420, 300);
-
-        VBox root = new VBox(10);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 12;");
-        root.getChildren().addAll(listView);
-
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Empresas existentes");
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
     }
 
-    private void openCreateCompanyWindow() {
-        try {
-            // Ruta a tu secondary.fxml dentro de resources conforme a tu estructura:
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/businessmanagement/secondary.fxml"));
 
-            Parent root = loader.load();
-
-            // Obtenemos el controlador y le pasamos el DAO real para que haga insert en BD
-            SecondaryController controller = loader.getController();
-            controller.setEmpresaDAO(empresaDAO);
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Crear nueva empresa");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.err.println("Error cargando secondary.fxml. Asegúrate de que el fichero existe en resources/com.mycompany.businessmanagement/secondary.fxml");
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            System.err.println("getResource devolvió null: ruta incorrecta o FXML no está en resources.");
-        }
-    }
+//    private void guardarEmpresa() {
+//        try {
+//            String nombre = tfNombre != null ? tfNombre.getText().trim() : "";
+//            String web = tfWeb != null ? tfWeb.getText().trim() : "";
+//            int codigo = 0;
+//            int fkDireccion = 0;
+//            int fkInformacion = 0;
+//
+//            if (tfCodigo != null && !tfCodigo.getText().trim().isEmpty()) {
+//                codigo = Integer.parseInt(tfCodigo.getText().trim());
+//            }
+//            if (tfFkDireccion != null && !tfFkDireccion.getText().trim().isEmpty()) {
+//                fkDireccion = Integer.parseInt(tfFkDireccion.getText().trim());
+//            }
+//            if (tfFkInformacion != null && !tfFkInformacion.getText().trim().isEmpty()) {
+//                fkInformacion = Integer.parseInt(tfFkInformacion.getText().trim());
+//            }
+//
+//            if (nombre.isEmpty()) {
+//                System.err.println("El nombre es obligatorio");
+//                return;
+//            }
+//
+//            // Usamos el constructor que nos indicaste: Empresa(int id, int codigo, String nombre, String web, int fk_id_direccion, int fk_id_informacion)
+//            Empresa e = new Empresa(0, codigo, nombre, web, fkDireccion, fkInformacion);
+//
+//            if (empresaDAO != null) {
+//                Empresa inserted = empresaDAO.insert(e); // el DAO debería asignar el id generado
+//                if (inserted != null) {
+//                    System.out.println("Empresa guardada con id = " + inserted.getId());
+//                } else {
+//                    System.err.println("Error al guardar la empresa (DAO devolvió null).");
+//                }
+//            } else {
+//                System.err.println("empresaDAO no inyectado: la empresa no se ha guardado en BD.");
+//            }
+//
+//            // Cierra ventana después de guardar
+//            cerrarVentana();
+//
+//        } catch (NumberFormatException nfe) {
+//            System.err.println("Los campos numéricos deben contener números válidos: " + nfe.getMessage());
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            System.err.println("Error guardando empresa: " + ex.getMessage());
+//        }
+//    }
+//
+//    private void cerrarVentana() {
+//        if (btnCancelar != null && btnCancelar.getScene() != null) {
+//            Stage s = (Stage) btnCancelar.getScene().getWindow();
+//            s.close();
+//        } else {
+//            try {
+//                Stage stage = (Stage) tfNombre.getScene().getWindow();
+//                stage.close();
+//            } catch (Exception ignore) {}
+//        }
+//    }
 }

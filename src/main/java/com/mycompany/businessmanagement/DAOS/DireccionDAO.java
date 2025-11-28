@@ -29,72 +29,6 @@ try (ResultSet rs = ps.getGeneratedKeys()) {
         return null;
     }
 }
-    public Direccion findByAll(String direccion, String codigopostal, String ciudad,
-                               String provincia, String pais, String etiqueta) {
-
-        String baseSql = "SELECT * FROM direccion";
-        List<String> condiciones = new ArrayList<>();
-        List<String> valores = new ArrayList<>();
-
-        if (direccion != null && !direccion.isEmpty()) {
-            condiciones.add("direccion = ?");
-            valores.add(direccion);
-        }
-        if (codigopostal != null && !codigopostal.isEmpty()) {
-            condiciones.add("codigopostal = ?");
-            valores.add(codigopostal);
-        }
-        if (ciudad != null && !ciudad.isEmpty()) {
-            condiciones.add("ciudad = ?");
-            valores.add(ciudad);
-        }
-        if (provincia != null && !provincia.isEmpty()) {
-            condiciones.add("provincia = ?");
-            valores.add(provincia);
-        }
-        if (pais != null && !pais.isEmpty()) {
-            condiciones.add("pais = ?");
-            valores.add(pais);
-        }
-        if (etiqueta != null && !etiqueta.isEmpty()) {
-            condiciones.add("etiqueta = ?");
-            valores.add(etiqueta);
-        }
-
-        if (condiciones.isEmpty()) {
-            return null;
-        }
-
-        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
-
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            for (int i = 0; i < valores.size(); i++) {
-                ps.setString(i + 1, valores.get(i));
-            }
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return new Direccion(
-                        rs.getInt("id"),
-                        rs.getString("direccion"),
-                        rs.getString("codigopostal"),
-                        rs.getString("ciudad"),
-                        rs.getString("provincia"),
-                        rs.getString("pais"),
-                        rs.getString("etiqueta")
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
 
 public void update(Direccion direccion) {
     String sql = "UPDATE direccion SET direccion = ?, codigopostal = ?, ciudad = ?, provincia = ?, pais = ?, etiqueta = ? WHERE id = ?";
@@ -156,6 +90,76 @@ public Direccion findById(int id) {
     }
     return null;
 }
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id, String direccion, String codigopostal, String ciudad, String provincia, String pais, String etiqueta) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
+
+
+    public String getFindByAllSql(List<Object> valores,Integer id, String direccion, String codigopostal, String ciudad, String provincia, String pais, String etiqueta){String baseSql = "SELECT * FROM direccion";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        if (direccion != null) {
+            condiciones.add("direccion = ?");
+            valores.add(direccion);
+        }
+        if (codigopostal != null) {
+            condiciones.add("codigopostal = ?");
+            valores.add(codigopostal);
+        }
+        if (ciudad != null) {
+            condiciones.add("ciudad = ?");
+            valores.add(ciudad);
+        }
+        if (provincia != null) {
+            condiciones.add("provincia = ?");
+            valores.add(provincia);
+        }
+        if (pais != null) {
+            condiciones.add("pais = ?");
+            valores.add(pais);
+        }
+        if (etiqueta != null) {
+            condiciones.add("etiqueta = ?");
+            valores.add(etiqueta);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Direccion> findByAll(Integer id, String direccion, String codigopostal, String ciudad, String provincia, String pais, String etiqueta) {
+        List<Object> valores = new ArrayList<>();        List<Direccion> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id,direccion,codigopostal,ciudad,provincia,pais,etiqueta))) {
+
+            setupParameters(ps,valores, id,direccion,codigopostal,ciudad,provincia,pais,etiqueta);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Direccion(rs.getInt("id"), rs.getString("direccion"), rs.getString("codigopostal"), rs.getString("ciudad"), rs.getString("provincia"), rs.getString("pais"), rs.getString("etiqueta")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 
 
 }

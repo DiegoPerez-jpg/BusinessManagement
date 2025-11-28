@@ -1,26 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.PrimaryController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.PrimaryController">
 
     <left>
-        <VBox fx:id="panelOrga" alignment="TOP_CENTER" prefWidth="160.0" spacing="12.0" style="-fx-background-color: #f0f0f0; -fx-padding: 16; -fx-border-color: #dcdcdc; -fx-border-width: 0 1 0 0;">
+        <VBox  alignment="TOP_CENTER" prefWidth="160.0" spacing="12.0" style="-fx-background-color: #f0f0f0; -fx-padding: 16; -fx-border-color: #dcdcdc; -fx-border-width: 0 1 0 0;">
             <children>
-                <Button fx:id="botonNuevo" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #6dd66d; -fx-font-weight: bold; -fx-text-fill: white;" text="Nuevo" translateY="150.0" />
-                <Button fx:id="botonAbrir" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #4da6ff; -fx-font-weight: bold; -fx-text-fill: white;" text="Abrir" translateY="200.0" />
+                <Button fx:id="nuevoButton" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #6dd66d; -fx-font-weight: bold; -fx-text-fill: white;" text="Nuevo" translateY="150.0" />
+                <Button fx:id="abrirButton" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #4da6ff; -fx-font-weight: bold; -fx-text-fill: white;" text="Abrir" translateY="200.0" />
             </children>
         </VBox>
     </left>
 
     <center>
-        <AnchorPane fx:id="panelContenido" style="-fx-background-color: #ffffff;">
-            <children>
-                <ImageView fx:id="centerImage" fitHeight="140.0" fitWidth="170.0" layoutX="315.0" layoutY="120.0" managed="false" pickOnBounds="true" preserveRatio="true" translateX="-150.0" translateY="25.0" visible="false" />
-                <Label fx:id="centerLabel" layoutX="340.0" layoutY="270.0" managed="false" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Nueva empresa" translateX="-158.0" visible="false" />
-            </children>
+        <AnchorPane  style="-fx-background-color: #ffffff;">
+         <children>
+            <AnchorPane fx:id="nuevoPanel" disable="true" layoutX="109.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="420.0" spacing="10" style="-fx-padding: 16; -fx-background-color: #fafafa;">
+                     <children>
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear nueva empresa" />
+                        <GridPane hgap="10" vgap="8">
+                           <columnConstraints>
+                              <ColumnConstraints minWidth="140" />
+                              <ColumnConstraints minWidth="240" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="Código (num):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <TextField id="codigoTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                              <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <TextField id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <TextField id="webTextField"  GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="FK id Direccion (num):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                              <TextField  GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="FK id Informacion (num):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                              <TextField  GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                           </children>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                        </GridPane>
+                        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 6;">
+                           <children>
+                              <Button fx:id="guardarButton"  prefWidth="90" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Guardar" />
+                              <Button fx:id="cancelarButton"  prefWidth="90" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Cancelar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="cargarPanel" disable="true" layoutX="108.0" layoutY="44.0" prefHeight="412.0" prefWidth="424.0" visible="false">
+               <children>
+                  <ListView fx:id="empresasListView" layoutX="8.0" layoutY="7.0" prefHeight="367.0" prefWidth="384.0" />
+                  <Button fx:id="cargarButton"  layoutX="167.0" layoutY="374.0" prefWidth="90" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Cargar" />
+               </children>
+            </AnchorPane>
+         </children>
         </AnchorPane>
     </center>
 </BorderPane>

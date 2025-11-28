@@ -4,6 +4,7 @@ import com.mycompany.businessmanagement.conexion.Conexion;
 import com.mycompany.businessmanagement.modelos.Factura;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,7 +179,6 @@ public Factura findById(int id) {
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Rellenar parámetros dinámicos
             for (int i = 0; i < valores.size(); i++) {
                 Object val = valores.get(i);
                 if (val instanceof Integer) {
@@ -212,6 +212,102 @@ public Factura findById(int id) {
                 ));
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+
+    public PreparedStatement setupParameters( PreparedStatement ps,List<Object> valores,Integer id, Integer fk_id_empresa, Integer fk_id_cliente, String numero, LocalDate fecha_emision, LocalDate fecha_servicio, String concepto, Double base_imponible, Double iva_total, Double total_factura, String estado, String observaciones, String tipo) throws SQLException {
+        for (int i = 0; i < valores.size(); i++) {
+            Object val = valores.get(i);
+            if (val instanceof Integer) {
+                ps.setInt(i + 1, (Integer) val);
+            } else if (val instanceof Double) {
+                ps.setDouble(i + 1, (Double) val);
+            } else if (val instanceof Date) {
+                ps.setDate(i + 1, (Date) val);
+            } else if (val instanceof String) {
+                ps.setString(i + 1, (String) val);
+            }
+        }
+        return ps;}
+
+
+    public String getFindByAllSql(List<Object> valores,Integer id, Integer fk_id_empresa, Integer fk_id_cliente, String numero, LocalDate fecha_emision, LocalDate fecha_servicio, String concepto, Double base_imponible, Double iva_total, Double total_factura, String estado, String observaciones, String tipo){String baseSql = "SELECT * FROM factura";
+        List<String> condiciones = new ArrayList<>();
+        if (id != null) {
+            condiciones.add("id = ?");
+            valores.add(id);
+        }
+        if (fk_id_empresa != null) {
+            condiciones.add("fk_id_empresa = ?");
+            valores.add(fk_id_empresa);
+        }
+        if (fk_id_cliente != null) {
+            condiciones.add("fk_id_cliente = ?");
+            valores.add(fk_id_cliente);
+        }
+        if (numero != null) {
+            condiciones.add("numero = ?");
+            valores.add(numero);
+        }
+        if (fecha_emision != null) {
+            condiciones.add("fecha_emision = ?");
+            valores.add(fecha_emision);
+        }
+        if (fecha_servicio != null) {
+            condiciones.add("fecha_servicio = ?");
+            valores.add(fecha_servicio);
+        }
+        if (concepto != null) {
+            condiciones.add("concepto = ?");
+            valores.add(concepto);
+        }
+        if (base_imponible != null) {
+            condiciones.add("base_imponible = ?");
+            valores.add(base_imponible);
+        }
+        if (iva_total != null) {
+            condiciones.add("iva_total = ?");
+            valores.add(iva_total);
+        }
+        if (total_factura != null) {
+            condiciones.add("total_factura = ?");
+            valores.add(total_factura);
+        }
+        if (estado != null) {
+            condiciones.add("estado = ?");
+            valores.add(estado);
+        }
+        if (observaciones != null) {
+            condiciones.add("observaciones = ?");
+            valores.add(observaciones);
+        }
+        if (tipo != null) {
+            condiciones.add("tipo = ?");
+            valores.add(tipo);
+        }
+        String sql = baseSql + " WHERE " + String.join(" AND ", condiciones);
+        return sql;
+    }
+
+
+
+    public List<Factura> findByAll(Integer id, Integer fk_id_empresa, Integer fk_id_cliente, String numero, LocalDate fecha_emision, LocalDate fecha_servicio, String concepto, Double base_imponible, Double iva_total, Double total_factura, String estado, String observaciones, String tipo) {
+        List<Object> valores = new ArrayList<>();        List<Factura> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id,fk_id_empresa,fk_id_cliente,numero,fecha_emision,fecha_servicio,concepto,base_imponible,iva_total,total_factura,estado,observaciones,tipo))) {
+
+            setupParameters(ps,valores, id,fk_id_empresa,fk_id_cliente,numero,fecha_emision,fecha_servicio,concepto,base_imponible,iva_total,total_factura,estado,observaciones,tipo);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Factura(rs.getInt("id"), rs.getInt("fk_id_empresa"), rs.getInt("fk_id_cliente"), rs.getString("numero"), rs.getDate("fecha_emision").toLocalDate(), rs.getDate("fecha_servicio").toLocalDate(), rs.getString("concepto"), rs.getDouble("base_imponible"), rs.getDouble("iva_total"), rs.getDouble("total_factura"), rs.getString("estado"), rs.getString("observaciones"), rs.getString("tipo")
+                ));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
