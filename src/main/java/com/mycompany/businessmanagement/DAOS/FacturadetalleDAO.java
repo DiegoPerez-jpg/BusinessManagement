@@ -26,28 +26,28 @@ ps.setDouble(5, entity.getTotal_linea());        ps.executeUpdate();
 }
 
 
-//public void update(Facturadetalle facturadetalle) {
-//    String sql = "UPDATE facturadetalle SET fk_id_factura = ?, fk_id_producto = ?, cantidad = ?, precio_unitario = ?, total_linea = ? WHERE id = ?";
-//    try (Connection conn = Conexion.getConnection();
-//         PreparedStatement ps = conn.prepareStatement(sql)) {
-//        ps.setInt(1, facturadetalle.getFk_id_factura());
-//        ps.setInt(2, facturadetalle.getFk_id_producto());
-//        ps.setDouble(3, facturadetalle.getCantidad());
-//        ps.setDouble(4, facturadetalle.getPrecio_unitario());
-//        ps.setDouble(5, facturadetalle.getTotal_linea());
-//        ps.setInt(6, facturadetalle.getId());
-//        ps.executeUpdate();
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
-//}
-
-
-public void delete(int id) {
-    String sql = "DELETE FROM facturadetalle WHERE id = ?";
+public void update(Facturadetalle facturadetalle) {
+    String sql = "UPDATE facturadetalle SET cantidad = ?, precio_unitario = ?, total_linea = ? WHERE fk_id_factura = ? and fk_id_producto = ?";
     try (Connection conn = Conexion.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, id);
+        ps.setDouble(1, facturadetalle.getCantidad());
+        ps.setDouble(2, facturadetalle.getPrecio_unitario());
+        ps.setDouble(3, facturadetalle.getTotal_linea());
+        ps.setInt(4, facturadetalle.getFk_id_factura());
+        ps.setInt(5, facturadetalle.getFk_id_producto());
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
+public void delete(int fk_id_producto, int fk_id_factura) {
+    String sql = "DELETE FROM facturadetalle  WHERE fk_id_factura = ? and fk_id_producto = ?";
+    try (Connection conn = Conexion.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, fk_id_producto);
+        ps.setInt(2, fk_id_factura);
         ps.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();

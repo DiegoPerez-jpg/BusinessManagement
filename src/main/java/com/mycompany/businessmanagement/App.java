@@ -17,7 +17,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+<<<<<<< HEAD
         scene = new Scene(loadFXML("primary"), 740, 408);
+=======
+        scene = new Scene(loadFXML("primary"), 1280, 720
+        );
+>>>>>>> da546d6a588a113a8b6facb69dec7719d05160a2
         stage.setTitle("Business Management Alejandro del Castillo, Diego Pérez, Alejandro Martín");
         stage.setScene(scene);
         stage.show();

@@ -7,21 +7,21 @@ public class InformacionController extends ControllerBase<Informacion> {
 
     @Override
     protected void validar(Informacion info) {
-
-        if (info.getNif() == null || !info.getNif().matches(RegexUtil.REGEX_NIF_CIF_NIE)) {
-            throw new IllegalArgumentException("NIF inválido");
-        }
-
-        if (info.getEmail() != null && !info.getEmail().isBlank() &&
-            !info.getEmail().matches(RegexUtil.REGEX_EMAIL)) {
-            throw new IllegalArgumentException("Email inválido");
-        }
-
-        if (info.getTelefono() != null && !info.getTelefono().isBlank() &&
-            !info.getTelefono().matches(RegexUtil.REGEX_TELEFONO)) {
-            throw new IllegalArgumentException("Teléfono inválido");
+        String n=info.getNif();
+        String e=info.getEmail();
+        String t=info.getTelefono();
+        if(n!=null&&e!=null&&t!=null){
+            try {
+                RegexUtil.regexCIF_NIE_NIF(n);
+                RegexUtil.email(e);
+                RegexUtil.telefonoEspanol(t);
+            } catch (Exception ex) {
+                System.getLogger(InformacionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
         }
     }
+
+    
 
     public static InformacionController create() {
         return new InformacionController();
