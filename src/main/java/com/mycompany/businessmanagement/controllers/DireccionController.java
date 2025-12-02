@@ -4,10 +4,21 @@
  */
 package com.mycompany.businessmanagement.controllers;
 
+import com.mycompany.businessmanagement.modelos.Direccion;
+
 /**
  *
  * @author alexd
  */
 public class DireccionController {
+    public Direccion crearCliente(Direccion direccion){
+        //regex
+
+        //si hay error throw exception
+        return direccion;
+    }
     
+    public static DireccionController create(){
+        return new DireccionController();
+    }
 }

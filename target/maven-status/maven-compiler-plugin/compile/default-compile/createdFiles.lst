@@ -1,0 +1,11 @@
+com\mycompany\businessmanagement\DAOS\TipoivaDAO.class
+com\mycompany\businessmanagement\DAOS\MovimientostockDAO.class
+com\mycompany\businessmanagement\modelos\Direccion.class
+com\mycompany\businessmanagement\modelos\Movimientostock.class
+com\mycompany\businessmanagement\controllers\MovimientostockController.class
+com\mycompany\businessmanagement\modelos\Facturadetalle.class
+com\mycompany\businessmanagement\modelos\Proveedor.class
+com\mycompany\businessmanagement\modelos\Tipoiva.class
+module-info.class
+com\mycompany\businessmanagement\DAOS\DireccionDAO.class
+com\mycompany\businessmanagement\util\Factory.class

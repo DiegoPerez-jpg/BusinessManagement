@@ -8,7 +8,7 @@ package com.mycompany.businessmanagement.util;
  *
  * @author alexd
  */
-public class UtilFactuGest {
+public class RegexUtil {
     public static String regexNIF(String s) throws Exception{
         if(s.matches("^[0-9]{8}[A-Za-z]$")){
                    return s; 
