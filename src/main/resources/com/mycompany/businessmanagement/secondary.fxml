@@ -1,44 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.mycompany.businessmanagement.SecondaryController"
-      spacing="10" alignment="TOP_CENTER" prefWidth="420.0" prefHeight="360.0"
-      style="-fx-padding: 16; -fx-background-color: #fafafa;">
+<BorderPane prefHeight="560" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.TerciaryController">
 
-   <children>
-      <Label text="Crear nueva empresa" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-      <GridPane hgap="10" vgap="8">
-         <columnConstraints>
-            <ColumnConstraints minWidth="140" />
-            <ColumnConstraints minWidth="240" />
-         </columnConstraints>
+    <top>
+        <VBox spacing="0">
+            <children>
 
-         <children>
-            <Label text="Código (num):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfCodigo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #b80f2b; -fx-padding: 8 12;">
+                    <children>
+                        <ImageView fitHeight="28" fitWidth="28" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Nuevo artículo" />
+                        <Region HBox.hgrow="ALWAYS" />
 
-            <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfNombre" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <Button fx:id="btnNuevoRibbon" mnemonicParsing="false" style="-fx-background-color: white; -fx-font-weight: bold; -fx-padding: 6 12; -fx-border-radius: 3; -fx-background-radius: 3;" text="Nuevo" />
+                        <Button fx:id="btnAbrirRibbon" mnemonicParsing="false" style="-fx-background-color: white; -fx-font-weight: bold; -fx-padding: 6 12; -fx-border-radius: 3; -fx-background-radius: 3;" text="Abrir" />
+                    </children>
+                </HBox>
 
-            <Label text="Web:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfWeb" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <HBox alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 6 0 10 0;">
+               <children>
+                  <AnchorPane prefHeight="53.0" prefWidth="900.0">
+                     <children>
+                              <HBox layoutX="268.0" layoutY="12.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+                                  <children>
+                                      <Button fx:id="btnEntidades" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Entidad" />
+                                      <Button fx:id="btnProductos" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Productos" />
+                                      <Button fx:id="btnFacturas" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Facturas" />
+                                  </children>
+                              </HBox>
+                        <HBox disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+                           <children>
+                              <Button fx:id="btnEntidades1" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Fabricante" />
+                              <Button fx:id="btnProductos1" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Proveedor" />
+                              <Button fx:id="btnFacturas1" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Cliente" />
+                           </children>
+                        </HBox>
+                        <HBox disable="true" layoutX="208.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+                           <children>
+                              <Button fx:id="btnEntidades11" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Crear" />
+                              <Button fx:id="btnProductos11" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Modificar" />
+                              <Button fx:id="btnFacturas11" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Eliminar" />
+                              <Button fx:id="btnEntidades111" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
+                           </children>
+                        </HBox>
+                        <HBox disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+                           <children>
+                              <Button fx:id="btnEntidades111" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Crear" />
+                              <Button fx:id="btnProductos111" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Generar PDF" />
+                              <Button fx:id="btnEntidades1111" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+                </HBox>
+                <AnchorPane style="-fx-background-color: white; -fx-padding: 18;">
+                    <children>
 
-            <Label text="FK id Direccion (num):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfFkDireccion" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        <VBox layoutX="90.0" layoutY="33.0" prefHeight="420" prefWidth="720" spacing="12" style="-fx-border-color: #d2d2d2; -fx-border-width: 1; -fx-padding: 14; -fx-background-color: #ffffff;">
 
-            <Label text="FK id Informacion (num):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <TextField fx:id="tfFkInformacion" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-         </children>
-      </GridPane>
+                            <GridPane hgap="10" vgap="8">
+                                <columnConstraints>
+                                    <ColumnConstraints minWidth="120" />
+                                    <ColumnConstraints minWidth="260" />
+                                </columnConstraints>
+                                <children>
+                                    <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <TextField fx:id="tfCodigo" promptText="num." GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-      <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 6;">
-         <Button fx:id="btnGuardar" text="Guardar" prefWidth="90" style="-fx-background-color: #5cb85c; -fx-text-fill: white;"/>
-         <Button fx:id="btnCancelar" text="Cancelar" prefWidth="90" style="-fx-background-color: #d9534f; -fx-text-fill: white;"/>
-      </HBox>
-   </children>
-</VBox>
+                                    <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                    <Label text="Descripción aux:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <TextField fx:id="tfDescripcionAux" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+
+                            <Separator />
+
+                            <Label style="-fx-font-weight: bold;" text="Datos de producto" />
+                            <TableView fx:id="tvDatosProducto" prefHeight="130">
+                                <columns>
+                                    <TableColumn fx:id="colTarifa" prefWidth="60" text="Producto" />
+                                    <TableColumn fx:id="colPrecioCoste" prefWidth="100" text="P. coste" />
+                                    <TableColumn fx:id="colPrecioVenta" prefWidth="100" text="P. venta" />
+                                    <TableColumn fx:id="colReferenciaProveedor" prefWidth="150" text="Ref. proveedor" />
+                                    <TableColumn fx:id="colStock" prefWidth="80" text="Stock" />
+                                </columns>
+                            </TableView>
+
+                            <HBox alignment="TOP_LEFT" spacing="12">
+                                <VBox spacing="6">
+                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Información de stock" />
+                                    <GridPane hgap="8" vgap="6">
+                                        <columnConstraints>
+                                            <ColumnConstraints minWidth="120" />
+                                            <ColumnConstraints minWidth="140" />
+                                        </columnConstraints>
+                                        <children>
+                                            <Label text="Almacén:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <ComboBox fx:id="cbAlmacen" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                            <Label text="Stock actual:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="tfStockActual" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        </children>
+                              <rowConstraints>
+                                 <RowConstraints />
+                                 <RowConstraints />
+                              </rowConstraints>
+                                    </GridPane>
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS" />
+                                <VBox prefWidth="260" spacing="6">
+                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Observaciones" />
+                                    <TextArea fx:id="taObservaciones" prefRowCount="4" />
+                                </VBox>
+                            </HBox>
+                            <Separator />
+                            <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Proveedor / Fabricante / IVA" />
+
+                            <GridPane hgap="8" vgap="6">
+                                <columnConstraints>
+                                    <ColumnConstraints minWidth="120" />
+                                    <ColumnConstraints minWidth="260" />
+                                </columnConstraints>
+                                <children>
+                                    <Label text="Proveedor:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                        <children>
+                                            <TextField fx:id="tfProveedor" promptText="Proveedor" />
+                                            <Button fx:id="btnBuscarProveedor" text="Buscar" />
+                                        </children>
+                                    </HBox>
+                                    <Label text="Fabricante:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                        <children>
+                                            <TextField fx:id="tfFabricante" promptText="Fabricante" />
+                                            <Button fx:id="btnBuscarFabricante" text="Buscar" />
+                                        </children>
+                                    </HBox>
+                                    <Label text="Tipo IVA:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="cbTipoIva" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+                            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 6 0 0 0;">
+                                <Button fx:id="btnGuardar" prefWidth="100" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Guardar" />
+                                <Button fx:id="btnCancelar" prefWidth="100" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Cancelar" />
+                            </HBox>
+                        </VBox>
+      
+                      <!-- VBox con Entidad + Dirección + Información -->
+                      <VBox disable="true" layoutX="100.0" layoutY="33.0" prefWidth="700" spacing="18" style="-fx-border-color: #d2d2d2; -fx-border-width: 1; -fx-padding: 18; -fx-background-color: white;" visible="false">
+      
+                          <!-- ============================== -->
+                          <!--          ENTIDAD              -->
+                          <!-- ============================== -->
+                          <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Datos del Cliente" />
+      
+                          <GridPane hgap="12" vgap="10">
+                              <columnConstraints>
+                                  <ColumnConstraints minWidth="140" />
+                                  <ColumnConstraints minWidth="260" />
+                              </columnConstraints>
+      
+                              <children>
+                                  <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                  <TextField fx:id="tfEntidadCodigo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      
+                                  <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                  <TextField fx:id="tfEntidadNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                          </GridPane>
+      
+                          <Separator />
+      
+                          <!-- ============================== -->
+                          <!--           DIRECCIÓN           -->
+                          <!-- ============================== -->
+                          <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Dirección" />
+      
+                          <GridPane hgap="12" vgap="10">
+                              <columnConstraints>
+                                  <ColumnConstraints minWidth="140" />
+                                  <ColumnConstraints minWidth="260" />
+                              </columnConstraints>
+      
+                              <children>
+                                  <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                  <TextField fx:id="tfDireccionDireccion" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      
+                                  <Label text="Código Postal:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                  <TextField fx:id="tfDireccionCP" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      
+                                  <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                  <TextField fx:id="tfDireccionCiudad" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      
+                                  <Label text="Provincia:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                  <TextField fx:id="tfDireccionProvincia" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      
+                                  <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                  <TextField fx:id="tfDireccionPais" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      
+                                  <Label text="Etiqueta:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                  <TextField fx:id="tfDireccionEtiqueta" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                          </GridPane>
+      
+                          <Separator />
+      
+                          <!-- ============================== -->
+                          <!--          INFORMACIÓN          -->
+                          <!-- ============================== -->
+                          <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Información" />
+      
+                          <GridPane hgap="12" vgap="10">
+                              <columnConstraints>
+                                  <ColumnConstraints minWidth="140" />
+                                  <ColumnConstraints minWidth="260" />
+                              </columnConstraints>
+      
+                              <children>
+                                  <Label text="NIF:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                  <TextField fx:id="tfInfoNIF" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      
+                                  <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                  <TextField fx:id="tfInfoEmail" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      
+                                  <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                  <TextField fx:id="tfInfoTelefono" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                          </GridPane>
+      
+                      </VBox>
+
+                    </children>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <AnchorPane style="-fx-background-color: white; -fx-padding: 18;" />
+    </center>
+
+
+</BorderPane>
