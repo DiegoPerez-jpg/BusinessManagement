@@ -3,25 +3,17 @@ package com.mycompany.businessmanagement.controllers;
 import com.mycompany.businessmanagement.modelos.Informacion;
 import com.mycompany.businessmanagement.util.RegexUtil;
 
-public class InformacionController extends ControllerBase<Informacion> {
+public class InformacionController {
 
-    @Override
-    protected void validar(Informacion info) {
-        String n=info.getNif();
-        String e=info.getEmail();
-        String t=info.getTelefono();
-        if(n!=null&&e!=null&&t!=null){
-            try {
-                RegexUtil.regexCIF_NIE_NIF(n);
-                RegexUtil.email(e);
-                RegexUtil.telefonoEspanol(t);
-            } catch (Exception ex) {
-                System.getLogger(InformacionController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            }
-        }
+    public Informacion crearInformacion(Informacion info) throws Exception {
+
+        // Validaciones usando RegexUtil existentes
+        RegexUtil.regexCIF_NIE_NIF(info.getNif());
+        RegexUtil.email(info.getEmail());
+        RegexUtil.telefonoEspanol(info.getTelefono());
+
+        return info;
     }
-
-    
 
     public static InformacionController create() {
         return new InformacionController();

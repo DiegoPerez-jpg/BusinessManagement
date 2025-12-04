@@ -1,24 +1,20 @@
-    /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-     */
-    package com.mycompany.businessmanagement.controllers;
+package com.mycompany.businessmanagement.controllers;
 
-    import com.mycompany.businessmanagement.modelos.Cliente;
+import com.mycompany.businessmanagement.modelos.Cliente;
+import com.mycompany.businessmanagement.util.RegexUtil;
 
-    /**
-     *
-     * @author alexd
-     */
-    public class ClienteController {
-        public Cliente crearCliente(Cliente cliente){
-            //regex
+public class ClienteController {
 
-            //si hay error throw exception
-            return cliente;
-        }
+    public Cliente crearCliente(Cliente cliente) throws Exception {
 
-        public static ClienteController create(){
-            return new ClienteController();
-        }
+        RegexUtil.nombre(cliente.getNombre());
+
+        // Los fk_id_* no se validan
+
+        return cliente;
     }
+
+    public static ClienteController create() {
+        return new ClienteController();
+    }
+}

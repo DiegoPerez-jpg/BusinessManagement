@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.businessmanagement.controllers;
 
-/**
- *
- * @author alexd
- */
+import com.mycompany.businessmanagement.modelos.Empresa;
+import com.mycompany.businessmanagement.util.RegexUtil;
+
 public class EmpresaController {
-    
+
+    public Empresa crearEmpresa(Empresa empresa) throws Exception {
+
+        RegexUtil.nombre(empresa.getNombre());
+        RegexUtil.web(empresa.getWeb());
+
+        return empresa;
+    }
+
+    public static EmpresaController create() {
+        return new EmpresaController();
+    }
 }

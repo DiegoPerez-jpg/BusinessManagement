@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.businessmanagement.controllers;
-import com.mycompany.businessmanagement.modelos.Fabricante;
 
-/**
- *
- * @author alexd
- */
+import com.mycompany.businessmanagement.modelos.Fabricante;
+import com.mycompany.businessmanagement.util.RegexUtil;
+
 public class FabricanteController {
-    public Fabricante crearFabricante(Fabricante fabricante){
-        //regex
-        //si hay error throw exception
+
+    public Fabricante crearFabricante(Fabricante fabricante) throws Exception {
+
+        RegexUtil.fabNombre(fabricante.getNombre());
+
         return fabricante;
     }
-    
-    public static FabricanteController create(){
+
+    public static FabricanteController create() {
         return new FabricanteController();
     }
 }
