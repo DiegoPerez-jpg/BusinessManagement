@@ -1,12 +1,12 @@
 package com.mycompany.businessmanagement.modelos;
 
 
-public class Entidad{
-private int id;
-private int codigo;
-private String nombre;
-private int fk_id_informacion;
-private int fk_id_direccion;
+public abstract class Entidad{
+protected int id;
+protected int codigo;
+protected String nombre;
+protected int fk_id_informacion;
+protected int fk_id_direccion;
 
 public Entidad( int id, int codigo, String nombre, int fk_id_informacion, int fk_id_direccion )  {
 this.id = id;

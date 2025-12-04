@@ -1,13 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.businessmanagement.controllers;
 
-/**
- *
- * @author alexd
- */
+import com.mycompany.businessmanagement.modelos.Facturadetalle;
+import com.mycompany.businessmanagement.util.RegexUtil;
+
 public class FacturaDetalleController {
-    
+
+    public Facturadetalle crearDetalle(Facturadetalle detalle) throws Exception {
+
+        // Validaciones de campos numéricos
+        RegexUtil.decimal(detalle.getCantidad());
+        RegexUtil.decimal(detalle.getPrecio_unitario());
+        RegexUtil.decimal(detalle.getTotal_linea());
+
+        // Los fk_id_* no se validan, según indicación
+
+        return detalle;
+    }
+
+    public static FacturaDetalleController create() {
+        return new FacturaDetalleController();
+    }
 }

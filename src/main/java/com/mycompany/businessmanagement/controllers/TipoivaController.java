@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.businessmanagement.controllers;
 
-/**
- *
- * @author alexd
- */
+import com.mycompany.businessmanagement.modelos.Tipoiva;
+import com.mycompany.businessmanagement.util.RegexUtil;
+
 public class TipoivaController {
-    
+
+    public Tipoiva crearTipoiva(Tipoiva tipoiva) throws Exception {
+
+        RegexUtil.concepto(tipoiva.getConcepto());
+        RegexUtil.decimal(tipoiva.getPorcentaje());
+
+        return tipoiva;
+    }
+
+    public static TipoivaController create() {
+        return new TipoivaController();
+    }
 }

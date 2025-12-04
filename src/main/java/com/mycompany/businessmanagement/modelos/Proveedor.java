@@ -1,21 +1,11 @@
 package com.mycompany.businessmanagement.modelos;
 
+public class Proveedor extends Entidad {
 
-public class Proveedor{
-private int id;
+    public Proveedor(int id, int codigo, String nombre, int fk_id_informacion, int fk_id_direccion) {
+        super(id, codigo, nombre, fk_id_informacion, fk_id_direccion);
+    }
 
-public Proveedor( int id )  {
-this.id = id;
-}
-
-public int getId() {
-    return id;
-}
- 
-public void setId(int id) {
-    this.id = id;
-}
- 
-
+    // Aquí puedes añadir atributos propios de Cliente
 
 }

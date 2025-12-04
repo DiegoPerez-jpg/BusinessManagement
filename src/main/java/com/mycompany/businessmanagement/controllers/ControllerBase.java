@@ -8,6 +8,16 @@ package com.mycompany.businessmanagement.controllers;
  *
  * @author alexd
  */
-public class ProovedorController {
-    
+public abstract class ControllerBase<T> {
+    public T crear(T obj) {
+        validar(obj);
+        return obj;
+    }
+
+    public T actualizar(T obj) {
+        validar(obj);
+        return obj;
+    }
+
+    protected abstract void validar(T obj);
 }

@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.businessmanagement.controllers;
 
-/**
- *
- * @author alexd
- */
+import com.mycompany.businessmanagement.modelos.Informacion;
+import com.mycompany.businessmanagement.util.RegexUtil;
+
 public class InformacionController {
-    
+
+    public Informacion crearInformacion(Informacion info) throws Exception {
+
+        // Validaciones usando RegexUtil existentes
+        RegexUtil.regexCIF_NIE_NIF(info.getNif());
+        RegexUtil.email(info.getEmail());
+        RegexUtil.telefonoEspanol(info.getTelefono());
+
+        return info;
+    }
+
+    public static InformacionController create() {
+        return new InformacionController();
+    }
 }
