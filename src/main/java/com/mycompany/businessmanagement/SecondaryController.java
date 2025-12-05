@@ -2,6 +2,8 @@ package com.mycompany.businessmanagement;
 
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
 import com.mycompany.businessmanagement.modelos.Empresa;
+import com.mycompany.businessmanagement.modelos.Entidad;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -37,7 +39,6 @@ public class SecondaryController {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
         if (btnCancelar != null) btnCancelar.setOnAction(e -> cerrarVentana());
     }
-
     // Método para que PrimaryController le pase el DAO
     public void setEmpresaDAO(EmpresaDAO dao) {
         this.empresaDAO = dao;

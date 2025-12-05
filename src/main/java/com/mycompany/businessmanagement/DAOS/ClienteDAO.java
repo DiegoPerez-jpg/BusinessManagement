@@ -61,6 +61,7 @@ public List<Cliente> findAll() {
                 rs.getInt("fk_id_direccion"),
                 rs.getInt("fk_id_informacion")
             ));
+           
         }
     } catch (SQLException e) {
         e.printStackTrace();

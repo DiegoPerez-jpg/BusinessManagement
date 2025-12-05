@@ -10,6 +10,9 @@ import com.mycompany.businessmanagement.controllers.InformacionController;
 import com.mycompany.businessmanagement.modelos.Direccion;
 import com.mycompany.businessmanagement.modelos.Empresa;
 import com.mycompany.businessmanagement.modelos.Informacion;
+import com.mycompany.businessmanagement.services.DireccionService;
+import com.mycompany.businessmanagement.services.EmpresaService;
+import com.mycompany.businessmanagement.services.InformacionService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -84,7 +87,13 @@ public class PrimaryController {
         // conectar botones con acciones (si no lo haces en FXML)
         nuevoButton.setOnMouseClicked(e -> botonNuevoAction());
         abrirButton.setOnMouseClicked(e -> botonAbrirAction());
-        guardarButton.setOnMouseClicked(e -> guardarAction());
+        guardarButton.setOnMouseClicked(e -> {
+            try {
+                guardarAction();
+            } catch (SQLException ex) {
+                System.getLogger(PrimaryController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
 
 
         
@@ -92,16 +101,16 @@ public class PrimaryController {
 //        if (cancelarButton != null) cancelarButton.setOnAction(e -> cerrarVentana());
     }
 
-    private void guardarAction() {
+    private void guardarAction() throws SQLException {
         Connection conn = Conexion.getConnection();
         try{
             conn.setAutoCommit(false);
             Informacion informacion= new InformacionController().crearInformacion(new Informacion(0,nifTextField.getText(),emailTextField.getText(),telefonoTextField.getText()));
             Direccion direccion = new DireccionController().crearDireccion(new Direccion(0,direccionTextField.getText(),codigoPostalTextField.getText(),ciudadTextField.getText(),provinciaTextField.getText(),paisTextField.getText(),etiquetaTextField.getText()));
-            new InformacionDAO().insert(informacion);
-            new DireccionDAO().insert(direccion);
+            new InformacionService().crearInformacion(informacion);
+            new DireccionService().crearDireccion(direccion);
             Empresa empresa = new EmpresaController().crearEmpresa(new Empresa(0,Integer.parseInt(codigoTextField.getText()),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId()));
-            new EmpresaDAO().insert(empresa);
+            new EmpresaService().crearEmpresa(empresa);
             conn.commit();
         } catch (Exception e){
             try{

@@ -36,7 +36,7 @@ public class RegexUtil {
         if (s.matches("^([0-9]{8}[A-Za-z]|[XYZxyz][0-9]{7}[A-Za-z]|[A-HJNPQRSUVW][0-9]{7}[0-9A-J])$")) {
             return s;
         }
-        throw new Exception("El documento no es correcto");
+        throw new Exception("El NIF no es correcto");
     }
 
     public static String codCli_Pro(String s) throws Exception {
