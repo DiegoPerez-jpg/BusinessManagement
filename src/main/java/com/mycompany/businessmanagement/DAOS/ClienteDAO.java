@@ -54,7 +54,13 @@ public List<Cliente> findAll() {
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {
         while (rs.next()) {
-            list.add(new Cliente(rs.getInt("id")));
+            list.add( new Cliente(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            ));
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -70,7 +76,13 @@ public Cliente findById(int id) {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return new Cliente(rs.getInt("id"));
+            return  new Cliente(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            );
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -107,23 +119,31 @@ public Cliente findById(int id) {
 
 
 
-    public List<Cliente> findByAll(Integer id) {
-        List<Object> valores = new ArrayList<>();        List<Cliente> lista = new ArrayList<>();
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement ps = conn.prepareStatement(getFindByAllSql(valores,id))) {
+    public Cliente findById(Integer id) {
+    Cliente cliente = null;
+    String sql = "SELECT id, nombre, apellido, email FROM cliente WHERE id = ?";
 
-            setupParameters(ps,valores, id);
-            ResultSet rs = ps.executeQuery();
+    try (Connection conn = Conexion.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                lista.add(new Cliente(rs.getInt("id")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            cliente = new Cliente(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            );
         }
-
-        return lista;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return cliente;
+}
+
 
 }

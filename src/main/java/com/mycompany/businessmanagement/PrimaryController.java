@@ -96,11 +96,11 @@ public class PrimaryController {
         Connection conn = Conexion.getConnection();
         try{
             conn.setAutoCommit(false);
-            Informacion informacion= new Informacion(0, nif, email, telefono);
+            Informacion informacion= new InformacionController().crearInformacion(new Informacion(0,nifTextField.getText(),emailTextField.getText(),telefonoTextField.getText()));
             Direccion direccion = new DireccionController().crearDireccion(new Direccion(0,direccionTextField.getText(),codigoPostalTextField.getText(),ciudadTextField.getText(),provinciaTextField.getText(),paisTextField.getText(),etiquetaTextField.getText()));
             new InformacionDAO().insert(informacion);
             new DireccionDAO().insert(direccion);
-            Empresa empresa = new EmpresaController().crearEmpresa(new Empresa(0,codigoTextField.getText(),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId()));
+            Empresa empresa = new EmpresaController().crearEmpresa(new Empresa(0,Integer.parseInt(codigoTextField.getText()),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId()));
             new EmpresaDAO().insert(empresa);
             conn.commit();
         } catch (Exception e){

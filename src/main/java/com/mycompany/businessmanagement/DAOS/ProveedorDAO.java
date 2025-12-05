@@ -56,7 +56,13 @@ public List<Proveedor> findAll() {
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {
         while (rs.next()) {
-            list.add(new Proveedor(rs.getInt("id")));
+            list.add( new Proveedor(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            ));
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -72,7 +78,13 @@ public Proveedor findById(int id) {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return new Proveedor(rs.getInt("id"));
+            return     new Proveedor(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            );
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -116,8 +128,13 @@ public Proveedor findById(int id) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                lista.add(new Proveedor(rs.getInt("id")
-                ));
+                lista.add( new Proveedor(
+                rs.getInt("id"),
+                    rs.getInt("codigo"),
+                rs.getString("nombre"),
+                rs.getInt("fk_id_direccion"),
+                rs.getInt("fk_id_informacion")
+            ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
