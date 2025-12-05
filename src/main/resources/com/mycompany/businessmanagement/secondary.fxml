@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="560" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.SecondaryController">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.SecondaryController">
 
     <top>
         <VBox spacing="0">
@@ -76,7 +76,7 @@
                     <children>
 
                         <!-- CREAR PRODUCTO -->
-                        <VBox alignment="TOP_LEFT" disable="true" layoutX="90.0" layoutY="22.0" prefWidth="720.0" spacing="14" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+                        <VBox alignment="TOP_LEFT" disable="true" layoutX="336.0" layoutY="22.0" prefWidth="720.0" spacing="14" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
                             <children>
 
@@ -191,7 +191,7 @@
                         </VBox>
 
                         <!-- MODIFICAR PRODUCTO -->
-                        <VBox alignment="TOP_LEFT" disable="true" layoutX="90.0" layoutY="1.0" prefWidth="720.0" spacing="14" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+                        <VBox alignment="TOP_LEFT" disable="true" layoutX="336.0" layoutY="1.0" prefWidth="720.0" spacing="14" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
                             <children>
 
@@ -312,7 +312,7 @@
                         </VBox>
 
                         <!-- ELIMINAR PRODUCTO -->
-                        <VBox alignment="TOP_LEFT" disable="true" layoutY="54.0" prefWidth="900.0" spacing="10" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+                        <VBox alignment="TOP_LEFT" disable="true" layoutX="246.0" layoutY="55.0" prefWidth="900.0" spacing="10" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
                             <children>
 
@@ -345,7 +345,7 @@
                         </VBox>
 
                         <!-- LISTAR PRODUCTOS -->
-                        <VBox alignment="TOP_LEFT" disable="true" layoutX="50.0" layoutY="67.0" prefWidth="800.0" spacing="10" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+                        <VBox alignment="TOP_LEFT" disable="true" layoutX="296.0" layoutY="68.0" prefWidth="800.0" spacing="10" style="-fx-padding: 18; -fx-background-color: #ffffff;" visible="false" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
                             <children>
 
@@ -369,7 +369,7 @@
                             </children>
                         </VBox>
 
-                        <VBox disable="true" layoutX="25.0" layoutY="96.0" visible="false">
+                        <VBox disable="true" layoutX="271.0" layoutY="96.0" visible="false">
 
                             <children>
 
@@ -478,6 +478,38 @@
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10 0 0 0;">
                                     <Button fx:id="btnGuardarFacturaCrear" prefWidth="110" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Guardar" />
                                     <Button fx:id="btnCancelarFacturaCrear" prefWidth="110" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Cancelar" />
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
+                        <VBox disable="true" layoutY="76.0" visible="false">
+                            <children>
+
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de facturas" translateX="75.0" />
+
+                                <!-- Si luego quieres filtros, aquí se pueden añadir -->
+                                <!-- Tabla de facturas -->
+                                <TableView fx:id="tvFacturasListar" prefHeight="420" scaleX="0.9">
+                                    <columns>
+                                        <TableColumn fx:id="colIdFacturaListar" prefWidth="60" text="ID" />
+                                        <TableColumn fx:id="colIdEmpresaListar" prefWidth="90" text="ID Empresa" />
+                                        <TableColumn fx:id="colIdClienteListar" prefWidth="90" text="ID Cliente" />
+                                        <TableColumn fx:id="colNumeroFacturaListar" prefWidth="100" text="Nº factura" />
+                                        <TableColumn fx:id="colFechaFacturaListar" prefWidth="110" text="Fecha factura" />
+                                        <TableColumn fx:id="colFechaServicioListar" prefWidth="110" text="Fecha servicio" />
+                                        <TableColumn fx:id="colConceptoListar" prefWidth="148.0" text="Concepto" />
+                                        <TableColumn fx:id="colBaseImponibleListar" prefWidth="142.0" text="Base imponible" />
+                                        <TableColumn fx:id="colIvaTotalListar" prefWidth="90" text="IVA total" />
+                                        <TableColumn fx:id="colTotalFacturaListar" prefWidth="110" text="Total factura" />
+                                        <TableColumn fx:id="colEstadoListar" prefWidth="80" text="Estado" />
+                                        <TableColumn fx:id="colTipoListar" prefWidth="80" text="Tipo" />
+                                        <TableColumn fx:id="colObservacionListar" prefWidth="180" text="Observación" />
+                                    </columns>
+                                </TableView>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
+                                    <Button fx:id="btnCerrarFacturaListar" prefWidth="100" text="Cerrar" translateX="-100.0" />
                                 </HBox>
 
                             </children>
