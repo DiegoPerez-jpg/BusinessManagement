@@ -515,6 +515,107 @@
                             </children>
                         </VBox>
 
+                        <VBox disable="true" layoutX="496.0" layoutY="204.0" prefHeight="220.0" prefWidth="401.0" visible="false">
+
+                            <children>
+
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear cliente" />
+
+                                <Separator />
+
+                                <GridPane hgap="10" vgap="8">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="120" />
+                                        <ColumnConstraints minWidth="260" />
+                                    </columnConstraints>
+
+                                    <children>
+                                        <!-- id interno del cliente -->
+                                        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <TextField fx:id="tfClienteId" promptText="(auto / num.)" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                        <!-- código de cliente -->
+                                        <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="tfClienteCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                        <!-- nombre del cliente -->
+                                        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <TextField fx:id="tfClienteNombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                        <!-- FK a tabla INFORMACION -->
+                                        <Label text="ID información:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <TextField fx:id="tfClienteFkInformacion" promptText="id información" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                        <!-- FK a tabla DIRECCION -->
+                                        <Label text="ID dirección:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <TextField fx:id="tfClienteFkDireccion" promptText="id dirección" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    </children>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                                </GridPane>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                                    <Button fx:id="btnGuardarCliente" prefWidth="100" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Guardar" />
+                                    <Button fx:id="btnCancelarCliente" prefWidth="100" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Cancelar" />
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
+                        <VBox disable="true" layoutX="316.0" layoutY="97.0" visible="false">
+
+                            <children>
+
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de clientes" />
+
+                                <Label style="-fx-font-size: 11px;" text="Selecciona un cliente de la tabla y pulsa Eliminar." />
+
+                                <TableView fx:id="tvClientes" prefHeight="360">
+                                    <columns>
+                                        <TableColumn fx:id="colClienteId" prefWidth="60" text="ID" />
+                                        <TableColumn fx:id="colClienteCodigo" prefWidth="100" text="Código" />
+                                        <TableColumn fx:id="colClienteNombre" prefWidth="200" text="Nombre" />
+                                        <TableColumn fx:id="colClienteInfo" prefWidth="180" text="Información" />
+                                        <TableColumn fx:id="colClienteDireccion" prefWidth="220" text="Dirección" />
+                                    </columns>
+                                </TableView>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
+                                    <Button fx:id="btnEliminarCliente" prefWidth="160" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Eliminar seleccionado" />
+                                    <Button fx:id="btnCerrarClienteListar" prefWidth="90" text="Cerrar" />
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
+                        <VBox disable="true" layoutX="305.0" layoutY="95.0" visible="false">
+
+                            <children>
+
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de clientes" />
+
+                                <TableView fx:id="tvClientesListar" prefHeight="380">
+                                    <columns>
+                                        <TableColumn fx:id="colClienteIdListar" prefWidth="60" text="ID" />
+                                        <TableColumn fx:id="colClienteCodigoListar" prefWidth="100" text="Código" />
+                                        <TableColumn fx:id="colClienteNombreListar" prefWidth="220" text="Nombre" />
+                                        <TableColumn fx:id="colClienteInfoListar" prefWidth="180" text="Información" />
+                                        <TableColumn fx:id="colClienteDireccionListar" prefWidth="220" text="Dirección" />
+                                    </columns>
+                                </TableView>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
+                                    <Button fx:id="btnCerrarClientesListar" prefWidth="90" text="Cerrar" />
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
                     </children>
                 </AnchorPane>
             </children>
