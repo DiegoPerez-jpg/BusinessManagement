@@ -7,9 +7,29 @@ import com.mycompany.businessmanagement.modelos.Entidad;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class SecondaryController {
+
+    public Button btnNuevoRibbon;
+    public Button btnAbrirRibbon;
+    public Button btnMenuEntidad;
+    public Button btnMenuProductos;
+    public Button btnMenuFacturas;
+    public Button btnMenuFabricante;
+    public Button btnMenuProveedor;
+    public Button btnMenuCliente;
+
+    public HBox entidadesTab;
+    public HBox productoTab;
+    public HBox facturasTab;
+
+
+
 
     @FXML
     private TextField tfCodigo;
@@ -32,13 +52,91 @@ public class SecondaryController {
     @FXML
     private Button btnCancelar;
 
+    private ArrayList<HBox> tabs = new ArrayList<>();
+    private ArrayList<VBox> paneles = new ArrayList<>();
+
     private EmpresaDAO empresaDAO; // inyectado desde PrimaryController
 
+
+    public VBox crearProductoPanel;
+    public VBox modificarProductoPanel;
+    public VBox eliminarProductoPanel;
+    public VBox listarProductosPanel;
+    public VBox crearFacturaPanel;
+    public VBox listarFacturasPanel;
+
+    public Button btnEntidadCrudCrear;
+    public Button btnEntidadCrudModificar;
+    public Button btnEntidadCrudEliminar;
+    public Button btnEntidadCrudListar;
+
+
+    public Button btnFacturaCrear;
+    public Button btnFacturaGenerarPdf;
+    public Button btnFacturaListar;
     @FXML
     private void initialize() {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
         if (btnCancelar != null) btnCancelar.setOnAction(e -> cerrarVentana());
+
+
+
     }
+
+
+    private void setupTabs(){
+        //submenus
+
+        tabs.add(entidadesTab);
+        btnMenuEntidad.setOnAction(e->activarTab(entidadesTab));
+        tabs.add(productoTab);
+        btnMenuProductos.setOnAction(e->activarTab(productoTab));
+        tabs.add(facturasTab);
+        btnMenuFacturas.setOnAction(e->activarTab(facturasTab));
+
+
+        //frames
+
+        //productos
+        paneles.add(crearProductoPanel);
+        btnEntidadCrudCrear.setOnMouseClicked(e->activarPaneles(crearProductoPanel));
+        paneles.add(modificarProductoPanel);
+        btnEntidadCrudModificar.setOnMouseClicked(e->activarPaneles(modificarProductoPanel));
+        paneles.add(eliminarProductoPanel);
+        btnEntidadCrudEliminar.setOnMouseClicked(e->activarPaneles(eliminarProductoPanel));
+        paneles.add(listarProductosPanel);
+        btnEntidadCrudListar.setOnMouseClicked(e->activarPaneles(listarProductosPanel));
+        //facturas
+        paneles.add(crearFacturaPanel);
+        btnFacturaCrear.setOnMouseClicked(e->activarPaneles(crearFacturaPanel));
+        paneles.add(listarFacturasPanel);
+        btnFacturaListar.setOnMouseClicked(e->activarPaneles(listarFacturasPanel));
+    }
+
+    private void desactivarPaneles(VBox h){
+        h.setVisible(false);
+        h.setDisable(true);
+    }
+
+    private void activarPaneles(VBox h){
+        paneles.forEach(this::desactivarPaneles);
+        h.setDisable(false);
+        h.setVisible(true);
+    }
+
+
+    private void desactivarTabs(HBox h){
+        h.setVisible(false);
+        h.setDisable(true);
+    }
+
+    private void activarTab(HBox h){
+        tabs.forEach(this::desactivarTabs);
+        h.setDisable(false);
+        h.setVisible(true);
+    }
+
+
     // Método para que PrimaryController le pase el DAO
     public void setEmpresaDAO(EmpresaDAO dao) {
         this.empresaDAO = dao;
