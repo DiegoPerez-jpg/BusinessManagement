@@ -28,4 +28,8 @@ public class FabricanteService {
             throw new IllegalArgumentException("El nombre ya existe");
         fabricanteDAO.update(fabricante);
     }
+
+    public boolean existeFabricante(int id){
+        return fabricanteDAO.findById(id) != null;
+    }
 }

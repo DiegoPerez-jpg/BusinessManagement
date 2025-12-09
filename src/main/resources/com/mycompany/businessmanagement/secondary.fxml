@@ -339,6 +339,7 @@
 
                                 <TableView fx:id="tvProductosListar" prefHeight="380">
                                     <columns>
+
                                         <TableColumn fx:id="colCodigoListar" prefWidth="160" text="Producto" />
                                         <TableColumn fx:id="colPrecioCosteListar" prefWidth="100" text="P. coste" />
                                         <TableColumn fx:id="colPrecioVentaListar" prefWidth="100" text="P. venta" />

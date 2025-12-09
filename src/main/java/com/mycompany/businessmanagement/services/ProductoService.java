@@ -9,8 +9,8 @@ public class ProductoService {
 
     private ProductoDAO productoDAO = new ProductoDAO();
 
-    public void eliminarProducto(Producto producto) {
-        productoDAO.delete(producto.getId());
+    public void eliminarProducto(int id) {
+        productoDAO.delete(id);
     }
 
     public List<Producto> selectAll() {
@@ -28,4 +28,5 @@ public class ProductoService {
             throw new IllegalArgumentException("El codigo ya existe");
         productoDAO.update(producto);
     }
+
 }

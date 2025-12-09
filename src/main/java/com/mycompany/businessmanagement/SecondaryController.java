@@ -1,17 +1,28 @@
 package com.mycompany.businessmanagement;
 
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
+import com.mycompany.businessmanagement.controllers.ProductoController;
 import com.mycompany.businessmanagement.modelos.Empresa;
 import com.mycompany.businessmanagement.modelos.Entidad;
 
+import com.mycompany.businessmanagement.modelos.Producto;
+import com.mycompany.businessmanagement.modelos.Tipoiva;
+import com.mycompany.businessmanagement.services.FabricanteService;
+import com.mycompany.businessmanagement.services.ProductoService;
+import com.mycompany.businessmanagement.services.ProveedorService;
+import com.mycompany.businessmanagement.services.TipoivaService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SecondaryController {
 
@@ -27,9 +38,9 @@ public class SecondaryController {
     public HBox entidadesTab;
     public HBox productoTab;
     public HBox facturasTab;
-
-
-
+    public Button btnEliminarSeleccionadoProducto;
+    public Button btnModificarProducto1;
+    public Button btnGuardarCambiosProducto;
 
     @FXML
     private TextField tfCodigo;
@@ -79,11 +90,21 @@ public class SecondaryController {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
         if (btnCancelar != null) btnCancelar.setOnAction(e -> cerrarVentana());
 
+        setupColumnsListarProducto();
+        setupColumnsModificarProducto();
 
+
+        setupTabs();
+        btnGuardarCrearProducto.setOnAction(e->guardarProducto());
+        btnCancelarCrearProducto.setOnAction(e->cancelarCrearProducto());
+        btnEliminarSeleccionadoProducto.setOnAction(e -> {new ProductoService().eliminarProducto(Integer.parseInt(colIdEliminar.getText()));});
+        btnGuardarCambiosProducto.setOnAction(e->modificarProducto());
 
     }
 
 
+    
+    
     private void setupTabs(){
         //submenus
 
@@ -99,13 +120,28 @@ public class SecondaryController {
 
         //productos
         paneles.add(crearProductoPanel);
-        btnEntidadCrudCrear.setOnMouseClicked(e->activarPaneles(crearProductoPanel));
+        btnEntidadCrudCrear.setOnMouseClicked(e-> {
+            activarPaneles(crearProductoPanel);
+            cbTipoIvaCrearProducto.getItems().setAll(new TipoivaService().selectAll().stream().map(Tipoiva::getPorcentaje).collect(Collectors.toList()));
+        });
         paneles.add(modificarProductoPanel);
         btnEntidadCrudModificar.setOnMouseClicked(e->activarPaneles(modificarProductoPanel));
         paneles.add(eliminarProductoPanel);
-        btnEntidadCrudEliminar.setOnMouseClicked(e->activarPaneles(eliminarProductoPanel));
+        btnModificarProducto1.setOnAction(e->activarPaneles(modificarProductoPanel));
+        btnEntidadCrudEliminar.setOnMouseClicked(e-> {
+            activarPaneles(eliminarProductoPanel);
+
+            ObservableList<Producto> obs = FXCollections.observableArrayList(new ProductoService().selectAll());
+
+            tvProductosEliminar.getItems().setAll(obs);
+        });
         paneles.add(listarProductosPanel);
-        btnEntidadCrudListar.setOnMouseClicked(e->activarPaneles(listarProductosPanel));
+        btnEntidadCrudListar.setOnMouseClicked(e-> {
+            activarPaneles(listarProductosPanel);
+
+            ObservableList<Producto> obs = FXCollections.observableArrayList(new ProductoService().selectAll());
+            tvProductosListar.setItems(obs);
+        });
         //facturas
         paneles.add(crearFacturaPanel);
         btnFacturaCrear.setOnMouseClicked(e->activarPaneles(crearFacturaPanel));
@@ -188,6 +224,130 @@ public class SecondaryController {
             ex.printStackTrace();
             System.err.println("Error guardando empresa: " + ex.getMessage());
         }
+    }
+
+
+
+
+    //Crear producto campos
+    public TextField tfCodigoCrearProducto;
+    public TextField tfDescripcionCrearProducto;
+    public TextField tfDescripcionAuxCrearProducto;
+    public TextField tfPrecioCosteCrearProducto;
+    public TextField tfPrecioVentaCrearProducto;
+    public TextField tfStockActualCrearProducto;
+    public TextArea taObservacionesCrearProducto;
+    public TextField tfProveedorCrearProducto;
+    public Button btnBuscarProveedorCrearProducto;
+    public TextField tfFabricanteCrearProducto;
+    public Button btnBuscarFabricanteCrearProducto;
+    public ComboBox cbTipoIvaCrearProducto;
+    public Button btnGuardarCrearProducto;
+    public Button btnCancelarCrearProducto;
+
+
+
+    public TextField tfCodigoModificarProducto;
+    public TextField tfDescripcionModificarProducto;
+    public TextField tfDescripcionAuxModificarProducto;
+    public TextField tfPrecioCosteModificarProducto;
+    public TextField tfPrecioVentaModificarProducto;
+    public TextField tfStockActualModificarProducto;
+    public TextArea taObservacionesModificarProducto;
+    public TextField tfProveedorModificarProducto;
+    public TextField tfFabricanteModificarProducto;
+    public ComboBox cbTipoIvaModificarProducto;
+
+
+    private void modificarProducto(){
+        ProductoService pr = new ProductoService();
+        try{
+            pr.eliminarProducto(pr.selectAll().stream().filter(p->p.getCodigo().equals(tfCodigoModificarProducto.getText())).findFirst().orElse(null).getId());
+            if(new FabricanteService().existeFabricante(Integer.parseInt(tfFabricanteModificarProducto.getText())))throw new Exception("No existe el fabricante");
+            if(new ProveedorService().existeProveedor(Integer.parseInt(tfProveedorModificarProducto.getText())))throw new Exception("No existe el proveedor");
+
+
+            Producto producto = new ProductoController().crearProducto(new Producto(0,tfCodigoModificarProducto.getText(),tfDescripcionModificarProducto.getText(),tfDescripcionAuxModificarProducto.getText(),Integer.parseInt(tfPrecioCosteModificarProducto.getText()),Integer.parseInt(tfPrecioVentaModificarProducto.getText()),taObservacionesModificarProducto.getText(),Integer.parseInt(tfStockActualModificarProducto.getText()),Integer.parseInt(tfProveedorModificarProducto.getText()),Integer.parseInt(tfFabricanteModificarProducto.getText()),cbTipoIvaModificarProducto.getSelectionModel().getSelectedIndex()));
+            new ProductoService().crearProducto(producto);
+        } catch (Exception e) {
+            System.out.println("Error guardando producto: " + e.getMessage());
+        }
+    }
+
+
+    private void guardarProducto(){
+        try{
+            if(new FabricanteService().existeFabricante(Integer.parseInt(tfFabricanteCrearProducto.getText())))throw new Exception("No existe el fabricante");
+            if(new ProveedorService().existeProveedor(Integer.parseInt(tfProveedorCrearProducto.getText())))throw new Exception("No existe el proveedor");
+
+
+            Producto producto = new ProductoController().crearProducto(new Producto(0,tfCodigoCrearProducto.getText(),tfDescripcionCrearProducto.getText(),tfDescripcionAuxCrearProducto.getText(),Integer.parseInt(tfPrecioCosteCrearProducto.getText()),Integer.parseInt(tfPrecioVentaCrearProducto.getText()),taObservacionesCrearProducto.getText(),Integer.parseInt(tfStockActualCrearProducto.getText()),Integer.parseInt(tfProveedorCrearProducto.getText()),Integer.parseInt(tfFabricanteCrearProducto.getText()),cbTipoIvaCrearProducto.getSelectionModel().getSelectedIndex()));
+            new ProductoService().crearProducto(producto);
+        } catch (Exception e) {
+            System.out.println("Error guardando producto: " + e.getMessage());
+        }
+    }
+
+
+    private void cancelarCrearProducto(){
+        tfCodigoCrearProducto.clear();
+        tfDescripcionCrearProducto.clear();
+        tfDescripcionAuxCrearProducto.clear();
+        tfPrecioCosteCrearProducto.clear();
+        tfPrecioVentaCrearProducto.clear();
+        taObservacionesCrearProducto.clear();
+        tfStockActualCrearProducto.clear();
+        tfProveedorCrearProducto.clear();
+        tfFabricanteCrearProducto.clear();
+        cbTipoIvaCrearProducto.getSelectionModel().clearSelection();
+    }
+
+
+
+    @FXML private TableView<Producto> tvProductosListar;
+    @FXML private TableColumn<Producto, String> colCodigoListar;
+    @FXML private TableColumn<Producto, Integer> colPrecioCosteListar;
+    @FXML private TableColumn<Producto, Integer> colPrecioVentaListar;
+    @FXML private TableColumn<Producto, String> colRefProveedorListar;
+    @FXML private TableColumn<Producto, Integer> colStockListar;
+
+
+    private void setupColumnsListarProducto(){
+        colCodigoListar.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colPrecioCosteListar.setCellValueFactory(new PropertyValueFactory<>("precio_coste"));
+        colPrecioVentaListar.setCellValueFactory(new PropertyValueFactory<>("precio_venta"));
+        colRefProveedorListar.setCellValueFactory(new PropertyValueFactory<>("referencia_proveedor"));
+        colStockListar.setCellValueFactory(new PropertyValueFactory<>("stock"));
+    }
+
+
+    @FXML private TableView<Producto> tvProductosEliminar;
+
+    @FXML private TableColumn<Producto, Integer> colIdEliminar;
+    @FXML private TableColumn<Producto, String> colCodigoEliminar;
+    @FXML private TableColumn<Producto, String> colDescripcionEliminar;
+    @FXML private TableColumn<Producto, String> colDescripcionAuxEliminar;
+    @FXML private TableColumn<Producto, Integer> colPrecioCosteEliminar;
+    @FXML private TableColumn<Producto, Integer> colPrecioVentaEliminar;
+    @FXML private TableColumn<Producto, String> colRefProveedorEliminar;
+    @FXML private TableColumn<Producto, Integer> colStockEliminar;
+    @FXML private TableColumn<Producto, Integer> colProveedorEliminar;
+    @FXML private TableColumn<Producto, Integer> colFabricanteEliminar;
+    @FXML private TableColumn<Producto, Integer> colTipoIvaEliminar;
+
+
+    private void setupColumnsModificarProducto() {
+        colIdEliminar.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCodigoEliminar.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colDescripcionEliminar.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colDescripcionAuxEliminar.setCellValueFactory(new PropertyValueFactory<>("descripcionAux"));
+        colPrecioCosteEliminar.setCellValueFactory(new PropertyValueFactory<>("precioCoste"));
+        colPrecioVentaEliminar.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
+        colRefProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("refProveedor"));
+        colStockEliminar.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        colProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("proveedor"));
+        colFabricanteEliminar.setCellValueFactory(new PropertyValueFactory<>("fabricante"));
+        colTipoIvaEliminar.setCellValueFactory(new PropertyValueFactory<>("tipoIva"));
     }
 
     private void cerrarVentana() {

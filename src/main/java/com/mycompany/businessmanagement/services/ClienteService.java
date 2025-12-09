@@ -24,4 +24,7 @@ public class ClienteService {
     public void updateCliente(Cliente cliente) throws IllegalArgumentException {
         clienteDAO.update(cliente);
     }
+    public boolean existeCliente(int id){
+        return clienteDAO.findById(id) != null;
+    }
 }

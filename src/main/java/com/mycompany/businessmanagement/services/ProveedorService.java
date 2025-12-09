@@ -24,4 +24,7 @@ public class ProveedorService {
     public void updateProveedor(Proveedor proveedor) throws IllegalArgumentException {
         proveedorDAO.update(proveedor);
     }
+    public boolean existeProveedor(int id){
+        return proveedorDAO.findById(id) != null;
+    }
 }
