@@ -57,14 +57,17 @@ public void delete(int id) {
 }
 
 
-public List<Entidad> findAll() {
+public <T> List<Entidad> findAll(Class<T> clazz) {
     List<Entidad> list = new ArrayList<>();
-    String sql = "SELECT * FROM entidad";
+
+    String table = clazz.getSimpleName().toLowerCase();  // informacion / direccion
+
+    String sql = "SELECT * FROM entidad e INNER JOIN "+table+" c ON c.id = e.id";
     try (Connection conn = Conexion.getConnection();
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {
         while (rs.next()) {
-           // list.add(new Entidad(rs.getInt("id"), rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("fk_id_informacion"), rs.getInt("fk_id_direccion")));
+           list.add(new Entidad(rs.getInt("id"), rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("fk_id_informacion"), rs.getInt("fk_id_direccion")));
         }
     } catch (SQLException e) {
         e.printStackTrace();

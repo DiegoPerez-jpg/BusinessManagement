@@ -31,11 +31,5 @@ public class ClienteService {
         return clienteDAO.findById(id) != null;
     }
 
-    public <T extends Entidad> List<ClienteCompletoDTO> getAllClientsDto(){
-        InformacionService is = new InformacionService();
-        DireccionService ds = new DireccionService();
-        return selectAll().stream()
-                .map(c->new ClienteCompletoDTO(c.getId(),c.getCodigo(),c.getNombre(),is.selectById(c.getFk_id_informacion()),ds.selectById(c.getFk_id_direccion())))
-                .collect(Collectors.toList());
-    }
+
 }
