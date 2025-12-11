@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.SecondaryController">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.SecondaryController">
 
     <top>
         <VBox spacing="0">
@@ -23,9 +37,9 @@
 
                 <HBox alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 6 0 10 0;">
                     <children>
-                        <AnchorPane prefHeight="53.0" prefWidth="900.0">
+                        <AnchorPane prefHeight="137.0" prefWidth="900.0">
                             <children>
-                                <HBox layoutX="268.0" layoutY="12.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+                                <HBox fx:id="principalhbox" layoutX="268.0" layoutY="12.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
                                     <children>
                                         <Button fx:id="btnMenuEntidad" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Entidad" />
                                         <Button fx:id="btnMenuProductos" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Productos" />
@@ -54,6 +68,13 @@
                                         <Button fx:id="btnFacturaListar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
                                     </children>
                                 </HBox>
+                        <HBox fx:id="entidadeshbox" disable="true" layoutX="268.0" layoutY="90.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+                           <children>
+                              <Button fx:id="btnentidadesCrear" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Crear" />
+                              <Button fx:id="btnentidadeseliminar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Eliminar" />
+                              <Button fx:id="btnentidadesListar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
+                           </children>
+                        </HBox>
                             </children>
                         </AnchorPane>
                     </children>
