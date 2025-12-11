@@ -518,7 +518,7 @@
 
                         <VBox disable="true" layoutX="497.0" layoutY="100.0" prefHeight="420" prefWidth="401" visible="false">
                             <children>
-                        <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                        <AnchorPane fx:id="crearentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">
                            <children>
                               <Label fx:id="crearproveedoreslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear proveedores" visible="false" />
                               <Label fx:id="crearfabricanteslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear fabricantes" visible="false" />
@@ -600,7 +600,7 @@
 
                         <VBox disable="true" layoutX="345.0" layoutY="87.0" prefHeight="459.0" prefWidth="703.0" visible="false">
                             <children>
-                                <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                                <AnchorPane fx:id="eliminarentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">
                                     <children>
                                         <Label fx:id="listadoproveedoreseliminarlabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de proveedores" visible="false" />
                                         <Label fx:id="listadofabricanteseliminarlabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de fabricantes" visible="false" />
@@ -636,7 +636,7 @@
                         <VBox disable="true" layoutX="106.0" layoutY="112.0" visible="false">
 
                             <children>
-                                <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                                <AnchorPane fx:id="listarentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">
                                     <children>
                                         <Label fx:id="listadoproveedoreslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de proveedores" visible="false" />
                                         <Label fx:id="listadofabricanteslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de fabricantes" visible="false" />
