@@ -3,6 +3,7 @@ package com.mycompany.businessmanagement.services;
 import com.mycompany.businessmanagement.DAOS.ClienteDAO;
 import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.modelos.Cliente;
+import com.mycompany.businessmanagement.modelos.Entidad;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class ClienteService {
         return clienteDAO.findById(id) != null;
     }
 
-    public List<ClienteCompletoDTO> getAllClientsDto(){
+    public <T extends Entidad> List<ClienteCompletoDTO> getAllClientsDto(){
         InformacionService is = new InformacionService();
         DireccionService ds = new DireccionService();
         return selectAll().stream()
