@@ -516,9 +516,15 @@
                             </children>
                         </VBox>
 
-                        <VBox disable="true" layoutX="496" layoutY="204" prefHeight="220" prefWidth="401" visible="false">
+                        <VBox disable="true" layoutX="497.0" layoutY="100.0" prefHeight="420" prefWidth="401" visible="false">
                             <children>
-                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear cliente" />
+                        <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                           <children>
+                              <Label fx:id="crearproveedoreslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear proveedores" visible="false" />
+                              <Label fx:id="crearfabricanteslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear fabricantes" visible="false" />
+                              <Label fx:id="crearclienteslabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear clientes" />
+                           </children>
+                        </AnchorPane>
                                 <Separator />
 
                                 <GridPane hgap="10" vgap="8">
@@ -529,266 +535,136 @@
 
                                     <children>
                                         <Label text="ID:" GridPane.rowIndex="0" />
-                                        <TextField fx:id="tfClienteId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <TextField fx:id="tfClienteIdCrear" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                                         <Label text="Código:" GridPane.rowIndex="1" />
-                                        <TextField fx:id="tfClienteCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField fx:id="tfClienteCodigoCrear" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                                         <Label text="Nombre:" GridPane.rowIndex="2" />
-                                        <TextField fx:id="tfClienteNombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField fx:id="tfClienteNombreCrear" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                        <Label text="ID información:" GridPane.rowIndex="3" />
-                                        <TextField fx:id="tfClienteInformacion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <!-- Información: NIF / Email / Teléfono -->
+                                        <Label text="NIF:" GridPane.rowIndex="3" />
+                                        <TextField fx:id="tfClienteNifCrear" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                        <Label text="ID dirección:" GridPane.rowIndex="4" />
-                                        <TextField fx:id="tfClienteDireccion" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <Label text="Email:" GridPane.rowIndex="4" />
+                                        <TextField fx:id="tfClienteEmailCrear" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                        <Label text="Teléfono:" GridPane.rowIndex="5" />
+                                        <TextField fx:id="tfClienteTelefonoCrear" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                        <!-- Dirección: Calle, C. Postal, Ciudad, Provincia, País, Etiqueta -->
+                                        <Label text="Dirección:" GridPane.rowIndex="6" />
+                                        <TextField fx:id="tfClienteDireccionCalleCrear" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                        <Label text="C. postal:" GridPane.rowIndex="7" />
+                                        <TextField fx:id="tfClienteCodigoPostalCrear" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                                        <Label text="Ciudad:" GridPane.rowIndex="8" />
+                                        <TextField fx:id="tfClienteCiudadCrear" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                                        <Label text="Provincia:" GridPane.rowIndex="9" />
+                                        <TextField fx:id="tfClienteProvinciaCrear" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+                                        <Label text="País:" GridPane.rowIndex="10" />
+                                        <TextField fx:id="tfClientePaisCrear" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+                                        <Label text="Etiqueta:" GridPane.rowIndex="11" />
+                                        <TextField fx:id="tfClienteEtiquetaCrear" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                                     </children>
-                           <rowConstraints>
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                           </rowConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
                                 </GridPane>
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorCrearCliente" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnGuardarCliente" text="Guardar" />
-                                    <Button fx:id="btnCancelarCliente" text="Cancelar" />
+                                    <Label fx:id="lblErrorCrearCliente" text="Error" translateX="-100.0" />
+                                    <Button fx:id="btnGuardarClienteCrear" text="Guardar" />
+                                    <Button fx:id="btnCancelarClienteCrear" text="Cancelar" />
                                 </HBox>
                             </children>
                         </VBox>
 
 
-                        <VBox disable="true" layoutX="495.0" layoutY="98.0" visible="false">
+
+                        <VBox disable="true" layoutX="345.0" layoutY="87.0" prefHeight="459.0" prefWidth="703.0" visible="false">
                             <children>
-                                <Label text="Listado de clientes" />
+                                <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                                    <children>
+                                        <Label fx:id="listadoproveedoreseliminarlabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de proveedores" visible="false" />
+                                        <Label fx:id="listadofabricanteseliminarlabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de fabricantes" visible="false" />
+                                        <Label fx:id="listadoclienteseliminarlabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de clientes" />
+                                    </children>
+                                </AnchorPane>
+
                                 <Label text="Selecciona un cliente de la tabla y pulsa Eliminar." />
 
-                                <TableView fx:id="tvClientes">
+                                <TableView fx:id="tvClientesListado">
                                     <columns>
-                                        <TableColumn fx:id="colClienteId" text="ID" />
-                                        <TableColumn fx:id="colClienteCodigo" text="Código" />
-                                        <TableColumn fx:id="colClienteNombre" text="Nombre" />
-                                        <TableColumn fx:id="colClienteInfo" text="Información" />
-                                        <TableColumn fx:id="colClienteDireccion" text="Dirección" />
+                                        <TableColumn fx:id="colClienteIdTbl" text="ID" />
+                                        <TableColumn fx:id="colClienteCodigoTbl" text="Código" />
+                                        <TableColumn fx:id="colClienteNombreTbl" text="Nombre" />
+                                        <TableColumn fx:id="colClienteNifTbl" text="NIF" />
+                                        <TableColumn fx:id="colClienteEmailTbl" text="Email" />
+                                        <TableColumn fx:id="colClienteTelefonoTbl" text="Teléfono" />
+                                        <TableColumn fx:id="colClienteDireccionTbl" text="Dirección" />
+                                        <TableColumn fx:id="colClientePaisTbl" text="País" />
                                     </columns>
                                 </TableView>
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorEliminarClientes" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnEliminarCliente" text="Eliminar seleccionado" />
-                                    <Button fx:id="btnCerrarCliente" text="Cerrar" />
+                                    <Label fx:id="lblErrorEliminarCliente" text="Error" translateX="-100.0" />
+                                    <Button fx:id="btnEliminarClienteSeleccionado" text="Eliminar seleccionado" />
+                                    <Button fx:id="btnCerrarClientes" text="Cerrar" />
                                 </HBox>
                             </children>
                         </VBox>
 
 
-                        <VBox disable="true" layoutX="305.0" layoutY="95.0" visible="false">
+
+                        <VBox disable="true" layoutX="106.0" layoutY="112.0" visible="false">
 
                             <children>
+                                <AnchorPane prefHeight="29.0" prefWidth="782.0">
+                                    <children>
+                                        <Label fx:id="listadoproveedoreslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de proveedores" visible="false" />
+                                        <Label fx:id="listadofabricanteslabel" disable="true" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de fabricantes" visible="false" />
+                                        <Label fx:id="listadoclienteslabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de clientes" />
+                                    </children>
+                                </AnchorPane>
 
-                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de clientes" />
-
-                                <TableView fx:id="tvClientesListar" prefHeight="380">
+                                <TableView fx:id="tvClientesListadoCompleto" prefHeight="380">
                                     <columns>
-                                        <TableColumn fx:id="colClienteIdListar" prefWidth="60" text="ID" />
-                                        <TableColumn fx:id="colClienteCodigoListar" prefWidth="100" text="Código" />
-                                        <TableColumn fx:id="colClienteNombreListar" prefWidth="220" text="Nombre" />
-                                        <TableColumn fx:id="colClienteInfoListar" prefWidth="180" text="Información" />
-                                        <TableColumn fx:id="colClienteDireccionListar" prefWidth="220" text="Dirección" />
+                                        <TableColumn fx:id="colClienteIdListarTbl" prefWidth="60" text="ID" />
+                                        <TableColumn fx:id="colClienteCodigoListarTbl" prefWidth="100" text="Código" />
+                                        <TableColumn fx:id="colClienteNombreListarTbl" prefWidth="220" text="Nombre" />
+                                        <TableColumn fx:id="colClienteNifListarTbl" prefWidth="120" text="NIF" />
+                                        <TableColumn fx:id="colClienteEmailListarTbl" prefWidth="200" text="Email" />
+                                        <TableColumn fx:id="colClienteTelefonoListarTbl" prefWidth="120" text="Teléfono" />
+                                        <TableColumn fx:id="colClienteDireccionListarTbl" prefWidth="220" text="Dirección" />
+                                        <TableColumn fx:id="colClientePaisListarTbl" prefWidth="140" text="País" />
                                     </columns>
                                 </TableView>
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
-                           <Label fx:id="errorListadoClientes" text="Error" translateX="-250.0" />
+                                    <Label fx:id="lblErrorListadoClientes" text="Error" translateX="-250.0" />
                                     <Button fx:id="btnCerrarClientesListar" prefWidth="90" text="Cerrar" />
                                 </HBox>
 
                             </children>
                         </VBox>
 
-                        <VBox disable="true" layoutX="497" layoutY="204" prefHeight="220" prefWidth="401" visible="false">
-                            <children>
-                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear Fabricante" />
-                                <Separator />
-
-                                <GridPane hgap="10" vgap="8">
-                                    <columnConstraints>
-                                        <ColumnConstraints minWidth="120" />
-                                        <ColumnConstraints minWidth="260" />
-                                    </columnConstraints>
-
-                                    <children>
-                                        <Label text="ID:" GridPane.rowIndex="0" />
-                                        <TextField fx:id="tfFabricanteId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                                        <Label text="Código:" GridPane.rowIndex="1" />
-                                        <TextField fx:id="tfFabricanteCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                                        <Label text="Nombre:" GridPane.rowIndex="2" />
-                                        <TextField fx:id="tfFabricanteNombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                                        <Label text="ID información:" GridPane.rowIndex="3" />
-                                        <TextField fx:id="tfFabricanteFkInformacion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                                        <Label text="ID dirección:" GridPane.rowIndex="4" />
-                                        <TextField fx:id="tfFabricanteFkDireccion" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    </children>
-                           <rowConstraints>
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                           </rowConstraints>
-                                </GridPane>
-
-                                <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorCrearFabricante" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnGuardarFabricante" text="Guardar" />
-                                    <Button fx:id="btnCancelarFabricante" text="Cancelar" />
-                                </HBox>
-                            </children>
-                        </VBox>
-
-
-                        <VBox disable="true" layoutX="495.0" layoutY="86.0" visible="false">
-                            <children>
-                                <Label text="Listado de Fabricantes" />
-                                <Label text="Selecciona un fabricante de la tabla y pulsa Eliminar." />
-
-                                <TableView fx:id="tvFabricantes">
-                                    <columns>
-                                        <TableColumn fx:id="colFabricanteId" text="ID" />
-                                        <TableColumn fx:id="colFabricanteCodigo" text="Código" />
-                                        <TableColumn fx:id="colFabricanteNombre" text="Nombre" />
-                                        <TableColumn fx:id="colFabricanteInfo" text="Información" />
-                                        <TableColumn fx:id="colFabricanteDireccion" text="Dirección" />
-                                    </columns>
-                                </TableView>
-
-                                <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorEliminarFabricantes" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnEliminarFabricante" text="Eliminar seleccionado" />
-                                    <Button fx:id="btnCerrarFabricante" text="Cerrar" />
-                                </HBox>
-                            </children>
-                        </VBox>
-
-
-                        <VBox disable="true" layoutX="305.0" layoutY="95.0" visible="false">
-                     <children>
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de Fabricantes" />
-                        <TableView fx:id="tvFabricantesListar" prefHeight="380">
-                           <columns>
-                              <TableColumn fx:id="colFabricanteIdListar" prefWidth="60" text="ID" />
-                              <TableColumn fx:id="colFabricanteCodigoListar" prefWidth="100" text="Código" />
-                              <TableColumn fx:id="colFabricanteNombreListar" prefWidth="220" text="Nombre" />
-                              <TableColumn fx:id="colFabricanteInfoListar" prefWidth="180" text="Información" />
-                              <TableColumn fx:id="colFabricanteDireccionListar" prefWidth="220" text="Dirección" />
-                           </columns>
-                        </TableView>
-                        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
-                           <children>
-                              <Label fx:id="errorListarFabricantes" text="Error" translateX="-250.0" />
-                              <Button fx:id="btnCerrarFabricantesListar" prefWidth="90" text="Cerrar" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-
-
-                        <VBox disable="true" layoutX="496" layoutY="205" prefHeight="220" prefWidth="401" visible="false">
-                            <children>
-                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Crear Proveedor" />
-                                <Separator />
-
-                                <GridPane hgap="10" vgap="8">
-                                    <columnConstraints>
-                                        <ColumnConstraints minWidth="120" />
-                                        <ColumnConstraints minWidth="260" />
-                                    </columnConstraints>
-
-                                    <children>
-                                        <Label text="ID:" GridPane.rowIndex="0" />
-                                        <TextField fx:id="tfProveedorId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                                        <Label text="Código:" GridPane.rowIndex="1" />
-                                        <TextField fx:id="tfProveedorCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                                        <Label text="Nombre:" GridPane.rowIndex="2" />
-                                        <TextField fx:id="tfProveedorNombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                                        <Label text="ID información:" GridPane.rowIndex="3" />
-                                        <TextField fx:id="tfProveedorFkInformacion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                                        <Label text="ID dirección:" GridPane.rowIndex="4" />
-                                        <TextField fx:id="tfProveedorFkDireccion" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    </children>
-                           <rowConstraints>
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                              <RowConstraints />
-                           </rowConstraints>
-                                </GridPane>
-
-                                <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorCrearProveedor" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnGuardarProveedor" text="Guardar" />
-                                    <Button fx:id="btnCancelarProveedor" text="Cancelar" />
-                                </HBox>
-                            </children>
-                        </VBox>
-
-                        <VBox disable="true" layoutX="497.0" layoutY="98.0" visible="false">
-                            <children>
-                                <Label text="Listado de Proveedores" />
-                                <Label text="Selecciona un proveedor de la tabla y pulsa Eliminar." />
-
-                                <TableView fx:id="tvProveedores">
-                                    <columns>
-                                        <TableColumn fx:id="colProveedorId" text="ID" />
-                                        <TableColumn fx:id="colProveedorCodigo" text="Código" />
-                                        <TableColumn fx:id="colProveedorNombre" text="Nombre" />
-                                        <TableColumn fx:id="colProveedorInfo" text="Información" />
-                                        <TableColumn fx:id="colProveedorDireccion" text="Dirección" />
-                                    </columns>
-                                </TableView>
-
-                                <HBox alignment="CENTER_RIGHT" spacing="10">
-                           <Label fx:id="errorEliminarProveedor" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnEliminarProveedor" text="Eliminar seleccionado" />
-                                    <Button fx:id="btnCerrarProveedor" text="Cerrar" />
-                                </HBox>
-                            </children>
-                        </VBox>
-
-
-
-                        <VBox disable="true" layoutX="305.0" layoutY="96.0" visible="false">
-                     <children>
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Listado de Proveedores" />
-                        <TableView fx:id="tvProveedoresListar" prefHeight="380">
-                           <columns>
-                              <TableColumn fx:id="colProveedorIdListar" prefWidth="60" text="ID" />
-                              <TableColumn fx:id="colProveedorCodigoListar" prefWidth="100" text="Código" />
-                              <TableColumn fx:id="colProveedorNombreListar" prefWidth="220" text="Nombre" />
-                              <TableColumn fx:id="colProveedorInfoListar" prefWidth="180" text="Información" />
-                              <TableColumn fx:id="colProveedorDireccionListar" prefWidth="220" text="Dirección" />
-                           </columns>
-                        </TableView>
-                        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
-                           <children>
-                              <Label fx:id="errorListarProveedor" text="Error" translateX="-250.0" />
-                              <Button fx:id="btnProveedorClientesListar" prefWidth="90" text="Cerrar" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
 
                     </children>
                 </AnchorPane>
