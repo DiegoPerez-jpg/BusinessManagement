@@ -1,9 +1,11 @@
 package com.mycompany.businessmanagement.services;
 
 import com.mycompany.businessmanagement.DAOS.ClienteDAO;
+import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.modelos.Cliente;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClienteService {
 
@@ -26,5 +28,13 @@ public class ClienteService {
     }
     public boolean existeCliente(int id){
         return clienteDAO.findById(id) != null;
+    }
+
+    public List<ClienteCompletoDTO> getAllClientsDto(){
+        InformacionService is = new InformacionService();
+        DireccionService ds = new DireccionService();
+        return selectAll().stream()
+                .map(c->new ClienteCompletoDTO(c.getId(),c.getCodigo(),c.getNombre(),is.selectById(c.getFk_id_informacion()),ds.selectById(c.getFk_id_direccion())))
+                .collect(Collectors.toList());
     }
 }

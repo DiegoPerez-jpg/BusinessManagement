@@ -24,4 +24,8 @@ public class DireccionService {
     public void updateDireccion(Direccion direccion) throws IllegalArgumentException {
         direccionDAO.update(direccion);
     }
+
+    public Direccion selectById(int id) {
+        return direccionDAO.findById(id);
+    }
 }

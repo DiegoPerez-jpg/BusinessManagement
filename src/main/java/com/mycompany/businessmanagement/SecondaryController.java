@@ -478,4 +478,16 @@ public class SecondaryController {
             System.out.println(e.getMessage());
         }
     }
+
+
+
+
+
+    //clientes y todo eso
+
+    private String modo = "cliente";
+
+    public void initializeEntidades(){
+
+    }
 }

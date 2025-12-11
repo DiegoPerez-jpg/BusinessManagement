@@ -17,6 +17,10 @@ public class InformacionService {
         return informacionDAO.findAll();
     }
 
+    public Informacion selectById(int id) {
+        return informacionDAO.findById(id);
+    }
+
     public void crearInformacion(Informacion informacion) throws IllegalArgumentException {
         if (!informacionDAO.findByAll(null, informacion.getNif(), null, null).isEmpty())
             throw new IllegalArgumentException("El nif ya existe");
