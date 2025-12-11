@@ -29,4 +29,7 @@ public class ProductoService {
         productoDAO.update(producto);
     }
 
+    public Producto findById(int id) {
+        return productoDAO.findById(id);
+    }
 }
