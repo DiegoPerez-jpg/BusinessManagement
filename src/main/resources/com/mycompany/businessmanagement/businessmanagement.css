@@ -1,0 +1,129 @@
+/* businessmanagement.css (versión simple para FXML)
+   He simplificado las reglas para que funcionen bien con JavaFX CSS.
+   Comentarios cortos y en tono cercano — listo para pegar y usar.
+*/
+
+/* Tipos de letra y fondo global */
+.root, .border-pane {
+    -fx-font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #f7f8fb, #ffffff);
+}
+
+/* Contenedores: padding general */
+.anchor-pane, .vbox, .hbox, .grid-pane {
+    -fx-padding: 10px;
+}
+
+/* Títulos y labels */
+.label {
+    -fx-text-fill: #222831;
+}
+.label.small {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7280;
+}
+.label.subtitle {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+/* Header simple */
+.hbox.header {
+    -fx-background-color: #b80f2b;
+    -fx-padding: 8 12;
+}
+.hbox.header .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Panel "card" blancos */
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-padding: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0.1, 0, 3);
+}
+
+/* Principal HBox (tabs) */
+#principalhbox {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px;
+    -fx-border-color: rgba(0,0,0,0.08);
+}
+#principalhbox .button {
+    -fx-font-weight: 600;
+    -fx-background-color: transparent;
+    -fx-padding: 6 12;
+}
+#principalhbox .button:hover {
+    -fx-background-color: rgba(0,0,0,0.03);
+}
+
+/* Campos de texto y areas */
+.text-field, .text-area, .combo-box {
+    -fx-background-color: rgba(0,0,0,0.03);
+    -fx-background-radius: 6px;
+    -fx-padding: 6 8;
+    -fx-border-color: transparent;
+    -fx-font-size: 13px;
+}
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-effect: innershadow(two-pass-box, rgba(30,144,255,0.12), 4, 0, 0, 1);
+}
+
+/* Botones básicos */
+.button {
+    -fx-background-radius: 6px;
+    -fx-padding: 8 12;
+    -fx-font-weight: 600;
+}
+/* Colores de botones según inline styles usados en tu FXML */
+.button.save {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #66c26a, #5cb85c);
+    -fx-text-fill: white;
+}
+.button.cancel {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #e76a6a, #d9534f);
+    -fx-text-fill: white;
+}
+.button.primary {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #3aa0ff, #1e90ff);
+    -fx-text-fill: white;
+}
+
+/* Tablas */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.table-view .table-row-cell:odd {
+    -fx-background-color: rgba(0,0,0,0.02);
+}
+.table-view .table-cell {
+    -fx-padding: 6 10;
+}
+
+/* Labels de error: ocultos por defecto */
+.label.error {
+    -fx-text-fill: transparent;
+    -fx-font-weight: 700;
+}
+.label.error.visible {
+    -fx-text-fill: #d9534f;
+}
+
+/* Pequeños ajustes */
+.image-view.icon {
+    -fx-fit-height: 28px;
+    -fx-fit-width: 28px;
+}
+
+/* Evitar selectores complejos o basados en atributos: JavaFX CSS no soporta todo eso bien.
+   Mantén las clases simples (card, header, subtitle, small, error, save, cancel, primary).
+*/
+
+/* FIN - hoja de estilos simplificada */

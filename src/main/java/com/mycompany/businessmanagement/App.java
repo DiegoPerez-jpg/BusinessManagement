@@ -17,8 +17,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 1280, 720
-        );
+        scene = new Scene(loadFXML("primary"), 1600, 900);
+
+        String css = App.class.getResource("/com/mycompany/businessmanagement/businessmanagement.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         stage.setTitle("Business Management Alejandro del Castillo, Diego Pérez, Alejandro Martín");
         stage.setScene(scene);
         stage.show();
