@@ -84,6 +84,7 @@ public class SecondaryController {
     public Button btnFacturaGenerarPdf;
     public Button btnFacturaListar;
 
+    public Button btnGuardarFacturaCrear;
     @FXML
     private void initialize() {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
@@ -101,7 +102,7 @@ public class SecondaryController {
             if(tvProductosEliminar.getSelectionModel().getSelectedIndex()==-1)return;
             new ProductoService().eliminarProducto(tvProductosEliminar.getSelectionModel().getSelectedItem().getId());});
         btnGuardarCambiosProducto.setOnAction(e->modificarProducto());
-        btnFacturaCrear.setOnAction(e->crearFactura());
+        btnGuardarFacturaCrear.setOnAction(e->crearFactura());
         initializeEntidades();
     }
 
@@ -209,7 +210,7 @@ public class SecondaryController {
         });
         //facturas
         paneles.add(crearFacturaPanel);
-        btnFacturaCrear.setOnMouseClicked(e->activarPaneles(crearFacturaPanel));
+        btnFacturaCrear.setOnAction(e->activarPaneles(crearFacturaPanel));
         paneles.add(listarFacturasPanel);
         btnFacturaListar.setOnMouseClicked(e-> {
             tvFacturasListar.setItems(FXCollections.observableArrayList(new FacturaService().getFacturasCompletasDto()));

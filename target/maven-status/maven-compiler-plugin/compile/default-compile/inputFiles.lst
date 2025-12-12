@@ -1,8 +1,11 @@
+D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\BotonGenerarPdf.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DAOS\InformacionDAO.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\exceptions\DireccionException.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DAOS\EmpresaDAO.java
+D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DTO\ClienteCompletoDTO.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\modelos\Fabricante.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\modelos\Proveedor.java
+D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DTO\FacturaDetalleDTO.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\controllers\InformacionController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\controllers\FacturaDetalleController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DAOS\MovimientostockDAO.java
@@ -10,6 +13,7 @@ D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\bus
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\PrimaryController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\exceptions\InformacionException.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\util\RegexUtil.java
+D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DAOS\EntidadDAO.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\controllers\ClienteController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\services\ClienteService.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\DAOS\TipoivaDAO.java
@@ -24,6 +28,7 @@ D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\bus
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\controllers\MovimientostockController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\exceptions\FabricanteException.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\modelos\Direccion.java
+D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\services\EntidadService.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\services\MovimientostockService.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\controllers\ProductoController.java
 D:\NetBeans\ProyectosNetbeans\BusinessManagement\src\main\java\com\mycompany\businessmanagement\modelos\Cliente.java
