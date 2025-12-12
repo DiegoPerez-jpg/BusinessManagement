@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -21,6 +22,13 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.mycompany.businessmanagement.SecondaryController">
+=======
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.businessmanagement.SecondaryController">
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
 
     <top>
         <VBox spacing="0">
@@ -45,7 +53,7 @@
                                         <Button fx:id="btnMenuFacturas" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Facturas" />
                                     </children>
                                 </HBox>
-                                <HBox fx:id="entidadesTab" disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+                                <HBox fx:id="entidadesTab" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
                                     <children>
                                         <Button fx:id="btnMenuFabricante" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Fabricante" />
                                         <Button fx:id="btnMenuProveedor" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Proveedor" />
@@ -544,7 +552,11 @@
                             </children>
                         </VBox>
 
+<<<<<<< HEAD
                         <VBox disable="true" layoutX="497.0" layoutY="100.0" prefHeight="420" prefWidth="401" visible="false">
+=======
+                        <VBox fx:id="panelEntidadCrear" disable="true" layoutX="497.0" layoutY="100.0" prefHeight="420" prefWidth="401" visible="false">
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
                             <children>
                         <AnchorPane fx:id="crearentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">
                            <children>
@@ -562,6 +574,7 @@
                                     </columnConstraints>
 
                                     <children>
+<<<<<<< HEAD
 
                                         <Label text="Código:" />
                                         <TextField fx:id="tfClienteCodigoCrear" GridPane.columnIndex="1" />
@@ -597,6 +610,45 @@
 
                                         <Label text="Etiqueta:" GridPane.rowIndex="10" />
                                         <TextField fx:id="tfClienteEtiquetaCrear" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+=======
+                                        <Label text="ID:" GridPane.rowIndex="0" />
+                                        <TextField fx:id="tfClienteIdCrear" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                        <Label text="Código:" GridPane.rowIndex="1" />
+                                        <TextField fx:id="tfClienteCodigoCrear" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                        <Label text="Nombre:" GridPane.rowIndex="2" />
+                                        <TextField fx:id="tfClienteNombreCrear" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                        <!-- Información: NIF / Email / Teléfono -->
+                                        <Label text="NIF:" GridPane.rowIndex="3" />
+                                        <TextField fx:id="tfClienteNifCrear" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                        <Label text="Email:" GridPane.rowIndex="4" />
+                                        <TextField fx:id="tfClienteEmailCrear" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                        <Label text="Teléfono:" GridPane.rowIndex="5" />
+                                        <TextField fx:id="tfClienteTelefonoCrear" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                        <!-- Dirección: Calle, C. Postal, Ciudad, Provincia, País, Etiqueta -->
+                                        <Label text="Dirección:" GridPane.rowIndex="6" />
+                                        <TextField fx:id="tfClienteDireccionCalleCrear" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                        <Label text="C. postal:" GridPane.rowIndex="7" />
+                                        <TextField fx:id="tfClienteCodigoPostalCrear" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                                        <Label text="Ciudad:" GridPane.rowIndex="8" />
+                                        <TextField fx:id="tfClienteCiudadCrear" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                                        <Label text="Provincia:" GridPane.rowIndex="9" />
+                                        <TextField fx:id="tfClienteProvinciaCrear" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+                                        <Label text="País:" GridPane.rowIndex="10" />
+                                        <TextField fx:id="tfClientePaisCrear" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+                                        <Label text="Etiqueta:" GridPane.rowIndex="11" />
+                                        <TextField fx:id="tfClienteEtiquetaCrear" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
                                     </children>
                                     <rowConstraints>
                                         <RowConstraints />
@@ -610,6 +662,10 @@
                                         <RowConstraints />
                                         <RowConstraints />
                                         <RowConstraints />
+<<<<<<< HEAD
+=======
+                                        <RowConstraints />
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
                                     </rowConstraints>
                                 </GridPane>
 
@@ -623,7 +679,11 @@
 
 
 
+<<<<<<< HEAD
                         <VBox disable="true" layoutX="345.0" layoutY="87.0" prefHeight="459.0" prefWidth="703.0" visible="false">
+=======
+                        <VBox fx:id="panelEntidadBorrar" disable="true" layoutX="345.0" layoutY="87.0" prefHeight="459.0" prefWidth="703.0" visible="false">
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
                             <children>
                                 <AnchorPane fx:id="eliminarentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">
                                     <children>
@@ -658,7 +718,11 @@
 
 
 
+<<<<<<< HEAD
                         <VBox disable="true" layoutX="106.0" layoutY="112.0" visible="false">
+=======
+                        <VBox fx:id="panelEntidadListar" disable="true" layoutX="106.0" layoutY="112.0" visible="false">
+>>>>>>> 3e7fbd2abe851b9f1e9dfd099dc8dab96b658bad
 
                             <children>
                                 <AnchorPane fx:id="listarentidadesanchorpane" prefHeight="29.0" prefWidth="782.0">

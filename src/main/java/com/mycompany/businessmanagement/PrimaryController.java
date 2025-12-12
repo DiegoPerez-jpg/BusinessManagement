@@ -95,12 +95,22 @@ public class PrimaryController {
             }
         });
 
-
+     cargarButton.setOnAction(e->cargarBoton());
         
 //        if (guardarButton != null) guardarButton.setOnAction(e -> guardarEmpresa());
 //        if (cancelarButton != null) cancelarButton.setOnAction(e -> cerrarVentana());
     }
-
+        
+        @FXML
+        private void cargarBoton(){
+         try {
+            App.setRoot("secondary");
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+     }
+        
+        
     private void guardarAction() throws SQLException {
         Connection conn = Conexion.getConnection();
         try{
@@ -142,16 +152,17 @@ public class PrimaryController {
         nuevoPanel.setVisible(false);        
         nuevoPanel.setDisable(true);
         
-        final ObservableList<String> items;
-        try {
-            // obtenemos la lista de entidades Empresa y la convertimos a strings sencillos (nombre)
-            List<Empresa> empresas = empresaDAO.findAll();
-             items = FXCollections.observableArrayList();
-            empresas.forEach(e -> items.add(e.getNombre() + " (id:" + e.getId() + ")"));
-        } catch (Exception ex) {
-            // fallback si algo falla en la BD
-//            items = FXCollections.observableArrayList("No se pudieron cargar empresas (error BD)", "Comprueba conexión");
-        }
+       
+       
+        List<Empresa> empresas = new EmpresaService().selectAll();
+             ObservableList<String> nombres = FXCollections.observableArrayList();
+               
+        for (Empresa e : empresas) {
+        nombres.add(e.getNombre());
+    }
+
+        empresasListView.setItems(nombres);
+        
 
     }
 

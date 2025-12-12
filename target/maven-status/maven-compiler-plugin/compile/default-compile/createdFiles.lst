@@ -1,6 +1,7 @@
 com\mycompany\businessmanagement\services\FabricanteService.class
 com\mycompany\businessmanagement\DAOS\FacturadetalleDAO.class
 com\mycompany\businessmanagement\modelos\Direccion.class
+com\mycompany\businessmanagement\services\EntidadService.class
 com\mycompany\businessmanagement\DAOS\ClienteDAO.class
 com\mycompany\businessmanagement\modelos\Factura.class
 com\mycompany\businessmanagement\controllers\FacturaDetalleController.class
@@ -16,6 +17,7 @@ com\mycompany\businessmanagement\services\InformacionService.class
 com\mycompany\businessmanagement\DAOS\TipoivaDAO.class
 com\mycompany\businessmanagement\DAOS\EmpresaDAO.class
 com\mycompany\businessmanagement\modelos\Movimientostock.class
+com\mycompany\businessmanagement\BotonGenerarPdf.class
 com\mycompany\businessmanagement\App.class
 com\mycompany\businessmanagement\modelos\Fabricante.class
 com\mycompany\businessmanagement\modelos\Facturadetalle.class
@@ -26,11 +28,13 @@ com\mycompany\businessmanagement\services\TipoivaService.class
 com\mycompany\businessmanagement\services\FacturadetalleService.class
 com\mycompany\businessmanagement\controllers\ProductoController.class
 com\mycompany\businessmanagement\util\RegexUtil.class
+com\mycompany\businessmanagement\DAOS\EntidadDAO.class
 com\mycompany\businessmanagement\DAOS\InformacionDAO.class
 com\mycompany\businessmanagement\util\Factory.class
 com\mycompany\businessmanagement\services\DireccionService.class
 com\mycompany\businessmanagement\services\MovimientostockService.class
 com\mycompany\businessmanagement\DAOS\ProveedorDAO.class
+com\mycompany\businessmanagement\DTO\ClienteCompletoDTO.class
 com\mycompany\businessmanagement\controllers\TipoivaController.class
 com\mycompany\businessmanagement\controllers\ControllerBase.class
 com\mycompany\businessmanagement\modelos\Producto.class
@@ -52,6 +56,7 @@ com\mycompany\businessmanagement\modelos\Empresa.class
 com\mycompany\businessmanagement\exceptions\InformacionException.class
 com\mycompany\businessmanagement\PrimaryController.class
 com\mycompany\businessmanagement\DAOS\FabricanteDAO.class
+com\mycompany\businessmanagement\DTO\FacturaDetalleDTO.class
 com\mycompany\businessmanagement\controllers\FabricanteController.class
 com\mycompany\businessmanagement\controllers\EmpresaController.class
 com\mycompany\businessmanagement\DAOS\FacturaDAO.class

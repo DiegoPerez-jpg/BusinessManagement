@@ -1,6 +1,7 @@
 package com.mycompany.businessmanagement;
 
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
+import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.DTO.FacturaDetalleDTO;
 import com.mycompany.businessmanagement.controllers.FacturaController;
 import com.mycompany.businessmanagement.controllers.FacturaDetalleController;
@@ -8,6 +9,7 @@ import com.mycompany.businessmanagement.controllers.ProductoController;
 import com.mycompany.businessmanagement.modelos.*;
 
 import com.mycompany.businessmanagement.services.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,9 +32,6 @@ public class SecondaryController {
     public Button btnMenuEntidad;
     public Button btnMenuProductos;
     public Button btnMenuFacturas;
-    public Button btnMenuFabricante;
-    public Button btnMenuProveedor;
-    public Button btnMenuCliente;
 
     public HBox entidadesTab;
     public HBox productoTab;
@@ -84,6 +83,8 @@ public class SecondaryController {
     public Button btnFacturaCrear;
     public Button btnFacturaGenerarPdf;
     public Button btnFacturaListar;
+
+    public Button btnGuardarFacturaCrear;
     @FXML
     private void initialize() {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
@@ -94,19 +95,40 @@ public class SecondaryController {
 
 
         setupTabs();
+
         btnGuardarCrearProducto.setOnAction(e->guardarProducto());
         btnCancelarCrearProducto.setOnAction(e->cancelarCrearProducto());
         btnEliminarSeleccionadoProducto.setOnAction(e -> {
             if(tvProductosEliminar.getSelectionModel().getSelectedIndex()==-1)return;
             new ProductoService().eliminarProducto(tvProductosEliminar.getSelectionModel().getSelectedItem().getId());});
         btnGuardarCambiosProducto.setOnAction(e->modificarProducto());
-        btnFacturaCrear.setOnAction(e->crearFactura());
-
+        btnGuardarFacturaCrear.setOnAction(e->crearFactura());
+        initializeEntidades();
     }
 
 
-    
-    
+    public VBox panelEntidadCrear;
+    public VBox panelEntidadBorrar;
+    public VBox panelEntidadListar;
+
+    public Button btnentidadesCrear;
+    public Button btnentidadeseliminar;
+    public Button btnentidadesListar;
+
+
+    public Label listadoproveedoreslabel;
+    public Label listadofabricanteslabel;
+    public Label listadoclienteslabel;
+
+
+    public Label listadoproveedoreseliminarlabel;
+    public Label listadofabricanteseliminarlabel;
+    public Label listadoclienteseliminarlabel;
+
+    public Label crearproveedoreslabel;
+    public Label crearfabricanteslabel;
+    public Label crearclienteslabel;
+
     private void setupTabs(){
         //submenus
 
@@ -116,9 +138,46 @@ public class SecondaryController {
         btnMenuProductos.setOnAction(e->activarTab(productoTab));
         tabs.add(facturasTab);
         btnMenuFacturas.setOnAction(e->activarTab(facturasTab));
+        tabs.add(entidadeshbox);
+
+        //entidades
+        paneles.add(panelEntidadCrear);
+        btnentidadesCrear.setOnAction(e->{
+            activarPaneles(panelEntidadCrear);
+            List<Label> labels = new ArrayList<>();
+            labels.add(crearproveedoreslabel);
+            labels.add(crearfabricanteslabel);
+            labels.add(crearclienteslabel);
+            switchLabel(labels);
+        });
+
+        paneles.add(panelEntidadBorrar);
+        btnentidadeseliminar.setOnAction(e->{
+            activarPaneles(panelEntidadBorrar);
+            List<Label> labels = new ArrayList<>();
+            labels.add(listadoproveedoreseliminarlabel);
+            labels.add(listadofabricanteseliminarlabel);
+            labels.add(listadoclienteseliminarlabel);
+
+            switchLabel(labels);
+        });
+        paneles.add(panelEntidadListar);
+        btnentidadesListar.setOnAction(e->{
+            activarPaneles(panelEntidadListar);
+            List<Label> labels = new ArrayList<>();
+            labels.add(listadoproveedoreslabel);
+            labels.add(listadofabricanteslabel);
+            labels.add(listadoclienteslabel);
+            switch(modo){
+                case("cliente"):
+                    tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Cliente.class)));
+                case("proveedor"):
+                    tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Proveedor.class)));
+            }
+            switchLabel(labels);
+        });
 
 
-        //frames
 
         //productos
         paneles.add(crearProductoPanel);
@@ -151,7 +210,7 @@ public class SecondaryController {
         });
         //facturas
         paneles.add(crearFacturaPanel);
-        btnFacturaCrear.setOnMouseClicked(e->activarPaneles(crearFacturaPanel));
+        btnFacturaCrear.setOnAction(e->activarPaneles(crearFacturaPanel));
         paneles.add(listarFacturasPanel);
         btnFacturaListar.setOnMouseClicked(e-> {
             tvFacturasListar.setItems(FXCollections.observableArrayList(new FacturaService().getFacturasCompletasDto()));
@@ -478,4 +537,87 @@ public class SecondaryController {
             System.out.println(e.getMessage());
         }
     }
+
+
+
+
+
+    //clientes y todo eso
+
+    private String modo = "cliente";
+
+
+    public Button btnMenuFabricante;
+    public Button btnMenuProveedor;
+    public Button btnMenuCliente;
+
+    public HBox entidadeshbox;
+
+    public void initializeEntidades(){
+
+
+        changeModeAndABle(btnMenuFabricante,"fabricante");
+        changeModeAndABle(btnMenuProveedor,"proveedor");
+        changeModeAndABle(btnMenuCliente,"cliente");
+    }
+
+    private void changeModeAndABle(Button btn, String m){
+        btn.setOnAction(e-> {
+            modo = m;
+            entidadeshbox.visibleProperty().setValue(true);
+            entidadeshbox.setDisable(false);
+        });
+    }
+
+    private void switchLabel(List<Label> labels){
+        for (Label label : labels){
+            label.setDisable(true);
+            label.setVisible(false);
+            if(label.getText().toLowerCase().contains(modo)){
+                label.setVisible(true);
+                label.setDisable(false);
+            }
+        }
+    }
+    @FXML private TableView<ClienteCompletoDTO> tvClientesListadoCompleto;
+
+    @FXML private TableColumn<ClienteCompletoDTO, Integer> colClienteIdListarTbl;
+    @FXML private TableColumn<ClienteCompletoDTO, Integer> colClienteCodigoListarTbl;
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClienteNombreListarTbl;
+
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClienteNifListarTbl;
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClienteEmailListarTbl;
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClienteTelefonoListarTbl;
+
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClienteDireccionListarTbl;
+    @FXML private TableColumn<ClienteCompletoDTO, String> colClientePaisListarTbl;
+    private void setupColumnsClientes() {
+
+        colClienteIdListarTbl.setCellValueFactory(
+                new PropertyValueFactory<>("idCliente"));
+
+        colClienteCodigoListarTbl.setCellValueFactory(
+                new PropertyValueFactory<>("codigo"));
+
+        colClienteNombreListarTbl.setCellValueFactory(
+                new PropertyValueFactory<>("nombre"));
+
+        // Campos de Informacion
+        colClienteNifListarTbl.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getInformacion().getNif()));
+
+        colClienteEmailListarTbl.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getInformacion().getEmail()));
+
+        colClienteTelefonoListarTbl.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getInformacion().getTelefono()));
+
+        // Campos de Direccion
+        colClienteDireccionListarTbl.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDireccion().getDireccion()));
+
+        colClientePaisListarTbl.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+    }
+
 }

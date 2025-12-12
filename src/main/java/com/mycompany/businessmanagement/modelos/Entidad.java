@@ -1,7 +1,7 @@
 package com.mycompany.businessmanagement.modelos;
 
 
-public abstract class Entidad{
+public class Entidad{
 protected int id;
 protected int codigo;
 protected String nombre;
