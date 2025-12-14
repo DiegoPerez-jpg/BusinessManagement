@@ -3,12 +3,12 @@ package com.mycompany.businessmanagement;
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
 import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.DTO.FacturaDetalleDTO;
-import com.mycompany.businessmanagement.controllers.FacturaController;
-import com.mycompany.businessmanagement.controllers.FacturaDetalleController;
-import com.mycompany.businessmanagement.controllers.ProductoController;
+import com.mycompany.businessmanagement.controllers.*;
 import com.mycompany.businessmanagement.modelos.*;
 
 import com.mycompany.businessmanagement.services.*;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +21,12 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SecondaryController {
+
+    public static Empresa empresaEnUso;
 
     public Button btnNuevoRibbon;
     public Button btnAbrirRibbon;
@@ -92,10 +93,10 @@ public class SecondaryController {
 
         setupColumnsListarProducto();
         setupColumnsModificarProducto();
-
-
+        setupFacturas();
+        setupColumnsClientes();
         setupTabs();
-
+        btnGuardarClienteCrear.setOnAction(e ->setupCrearClientes());
         btnGuardarCrearProducto.setOnAction(e->guardarProducto());
         btnCancelarCrearProducto.setOnAction(e->cancelarCrearProducto());
         btnEliminarSeleccionadoProducto.setOnAction(e -> {
@@ -210,7 +211,11 @@ public class SecondaryController {
         });
         //facturas
         paneles.add(crearFacturaPanel);
-        btnFacturaCrear.setOnAction(e->activarPaneles(crearFacturaPanel));
+        btnFacturaCrear.setOnAction(e-> {
+            activarPaneles(crearFacturaPanel);
+            productos = new HashMap<>();
+
+        });
         paneles.add(listarFacturasPanel);
         btnFacturaListar.setOnMouseClicked(e-> {
             tvFacturasListar.setItems(FXCollections.observableArrayList(new FacturaService().getFacturasCompletasDto()));
@@ -342,7 +347,7 @@ public class SecondaryController {
     public TextField tfFabricanteModificarProducto;
     public ComboBox cbTipoIvaModificarProducto;
 
-
+    public Label errorModificarProducto;
     private void modificarProducto(){
         ProductoService pr = new ProductoService();
         try{
@@ -354,6 +359,7 @@ public class SecondaryController {
             Producto producto = new ProductoController().crearProducto(new Producto(0,tfCodigoModificarProducto.getText(),tfDescripcionModificarProducto.getText(),tfDescripcionAuxModificarProducto.getText(),Integer.parseInt(tfPrecioCosteModificarProducto.getText()),Integer.parseInt(tfPrecioVentaModificarProducto.getText()),taObservacionesModificarProducto.getText(),Integer.parseInt(tfStockActualModificarProducto.getText()),Integer.parseInt(tfProveedorModificarProducto.getText()),Integer.parseInt(tfFabricanteModificarProducto.getText()),cbTipoIvaModificarProducto.getSelectionModel().getSelectedIndex()));
             new ProductoService().crearProducto(producto);
         } catch (Exception e) {
+            errorModificarProducto.setText(e.getMessage());
             System.out.println("Error guardando producto: " + e.getMessage());
         }
     }
@@ -496,16 +502,12 @@ public class SecondaryController {
     public TextArea taConceptoCrear;
     public TextArea taObservacionCrear;
 
-    public TextField tfIdProductoCrear;
-    public TextField tfCantidadCrear;
-    public TextField tfPrecioUnitarioCrear;
-    public TextField tfTotalLineaCrear;
 
     public void crearFactura(){
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         Factura factura = new Factura(
-                Integer.parseInt(tfIdFacturaCrear.getText()),                 // id
+                0,                 // id
                 Integer.parseInt(tfIdEmpresaCrear.getText()),                 // fk_id_empresa
                 Integer.parseInt(tfIdClienteCrear.getText()),                 // fk_id_cliente
                 tfNumeroFacturaCrear.getText(),                               // numero
@@ -523,16 +525,27 @@ public class SecondaryController {
 
 
 
+
+
         try{
             new FacturaService().crearFactura((new FacturaController().crearFactura(factura)));
-            Facturadetalle detalle = new Facturadetalle(
-                    factura.getId(),    // fk_id_factura
-                    Integer.parseInt(tfIdProductoCrear.getText()),   // fk_id_producto
-                    Double.parseDouble(tfCantidadCrear.getText()),   // cantidad
-                    Double.parseDouble(tfPrecioUnitarioCrear.getText()), // precio_unitario
-                    Double.parseDouble(tfTotalLineaCrear.getText())  // total_linea
-            );
-            new FacturadetalleService().crearFacturadetalle((new FacturaDetalleController().crearDetalle(detalle)));
+            for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+                Producto producto = entry.getKey();   // el objeto Producto
+                int cantidad = entry.getValue();      // la cantidad asociada
+
+                double precioTotal = cantidad * producto.getPrecio_coste();
+
+                Facturadetalle detalle = new Facturadetalle(
+                        factura.getId(),    // fk_id_factura
+                        producto.getId(),   // fk_id_producto
+                        cantidad,   // cantidad
+                        producto.getPrecio_coste(), // precio_unitario
+                        precioTotal  // total_linea
+                );
+                new FacturadetalleService().crearFacturadetalle((new FacturaDetalleController().crearDetalle(detalle)));
+                
+            }
+
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -618,6 +631,206 @@ public class SecondaryController {
 
         colClientePaisListarTbl.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+    }
+
+
+
+
+    public ComboBox<Producto> cbProductoElegir;
+    public TextField tfIdProductoCantidad;
+    public Button btnAñadir;
+    public Label errorCrearFactura;
+    public Button btnEliminarProductoCrear;
+
+    HashMap<Producto,Integer> productos;
+    @FXML
+    private TableView<Producto> tvAgregarProducto;
+
+    // Columnas de la tabla
+    @FXML
+    private TableColumn<Producto, String> colProductoTblFactura; // para el nombre o descripción
+    @FXML
+    private TableColumn<Producto, Integer> colCantidadTblFactura; // para la cantidad
+    @FXML
+    private TableColumn<Producto, Double> colPrecioTblFactura; // para el precio unitario o total
+
+    private void setupFacturasProductos(){
+        cbProductoElegir.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getDescripcion());
+            }
+        });
+
+        cbProductoElegir.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getDescripcion());
+            }
+        });
+        colProductoTblFactura.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        colCantidadTblFactura.setCellValueFactory(cellData -> {
+            Producto p = cellData.getValue();
+            Integer cantidad = productos.get(p);
+            return new SimpleIntegerProperty(cantidad).asObject();
+        });
+
+        colPrecioTblFactura.setCellValueFactory(cellData -> {
+            Producto p = cellData.getValue();
+            Integer cantidad = productos.get(p);
+            double precioTotal = cantidad * p.getPrecio_coste();
+            return new SimpleDoubleProperty(precioTotal).asObject();
+        });
+
+        btnAñadir.setOnAction(e -> {
+            Producto p = cbProductoElegir.getSelectionModel().getSelectedItem();
+            if (p == null) {
+                errorCrearFactura.setText("Selecciona un producto");
+                return;
+            }
+
+            String cantidadText = tfIdProductoCantidad.getText();
+            if (cantidadText.isEmpty()) {
+                errorCrearFactura.setText("Indique la cantidad");
+                return;
+            }
+
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(cantidadText);
+            } catch (NumberFormatException ex) {
+                errorCrearFactura.setText("Cantidad inválida");
+                return;
+            }
+
+            if (cantidad <= 0) {
+                errorCrearFactura.setText("La cantidad debe ser mayor que 0");
+                return;
+            }
+
+            // Añadir al HashMap
+            productos.put(p, cantidad);
+
+            // Limpiar campo y mensaje de error
+            tfIdProductoCantidad.clear();
+            errorCrearFactura.setText("");
+            tvAgregarProducto.getItems().setAll(productos.keySet());
+        });
+
+
+        btnEliminarProductoCrear.setOnAction(e -> {
+            Producto p = (Producto) tvAgregarProducto.getSelectionModel().getSelectedItem();
+            if (p != null) {
+                productos.remove(p);
+                // También podrías actualizar la tabla
+                tvAgregarProducto.getItems().remove(p);
+                tvAgregarProducto.getItems().setAll(productos.keySet());
+            } else {
+                errorCrearFactura.setText("Selecciona un producto de la tabla para eliminar");
+            }
+        });
+    }
+
+
+    private void setupFacturas(){
+        setupFacturasProductos();
+
+    }
+
+
+
+
+
+    // Información
+    @FXML
+    public TextField tfClienteNifCrear;
+    @FXML
+    public TextField tfClienteEmailCrear;
+    @FXML
+    public TextField tfClienteTelefonoCrear;
+
+    // Dirección
+    @FXML
+    public TextField tfClienteDireccionCalleCrear;
+    @FXML
+    public TextField tfClienteCodigoPostalCrear;
+    @FXML
+    public TextField tfClienteCiudadCrear;
+    @FXML
+    public TextField tfClienteProvinciaCrear;
+    @FXML
+    public TextField tfClientePaisCrear;
+    @FXML
+    public TextField tfClienteEtiquetaCrear;
+
+    // Entidad
+    @FXML
+    public TextField tfClienteCodigoCrear;
+    @FXML
+    public TextField tfClienteNombreCrear;
+
+    // Botones y label
+    @FXML
+    public Button btnGuardarClienteCrear;
+    @FXML
+    public Button btnCancelarClienteCrear;
+    @FXML
+    public Label lblErrorCrearCliente;
+
+    private void setupCrearClientes() {
+        // Leer datos de los TextField
+        String nif = tfClienteNifCrear.getText();
+        String email = tfClienteEmailCrear.getText();
+        String telefono = tfClienteTelefonoCrear.getText();
+
+        String direccionCalle = tfClienteDireccionCalleCrear.getText();
+        String codigoPostal = tfClienteCodigoPostalCrear.getText();
+        String ciudad = tfClienteCiudadCrear.getText();
+        String provincia = tfClienteProvinciaCrear.getText();
+        String pais = tfClientePaisCrear.getText();
+        String etiqueta = tfClienteEtiquetaCrear.getText();
+
+        int codigoEntidad = 0;
+        try {
+            codigoEntidad = Integer.parseInt(tfClienteCodigoCrear.getText());
+        } catch (NumberFormatException e) {
+            lblErrorCrearCliente.setText("Código inválido");
+            return;
+        }
+        String nombreEntidad = tfClienteNombreCrear.getText();
+
+        Informacion informacion = new Informacion(0, nif, email, telefono);
+        Direccion direccion = new Direccion(0, direccionCalle, codigoPostal, ciudad, provincia, pais, etiqueta);
+
+        try{
+
+            new InformacionService().crearInformacion(new InformacionController().crearInformacion(informacion));
+            new DireccionService().crearDireccion(new DireccionController().crearDireccion(direccion));
+
+
+            if (Objects.equals(modo, "cliente")){
+                Cliente entidad = new Cliente(0, codigoEntidad, nombreEntidad, informacion.getId(), direccion.getId());
+                new ClienteService().crearCliente(new ClienteController().crearCliente(entidad));
+                new EntidadService().crearEntidad(entidad);
+
+            } else if(Objects.equals(modo, "fabricante")){
+                Fabricante entidad = new Fabricante(0, nombreEntidad);
+                new FabricanteService().crearFabricante(entidad);
+
+            } else if(Objects.equals(modo, "proveedor")){
+                Proveedor entidad = new Proveedor(0, codigoEntidad, nombreEntidad, informacion.getId(), direccion.getId());
+                new ProveedorService().crearProveedor(new ProveedorController().crearProveedor(entidad));
+                new EntidadService().crearEntidad(entidad);
+            }
+        } catch (Exception e) {
+            lblErrorCrearCliente.setText(e.getMessage());
+        }
+
+
+
     }
 
 }

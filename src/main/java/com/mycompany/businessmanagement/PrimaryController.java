@@ -70,7 +70,7 @@ public class PrimaryController {
     private Button cancelarButton;
     
     @FXML
-    private ListView empresasListView;
+    private ListView<Empresa> empresasListView;
     @FXML
     private Button cargarButton;
             
@@ -104,6 +104,7 @@ public class PrimaryController {
         @FXML
         private void cargarBoton(){
          try {
+             SecondaryController.empresaEnUso = empresasListView.getSelectionModel().getSelectedItem();
             App.setRoot("secondary");
         } catch (Exception e) {
         e.printStackTrace();
@@ -122,6 +123,8 @@ public class PrimaryController {
             Empresa empresa = new EmpresaController().crearEmpresa(new Empresa(0,Integer.parseInt(codigoTextField.getText()),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId()));
             new EmpresaService().crearEmpresa(empresa);
             conn.commit();
+            IdError.setVisible(true);
+            IdError.setText("Empresa creada con exito");
         } catch (Exception e){
             try{
                 conn.rollback();
@@ -155,11 +158,9 @@ public class PrimaryController {
        
        
         List<Empresa> empresas = new EmpresaService().selectAll();
-             ObservableList<String> nombres = FXCollections.observableArrayList();
+         ObservableList<Empresa> nombres = FXCollections.observableArrayList(empresas);
                
-        for (Empresa e : empresas) {
-        nombres.add(e.getNombre());
-    }
+
 
         empresasListView.setItems(nombres);
         
