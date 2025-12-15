@@ -62,4 +62,9 @@ public class ClienteCompletoDTO {
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
+
+    @Override
+    public String toString(){
+        return "Nombre:" + getNombre();
+    }
 }

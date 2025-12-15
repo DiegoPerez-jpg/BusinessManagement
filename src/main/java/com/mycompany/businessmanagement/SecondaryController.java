@@ -33,13 +33,15 @@ public class SecondaryController {
     public Button btnMenuEntidad;
     public Button btnMenuProductos;
     public Button btnMenuFacturas;
-
+    @FXML
+    public VBox root;
     public HBox entidadesTab;
     public HBox productoTab;
     public HBox facturasTab;
     public Button btnEliminarSeleccionadoProducto;
     public Button btnModificarProducto1;
     public Button btnGuardarCambiosProducto;
+    public Label nombreEmpresaLabel;
 
     @FXML
     private TextField tfCodigo;
@@ -88,13 +90,14 @@ public class SecondaryController {
     public Button btnGuardarFacturaCrear;
     @FXML
     private void initialize() {
+        nombreEmpresaLabel.setText(empresaEnUso.getNombre());
+        System.out.println(empresaEnUso.getNombre());
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
         if (btnCancelar != null) btnCancelar.setOnAction(e -> cerrarVentana());
 
         setupColumnsListarProducto();
         setupColumnsModificarProducto();
         setupFacturas();
-        setupColumnsClientes();
         setupTabs();
         btnGuardarClienteCrear.setOnAction(e ->setupCrearClientes());
         btnGuardarCrearProducto.setOnAction(e->guardarProducto());
@@ -150,6 +153,11 @@ public class SecondaryController {
             labels.add(crearfabricanteslabel);
             labels.add(crearclienteslabel);
             switchLabel(labels);
+            if(!Objects.equals(modo, "fabricante")){
+                setupCrearClientesTextFields(true);
+            } else {
+                setupCrearClientesTextFields(false);
+            }
         });
 
         paneles.add(panelEntidadBorrar);
@@ -169,11 +177,23 @@ public class SecondaryController {
             labels.add(listadoproveedoreslabel);
             labels.add(listadofabricanteslabel);
             labels.add(listadoclienteslabel);
+            System.out.println(modo);
             switch(modo){
                 case("cliente"):
+                    setupColumnsClientes(true);
                     tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Cliente.class)));
+                    break;
                 case("proveedor"):
+                    setupColumnsClientes(true);
                     tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Proveedor.class)));
+                    break;
+                case("fabricante"):
+                    setupColumnsClientes(false);
+                    tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new FabricanteService().getClienteDto()));
+                    System.out.println(new FabricanteService().getClienteDto());
+                    break;
+                default:
+                    break;
             }
             switchLabel(labels);
         });
@@ -222,6 +242,7 @@ public class SecondaryController {
             activarPaneles(listarFacturasPanel);
         });
     }
+
 
     private void cargarProductoEnModificar(int id) {
         ProductoService productoService = new ProductoService();
@@ -577,7 +598,7 @@ public class SecondaryController {
     private void changeModeAndABle(Button btn, String m){
         btn.setOnAction(e-> {
             modo = m;
-            entidadeshbox.visibleProperty().setValue(true);
+            entidadeshbox.setVisible(true);
             entidadeshbox.setDisable(false);
         });
     }
@@ -604,8 +625,8 @@ public class SecondaryController {
 
     @FXML private TableColumn<ClienteCompletoDTO, String> colClienteDireccionListarTbl;
     @FXML private TableColumn<ClienteCompletoDTO, String> colClientePaisListarTbl;
-    private void setupColumnsClientes() {
-
+    private void setupColumnsClientes(Boolean modo) {
+// Columnas que siempre existen
         colClienteIdListarTbl.setCellValueFactory(
                 new PropertyValueFactory<>("idCliente"));
 
@@ -615,22 +636,45 @@ public class SecondaryController {
         colClienteNombreListarTbl.setCellValueFactory(
                 new PropertyValueFactory<>("nombre"));
 
-        // Campos de Informacion
-        colClienteNifListarTbl.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getInformacion().getNif()));
+        // Columnas "extra" (info + dirección)
+        if (modo) {
+            // Las encendemos
+            colClienteNifListarTbl.setVisible(true);
+            colClienteEmailListarTbl.setVisible(true);
+            colClienteTelefonoListarTbl.setVisible(true);
+            colClienteDireccionListarTbl.setVisible(true);
+            colClientePaisListarTbl.setVisible(true);
 
-        colClienteEmailListarTbl.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getInformacion().getEmail()));
 
-        colClienteTelefonoListarTbl.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getInformacion().getTelefono()));
+            // Y asignamos qué muestran
+            colClienteNifListarTbl.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getInformacion().getNif()));
 
-        // Campos de Direccion
-        colClienteDireccionListarTbl.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getDireccion()));
+            colClienteEmailListarTbl.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getInformacion().getEmail()));
 
-        colClientePaisListarTbl.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+            colClienteTelefonoListarTbl.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getInformacion().getTelefono()));
+
+            colClienteDireccionListarTbl.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getDireccion().getDireccion()));
+
+            colClientePaisListarTbl.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+
+        } else {
+            colClienteNifListarTbl.setVisible(false);
+            colClienteEmailListarTbl.setVisible(false);
+            colClienteTelefonoListarTbl.setVisible(false);
+            colClienteDireccionListarTbl.setVisible(false);
+            colClientePaisListarTbl.setVisible(false);
+
+            colClienteNifListarTbl.setCellValueFactory(null);
+            colClienteEmailListarTbl.setCellValueFactory(null);
+            colClienteTelefonoListarTbl.setCellValueFactory(null);
+            colClienteDireccionListarTbl.setCellValueFactory(null);
+            colClientePaisListarTbl.setCellValueFactory(null);
+        }
     }
 
 
@@ -743,6 +787,89 @@ public class SecondaryController {
 
 
 
+    private void setupCrearClientesTextFields(Boolean modo){
+        if(modo){
+            tfClienteNifCrear.setVisible(true);
+            tfClienteNifCrear.setDisable(false);
+
+            tfClienteEmailCrear.setVisible(true);
+            tfClienteEmailCrear.setDisable(false);
+
+            tfClienteTelefonoCrear.setVisible(true);
+            tfClienteTelefonoCrear.setDisable(false);
+
+            // Dirección
+            tfClienteDireccionCalleCrear.setVisible(true);
+            tfClienteDireccionCalleCrear.setDisable(false);
+
+            tfClienteCodigoPostalCrear.setVisible(true);
+            tfClienteCodigoPostalCrear.setDisable(false);
+
+            tfClienteCiudadCrear.setVisible(true);
+            tfClienteCiudadCrear.setDisable(false);
+
+            tfClienteProvinciaCrear.setVisible(true);
+            tfClienteProvinciaCrear.setDisable(false);
+
+            tfClientePaisCrear.setVisible(true);
+            tfClientePaisCrear.setDisable(false);
+
+            tfClienteEtiquetaCrear.setVisible(true);
+            tfClienteEtiquetaCrear.setDisable(false);
+
+            // Entidad
+            tfClienteCodigoCrear.setVisible(true);
+            tfClienteCodigoCrear.setDisable(false);
+
+            tfClienteNombreCrear.setVisible(true);
+            tfClienteNombreCrear.setDisable(false);
+
+            root.lookupAll(".grupo-cliente")
+                    .forEach(n -> {
+                        n.setVisible(true);
+                        n.setDisable(false);
+                    });
+
+        } else {
+            tfClienteNifCrear.setVisible(false);
+            tfClienteNifCrear.setDisable(true);
+
+            tfClienteEmailCrear.setVisible(false);
+            tfClienteEmailCrear.setDisable(true);
+
+            tfClienteTelefonoCrear.setVisible(false);
+            tfClienteTelefonoCrear.setDisable(true);
+
+            // Dirección
+            tfClienteDireccionCalleCrear.setVisible(false);
+            tfClienteDireccionCalleCrear.setDisable(true);
+
+            tfClienteCodigoPostalCrear.setVisible(false);
+            tfClienteCodigoPostalCrear.setDisable(true);
+
+            tfClienteCiudadCrear.setVisible(false);
+            tfClienteCiudadCrear.setDisable(true);
+
+            tfClienteProvinciaCrear.setVisible(false);
+            tfClienteProvinciaCrear.setDisable(true);
+
+            tfClientePaisCrear.setVisible(false);
+            tfClientePaisCrear.setDisable(true);
+
+            tfClienteEtiquetaCrear.setVisible(false);
+            tfClienteEtiquetaCrear.setDisable(true);
+
+            // Entidad
+            tfClienteCodigoCrear.setVisible(false);
+            tfClienteCodigoCrear.setDisable(true);
+            root.lookupAll(".grupo-cliente")
+                    .forEach(n -> {
+                        n.setVisible(true);
+                        n.setDisable(false);
+                    });
+
+        }
+    }
 
     // Información
     @FXML

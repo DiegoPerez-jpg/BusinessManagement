@@ -7,4 +7,5 @@ module com.mycompany.businessmanagement {
     requires mysql.connector.j;
     opens com.mycompany.businessmanagement to javafx.fxml;
     exports com.mycompany.businessmanagement;
+    exports com.mycompany.businessmanagement.DTO;
 }

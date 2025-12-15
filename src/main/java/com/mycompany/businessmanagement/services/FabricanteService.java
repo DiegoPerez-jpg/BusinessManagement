@@ -1,9 +1,11 @@
 package com.mycompany.businessmanagement.services;
 
 import com.mycompany.businessmanagement.DAOS.FabricanteDAO;
+import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.modelos.Fabricante;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FabricanteService {
 
@@ -29,6 +31,10 @@ public class FabricanteService {
         fabricanteDAO.update(fabricante);
     }
 
+
+    public List<ClienteCompletoDTO> getClienteDto(){
+        return fabricanteDAO.findAll().stream().map(f->new ClienteCompletoDTO(f.getId(),0, f.getNombre(),null,null)).collect(Collectors.toList());
+    }
     public boolean existeFabricante(int id){
         return fabricanteDAO.findById(id) != null;
     }

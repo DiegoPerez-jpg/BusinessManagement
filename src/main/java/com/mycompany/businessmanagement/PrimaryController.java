@@ -16,8 +16,7 @@ import com.mycompany.businessmanagement.services.InformacionService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,18 +24,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.SelectionMode;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import javafx.scene.control.TextField;
 
 public class PrimaryController {
 
@@ -94,7 +90,17 @@ public class PrimaryController {
                 System.getLogger(PrimaryController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
         });
-
+        empresasListView.setCellFactory(lv -> new ListCell<Empresa>() {
+            @Override
+            protected void updateItem(Empresa empresa, boolean empty) {
+                super.updateItem(empresa, empty);
+                if (empty || empresa == null) {
+                    setText(null); // Si el item es vacío, no mostrar nada
+                } else {
+                    setText(empresa.getNombre()); // Mostrar el nombre de la empresa
+                }
+            }
+        });
      cargarButton.setOnAction(e->cargarBoton());
         
 //        if (guardarButton != null) guardarButton.setOnAction(e -> guardarEmpresa());
@@ -163,7 +169,6 @@ public class PrimaryController {
 
 
         empresasListView.setItems(nombres);
-        
 
     }
 

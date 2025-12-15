@@ -63,6 +63,7 @@ public <T> List<Entidad> findAll(Class<T> clazz) {
     String table = clazz.getSimpleName().toLowerCase();  // informacion / direccion
 
     String sql = "SELECT * FROM entidad e INNER JOIN "+table+" c ON c.id = e.id";
+    System.out.println(sql);
     try (Connection conn = Conexion.getConnection();
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {

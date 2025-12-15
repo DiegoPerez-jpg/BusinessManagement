@@ -32,7 +32,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #b80f2b; -fx-padding: 8 12;">
                     <children>
                         <ImageView fitHeight="28" fitWidth="28" pickOnBounds="true" preserveRatio="true" />
-                        <Label style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Nuevo artículo" />
+                        <Label fx:id="nombreEmpresaLabel" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Nuevo artículo" />
                         <Region HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
@@ -567,39 +567,39 @@
 
                                     <children>
 
-                                        <Label text="Código:" />
+                                        <Label styleClass="apagarLabel"  text="Código:" />
                                         <TextField fx:id="tfClienteCodigoCrear" GridPane.columnIndex="1" />
 
                                         <Label text="Nombre:" GridPane.rowIndex="1" />
                                         <TextField fx:id="tfClienteNombreCrear" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                                         <!-- Información: NIF / Email / Teléfono -->
-                                        <Label text="NIF:" GridPane.rowIndex="2" />
+                                        <Label styleClass="apagarLabel" text="NIF:" GridPane.rowIndex="2" />
                                         <TextField fx:id="tfClienteNifCrear" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                        <Label text="Email:" GridPane.rowIndex="3" />
+                                        <Label styleClass="apagarLabel" text="Email:" GridPane.rowIndex="3" />
                                         <TextField fx:id="tfClienteEmailCrear" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                        <Label text="Teléfono:" GridPane.rowIndex="4" />
+                                        <Label styleClass="apagarLabel" text="Teléfono:" GridPane.rowIndex="4" />
                                         <TextField fx:id="tfClienteTelefonoCrear" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                                         <!-- Dirección: Calle, C. Postal, Ciudad, Provincia, País, Etiqueta -->
-                                        <Label text="Dirección:" GridPane.rowIndex="5" />
+                                        <Label styleClass="apagarLabel" text="Dirección:" GridPane.rowIndex="5" />
                                         <TextField fx:id="tfClienteDireccionCalleCrear" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                        <Label text="C. postal:" GridPane.rowIndex="6" />
+                                        <Label styleClass="apagarLabel" text="C. postal:" GridPane.rowIndex="6" />
                                         <TextField fx:id="tfClienteCodigoPostalCrear" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                        <Label text="Ciudad:" GridPane.rowIndex="7" />
+                                        <Label styleClass="apagarLabel" text="Ciudad:" GridPane.rowIndex="7" />
                                         <TextField fx:id="tfClienteCiudadCrear" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                                        <Label text="Provincia:" GridPane.rowIndex="8" />
+                                        <Label styleClass="apagarLabel" text="Provincia:" GridPane.rowIndex="8" />
                                         <TextField fx:id="tfClienteProvinciaCrear" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-                                        <Label text="País:" GridPane.rowIndex="9" />
+                                        <Label styleClass="apagarLabel" text="País:" GridPane.rowIndex="9" />
                                         <TextField fx:id="tfClientePaisCrear" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-                                        <Label text="Etiqueta:" GridPane.rowIndex="10" />
+                                        <Label styleClass="apagarLabel" text="Etiqueta:" GridPane.rowIndex="10" />
                                         <TextField fx:id="tfClienteEtiquetaCrear" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                                     </children>
                                     <rowConstraints>
