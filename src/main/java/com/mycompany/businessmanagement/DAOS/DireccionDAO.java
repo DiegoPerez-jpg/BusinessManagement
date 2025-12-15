@@ -9,10 +9,10 @@ import com.mycompany.businessmanagement.modelos.Direccion;
 
 public class DireccionDAO {
 
-public Direccion insert(Direccion entity) {
+public Direccion insert(Direccion entity, Connection conn) {
     String sql = "INSERT INTO direccion (direccion, codigopostal, ciudad, provincia, pais, etiqueta) VALUES (?, ?, ?, ?, ?, ?)";
 long idGenerado = -1;
-    try (Connection conn = Conexion.getConnection();
+    try (
          PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 ps.setString(1, entity.getDireccion());
 ps.setString(2, entity.getCodigopostal());

@@ -12,7 +12,7 @@ public class FacturadetalleDAO {
 
 
     public void insert(Facturadetalle entity) {
-    String sql = "INSERT INTO facturadetalle (fk_id_factura,fk_id_producto, cantidad, precio_unitario, total_linea) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO facturadetalle (fk_id_factura,fk_id_producto, cantidad, precio_unitario, total_linea) VALUES (?, ?, ?, ?,?)";
     try (Connection conn = Conexion.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, entity.getFk_id_factura());

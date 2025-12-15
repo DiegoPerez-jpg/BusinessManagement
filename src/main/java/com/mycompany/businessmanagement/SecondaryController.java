@@ -3,6 +3,7 @@ package com.mycompany.businessmanagement;
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
 import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.DTO.FacturaDetalleDTO;
+import com.mycompany.businessmanagement.conexion.Conexion;
 import com.mycompany.businessmanagement.controllers.*;
 import com.mycompany.businessmanagement.modelos.*;
 
@@ -15,10 +16,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -27,7 +32,7 @@ import java.util.stream.Collectors;
 public class SecondaryController {
 
     public static Empresa empresaEnUso;
-
+    public Button btnEliminarClientesListar;
     public Button btnNuevoRibbon;
     public Button btnAbrirRibbon;
     public Button btnMenuEntidad;
@@ -42,6 +47,10 @@ public class SecondaryController {
     public Button btnModificarProducto1;
     public Button btnGuardarCambiosProducto;
     public Label nombreEmpresaLabel;
+    public TableColumn colIdListar;
+    public TextField tfBuscarProductoModificar;
+    public Label errorCrearProducto;
+    public Button btnGenerarFacturaSeleccionada;
 
     @FXML
     private TextField tfCodigo;
@@ -92,7 +101,6 @@ public class SecondaryController {
     private void initialize() {
         nombreEmpresaLabel.setText(empresaEnUso.getNombre());
         System.out.println(empresaEnUso.getNombre());
-        if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarEmpresa());
         if (btnCancelar != null) btnCancelar.setOnAction(e -> cerrarVentana());
 
         setupColumnsListarProducto();
@@ -107,6 +115,11 @@ public class SecondaryController {
             new ProductoService().eliminarProducto(tvProductosEliminar.getSelectionModel().getSelectedItem().getId());});
         btnGuardarCambiosProducto.setOnAction(e->modificarProducto());
         btnGuardarFacturaCrear.setOnAction(e->crearFactura());
+        btnGenerarFacturaSeleccionada.setOnAction(e->{
+            BotonGenerarPdf bg = new BotonGenerarPdf();
+            bg.generarPDF( tvFacturasListar.getSelectionModel().getSelectedItem().getFk_id_factura());
+        });
+
         initializeEntidades();
     }
 
@@ -116,7 +129,6 @@ public class SecondaryController {
     public VBox panelEntidadListar;
 
     public Button btnentidadesCrear;
-    public Button btnentidadeseliminar;
     public Button btnentidadesListar;
 
 
@@ -132,7 +144,7 @@ public class SecondaryController {
     public Label crearproveedoreslabel;
     public Label crearfabricanteslabel;
     public Label crearclienteslabel;
-
+    public Label lblErrorListadoClientes;
     private void setupTabs(){
         //submenus
 
@@ -160,16 +172,7 @@ public class SecondaryController {
             }
         });
 
-        paneles.add(panelEntidadBorrar);
-        btnentidadeseliminar.setOnAction(e->{
-            activarPaneles(panelEntidadBorrar);
-            List<Label> labels = new ArrayList<>();
-            labels.add(listadoproveedoreseliminarlabel);
-            labels.add(listadofabricanteseliminarlabel);
-            labels.add(listadoclienteseliminarlabel);
 
-            switchLabel(labels);
-        });
         paneles.add(panelEntidadListar);
         btnentidadesListar.setOnAction(e->{
             activarPaneles(panelEntidadListar);
@@ -177,20 +180,38 @@ public class SecondaryController {
             labels.add(listadoproveedoreslabel);
             labels.add(listadofabricanteslabel);
             labels.add(listadoclienteslabel);
-            System.out.println(modo);
             switch(modo){
                 case("cliente"):
                     setupColumnsClientes(true);
                     tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Cliente.class)));
+
+                    btnEliminarClientesListar.setOnAction(ae->{
+                        if(tvClientesListadoCompleto.getSelectionModel().getSelectedItem() == null){
+                            lblErrorListadoClientes.setText("Seleccione primero una fila");
+                        }
+                        new ClienteService().eliminarCliente(tvClientesListadoCompleto.getSelectionModel().getSelectedItem().toCLiente());
+                    });
                     break;
                 case("proveedor"):
                     setupColumnsClientes(true);
                     tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new EntidadService().getAllClientsDto(Proveedor.class)));
+                    btnEliminarClientesListar.setOnAction(ae->{
+                        if(tvClientesListadoCompleto.getSelectionModel().getSelectedItem() == null){
+                            lblErrorListadoClientes.setText("Seleccione primero una fila");
+                        }
+                        new ProveedorService().eliminarProveedor(tvClientesListadoCompleto.getSelectionModel().getSelectedItem().toProveedor());
+                    });
                     break;
                 case("fabricante"):
                     setupColumnsClientes(false);
                     tvClientesListadoCompleto.setItems(FXCollections.observableArrayList(new FabricanteService().getClienteDto()));
-                    System.out.println(new FabricanteService().getClienteDto());
+                    btnEliminarClientesListar.setOnAction(ae->{
+                        if(tvClientesListadoCompleto.getSelectionModel().getSelectedItem() == null){
+                            lblErrorListadoClientes.setText("Seleccione primero una fila");
+                        }
+                        System.out.println(tvClientesListadoCompleto.getSelectionModel().getSelectedItem());
+                        new FabricanteService().eliminarFabricante(tvClientesListadoCompleto.getSelectionModel().getSelectedItem().toFabricante());
+                    });
                     break;
                 default:
                     break;
@@ -238,7 +259,8 @@ public class SecondaryController {
         });
         paneles.add(listarFacturasPanel);
         btnFacturaListar.setOnMouseClicked(e-> {
-            tvFacturasListar.setItems(FXCollections.observableArrayList(new FacturaService().getFacturasCompletasDto()));
+            setupColumnsFacturas();
+            tvFacturasListar.setItems(FXCollections.observableArrayList(new FacturaService().getFacturasCompletasDto(empresaEnUso.getId())));
             activarPaneles(listarFacturasPanel);
         });
     }
@@ -247,16 +269,17 @@ public class SecondaryController {
     private void cargarProductoEnModificar(int id) {
         ProductoService productoService = new ProductoService();
         Producto pr = productoService.findById(id);
+        tfBuscarProductoModificar.setText(id+"");
         tfCodigoModificarProducto.setText(pr.getCodigo());
-        tfDescripcionCrearProducto.setText(pr.getDescripcion());
-        tfDescripcionAuxCrearProducto.setText(pr.getDescripcion_aux());
-        tfPrecioCosteCrearProducto.setText(pr.getPrecio_coste()+"");
-        tfPrecioVentaCrearProducto.setText(pr.getPrecio_venta()+"");
-        taObservacionesCrearProducto.setText(pr.getReferencia_proveedor());
-        tfStockActualCrearProducto.setText(pr.getStock()+"");
-        tfProveedorCrearProducto.setText(pr.getFk_id_proveedor()+"");
-        tfFabricanteCrearProducto.setText(pr.getFk_id_fabricante()+"");
-        cbTipoIvaCrearProducto.getSelectionModel().select(pr.getFk_id_tipoiva());
+        tfDescripcionModificarProducto.setText(pr.getDescripcion());
+        tfDescripcionAuxModificarProducto.setText(pr.getDescripcion_aux());
+        tfPrecioCosteModificarProducto.setText(pr.getPrecio_coste()+"");
+        tfPrecioVentaModificarProducto.setText(pr.getPrecio_venta()+"");
+        taObservacionesModificarProducto.setText(pr.getReferencia_proveedor());
+        tfStockActualModificarProducto.setText(pr.getStock()+"");
+        tfProveedorModificarProducto.setText(pr.getFk_id_proveedor()+"");
+        tfFabricanteModificarProducto.setText(pr.getFk_id_fabricante()+"");
+        cbTipoIvaModificarProducto.getSelectionModel().select(pr.getFk_id_tipoiva());
     }
 
     private void desactivarPaneles(VBox h){
@@ -287,55 +310,6 @@ public class SecondaryController {
     public void setEmpresaDAO(EmpresaDAO dao) {
         this.empresaDAO = dao;
     }
-
-    private void guardarEmpresa() {
-        try {
-            String nombre = tfNombre != null ? tfNombre.getText().trim() : "";
-            String web = tfWeb != null ? tfWeb.getText().trim() : "";
-            int codigo = 0;
-            int fkDireccion = 0;
-            int fkInformacion = 0;
-
-            if (tfCodigo != null && !tfCodigo.getText().trim().isEmpty()) {
-                codigo = Integer.parseInt(tfCodigo.getText().trim());
-            }
-            if (tfFkDireccion != null && !tfFkDireccion.getText().trim().isEmpty()) {
-                fkDireccion = Integer.parseInt(tfFkDireccion.getText().trim());
-            }
-            if (tfFkInformacion != null && !tfFkInformacion.getText().trim().isEmpty()) {
-                fkInformacion = Integer.parseInt(tfFkInformacion.getText().trim());
-            }
-
-            if (nombre.isEmpty()) {
-                System.err.println("El nombre es obligatorio");
-                return;
-            }
-
-            // Usamos el constructor que nos indicaste: Empresa(int id, int codigo, String nombre, String web, int fk_id_direccion, int fk_id_informacion)
-            Empresa e = new Empresa(0, codigo, nombre, web, fkDireccion, fkInformacion);
-
-            if (empresaDAO != null) {
-                Empresa inserted = empresaDAO.insert(e); // el DAO debería asignar el id generado
-                if (inserted != null) {
-                    System.out.println("Empresa guardada con id = " + inserted.getId());
-                } else {
-                    System.err.println("Error al guardar la empresa (DAO devolvió null).");
-                }
-            } else {
-                System.err.println("empresaDAO no inyectado: la empresa no se ha guardado en BD.");
-            }
-
-            // Cierra ventana después de guardar
-            cerrarVentana();
-
-        } catch (NumberFormatException nfe) {
-            System.err.println("Los campos numéricos deben contener números válidos: " + nfe.getMessage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println("Error guardando empresa: " + ex.getMessage());
-        }
-    }
-
 
 
 
@@ -388,14 +362,14 @@ public class SecondaryController {
 
     private void guardarProducto(){
         try{
-            if(new FabricanteService().existeFabricante(Integer.parseInt(tfFabricanteCrearProducto.getText())))throw new Exception("No existe el fabricante");
-            if(new ProveedorService().existeProveedor(Integer.parseInt(tfProveedorCrearProducto.getText())))throw new Exception("No existe el proveedor");
+            if(!new FabricanteService().existeFabricante(Integer.parseInt(tfFabricanteCrearProducto.getText())))throw new Exception("No existe el fabricante");
+            if(!new ProveedorService().existeProveedor(Integer.parseInt(tfProveedorCrearProducto.getText())))throw new Exception("No existe el proveedor");
 
 
-            Producto producto = new ProductoController().crearProducto(new Producto(0,tfCodigoCrearProducto.getText(),tfDescripcionCrearProducto.getText(),tfDescripcionAuxCrearProducto.getText(),Integer.parseInt(tfPrecioCosteCrearProducto.getText()),Integer.parseInt(tfPrecioVentaCrearProducto.getText()),taObservacionesCrearProducto.getText(),Integer.parseInt(tfStockActualCrearProducto.getText()),Integer.parseInt(tfProveedorCrearProducto.getText()),Integer.parseInt(tfFabricanteCrearProducto.getText()),cbTipoIvaCrearProducto.getSelectionModel().getSelectedIndex()));
+            Producto producto = new ProductoController().crearProducto(new Producto(0,tfCodigoCrearProducto.getText(),tfDescripcionCrearProducto.getText(),tfDescripcionAuxCrearProducto.getText(),Integer.parseInt(tfPrecioCosteCrearProducto.getText()),Integer.parseInt(tfPrecioVentaCrearProducto.getText()),taObservacionesCrearProducto.getText(),Integer.parseInt(tfStockActualCrearProducto.getText()),Integer.parseInt(tfProveedorCrearProducto.getText()),Integer.parseInt(tfFabricanteCrearProducto.getText()),cbTipoIvaCrearProducto.getSelectionModel().getSelectedIndex()+1));
             new ProductoService().crearProducto(producto);
         } catch (Exception e) {
-            System.out.println("Error guardando producto: " + e.getMessage());
+            errorCrearProducto.setText(e.getMessage());
         }
     }
 
@@ -424,6 +398,29 @@ public class SecondaryController {
 
 
     private void setupColumnsListarProducto(){
+        ObservableList<Tipoiva> list = FXCollections.observableArrayList(
+                new TipoivaService().selectAll().toArray(Tipoiva[]::new)
+        );
+        cbTipoIvaModificarProducto.setItems(list);
+
+// Para mostrar getNombre en la lista desplegable
+        cbTipoIvaModificarProducto.setCellFactory(lv -> new ListCell<Tipoiva>() {
+            @Override
+            protected void updateItem(Tipoiva item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getConcepto());
+            }
+        });
+
+// Para mostrar getNombre en el ComboBox cuando se selecciona
+        cbTipoIvaModificarProducto.setButtonCell(new ListCell<Tipoiva>() {
+            @Override
+            protected void updateItem(Tipoiva item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getConcepto());
+            }
+        });
+
         colCodigoListar.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colPrecioCosteListar.setCellValueFactory(new PropertyValueFactory<>("precio_coste"));
         colPrecioVentaListar.setCellValueFactory(new PropertyValueFactory<>("precio_venta"));
@@ -451,14 +448,14 @@ public class SecondaryController {
         colIdEliminar.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCodigoEliminar.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colDescripcionEliminar.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        colDescripcionAuxEliminar.setCellValueFactory(new PropertyValueFactory<>("descripcionAux"));
-        colPrecioCosteEliminar.setCellValueFactory(new PropertyValueFactory<>("precioCoste"));
-        colPrecioVentaEliminar.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
-        colRefProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("refProveedor"));
+        colDescripcionAuxEliminar.setCellValueFactory(new PropertyValueFactory<>("descripcion_aux"));
+        colPrecioCosteEliminar.setCellValueFactory(new PropertyValueFactory<>("precio_coste"));
+        colPrecioVentaEliminar.setCellValueFactory(new PropertyValueFactory<>("precio_venta"));
+        colRefProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("referencia_proveedor"));
         colStockEliminar.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        colProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("proveedor"));
-        colFabricanteEliminar.setCellValueFactory(new PropertyValueFactory<>("fabricante"));
-        colTipoIvaEliminar.setCellValueFactory(new PropertyValueFactory<>("tipoIva"));
+        colProveedorEliminar.setCellValueFactory(new PropertyValueFactory<>("fk_id_proveedor"));
+        colFabricanteEliminar.setCellValueFactory(new PropertyValueFactory<>("fk_id_fabricante"));
+        colTipoIvaEliminar.setCellValueFactory(new PropertyValueFactory<>("fk_id_tipoiva"));
     }
 
     @FXML private TableView<FacturaDetalleDTO> tvFacturasListar;
@@ -526,18 +523,30 @@ public class SecondaryController {
 
     public void crearFactura(){
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        double baseImponible = 0;
+        double ivaTotal = 0;
+        double totalFactura = 0;
+        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+            Producto producto = entry.getKey();   // el objeto Producto
 
+
+            double cantidad = entry.getValue();      // la cantidad asociada
+            double base = producto.getPrecio_coste()*cantidad/(1+new TipoivaService().selectById(producto.getFk_id_tipoiva()).getPorcentaje()/100);
+            baseImponible += base;
+            ivaTotal *= producto.getPrecio_coste()*cantidad-base;
+
+        }
         Factura factura = new Factura(
                 0,                 // id
-                Integer.parseInt(tfIdEmpresaCrear.getText()),                 // fk_id_empresa
+                empresaEnUso.getId(),                 // fk_id_empresa
                 Integer.parseInt(tfIdClienteCrear.getText()),                 // fk_id_cliente
                 tfNumeroFacturaCrear.getText(),                               // numero
                 LocalDate.parse(tfFechaFacturaCrear.getText(), fmt),          // fecha_emision
                 LocalDate.parse(tfFechaServicioCrear.getText(), fmt),         // fecha_servicio
                 taConceptoCrear.getText(),                                    // concepto
-                Double.parseDouble(tfBaseImponibleCrear.getText()),           // base_imponible
-                Double.parseDouble(tfIvaTotalCrear.getText()),                // iva_total
-                Double.parseDouble(tfTotalFacturaCrear.getText()),            // total_factura
+                baseImponible,           // base_imponible
+                ivaTotal,                // iva_total
+                totalFactura,            // total_factura
                 cbEstadoCrear.getValue(),                                     // estado
                 taObservacionCrear.getText(),                                 // observaciones
                 cbTipoCrear.getValue()                                        // tipo
@@ -569,6 +578,7 @@ public class SecondaryController {
 
         } catch (Exception e){
             System.out.println(e.getMessage());
+            errorCrearFactura.setText(e.getMessage());
         }
     }
 
@@ -600,6 +610,8 @@ public class SecondaryController {
             modo = m;
             entidadeshbox.setVisible(true);
             entidadeshbox.setDisable(false);
+            btnentidadesListar.setText("Listar " + modo);
+            btnentidadesCrear.setText("Crear " + modo);
         });
     }
 
@@ -699,6 +711,39 @@ public class SecondaryController {
     private TableColumn<Producto, Double> colPrecioTblFactura; // para el precio unitario o total
 
     private void setupFacturasProductos(){
+
+        cbEstadoCrear.getItems().addAll("PENDIENTE", "PAGADA", "ANULADA");
+
+        ObservableList<String> estados = FXCollections.observableArrayList("PENDIENTE", "PAGADA", "ANULADA");
+        cbEstadoCrear.setItems(estados);
+
+        cbEstadoCrear.getSelectionModel().selectFirst(); // selecciona "Pendiente" por defecto
+
+        cbTipoCrear.getItems().addAll("V", "C");
+
+        ObservableList<String> opciones = FXCollections.observableArrayList("SERVICIO", "PRODUCTO");
+        cbTipoCrear.setItems(opciones);
+
+        cbTipoCrear.getSelectionModel().selectFirst();
+
+        // 1. Crear la lista observable correctamente
+        ObservableList<Producto> obProducto = FXCollections.observableArrayList(new ProductoService().selectAll());
+
+        cbProductoElegir.setItems(obProducto);
+
+        cbProductoElegir.setConverter(new StringConverter<Producto>() {
+            @Override
+            public String toString(Producto producto) {
+                return producto != null ? producto.getDescripcion() : "";
+            }
+
+            @Override
+            public Producto fromString(String string) {
+                // No se usa en este caso
+                return null;
+            }
+        });
+
         cbProductoElegir.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -824,7 +869,7 @@ public class SecondaryController {
             tfClienteNombreCrear.setVisible(true);
             tfClienteNombreCrear.setDisable(false);
 
-            root.lookupAll(".grupo-cliente")
+            root.lookupAll(".apagarLabel")
                     .forEach(n -> {
                         n.setVisible(true);
                         n.setDisable(false);
@@ -862,10 +907,10 @@ public class SecondaryController {
             // Entidad
             tfClienteCodigoCrear.setVisible(false);
             tfClienteCodigoCrear.setDisable(true);
-            root.lookupAll(".grupo-cliente")
+            root.lookupAll(".apagarLabel")
                     .forEach(n -> {
-                        n.setVisible(true);
-                        n.setDisable(false);
+                        n.setVisible(false);
+                        n.setDisable(true);
                     });
 
         }
@@ -921,27 +966,25 @@ public class SecondaryController {
         String etiqueta = tfClienteEtiquetaCrear.getText();
 
         int codigoEntidad = 0;
-        try {
-            codigoEntidad = Integer.parseInt(tfClienteCodigoCrear.getText());
-        } catch (NumberFormatException e) {
-            lblErrorCrearCliente.setText("Código inválido");
-            return;
-        }
         String nombreEntidad = tfClienteNombreCrear.getText();
 
         Informacion informacion = new Informacion(0, nif, email, telefono);
         Direccion direccion = new Direccion(0, direccionCalle, codigoPostal, ciudad, provincia, pais, etiqueta);
-
+        Connection conexion = null;
         try{
-
-            new InformacionService().crearInformacion(new InformacionController().crearInformacion(informacion));
-            new DireccionService().crearDireccion(new DireccionController().crearDireccion(direccion));
+            conexion = Conexion.getConnection();
+            conexion.setAutoCommit(false);
+            if(!Objects.equals(modo, "fabricante")){
+                codigoEntidad = Integer.parseInt(tfClienteCodigoCrear.getText());
+                new InformacionService().crearInformacion(new InformacionController().crearInformacion(informacion),conexion);
+                new DireccionService().crearDireccion(new DireccionController().crearDireccion(direccion),conexion);
+            }
 
 
             if (Objects.equals(modo, "cliente")){
                 Cliente entidad = new Cliente(0, codigoEntidad, nombreEntidad, informacion.getId(), direccion.getId());
-                new ClienteService().crearCliente(new ClienteController().crearCliente(entidad));
                 new EntidadService().crearEntidad(entidad);
+                new ClienteService().crearCliente(new ClienteController().crearCliente(entidad));
 
             } else if(Objects.equals(modo, "fabricante")){
                 Fabricante entidad = new Fabricante(0, nombreEntidad);
@@ -949,10 +992,18 @@ public class SecondaryController {
 
             } else if(Objects.equals(modo, "proveedor")){
                 Proveedor entidad = new Proveedor(0, codigoEntidad, nombreEntidad, informacion.getId(), direccion.getId());
-                new ProveedorService().crearProveedor(new ProveedorController().crearProveedor(entidad));
                 new EntidadService().crearEntidad(entidad);
+                new ProveedorService().crearProveedor(new ProveedorController().crearProveedor(entidad));
             }
+            lblErrorCrearCliente.setText(modo + " creado con exito");
+            conexion.commit();
+            conexion.setAutoCommit(true);
         } catch (Exception e) {
+            try {
+                conexion.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             lblErrorCrearCliente.setText(e.getMessage());
         }
 

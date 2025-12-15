@@ -89,6 +89,7 @@ public Fabricante findById(int id) {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
+            System.out.println(rs.getString("nombre"));
             return new Fabricante(rs.getInt("id"), rs.getString("nombre"));
         }
     } catch (SQLException e) {

@@ -51,17 +51,17 @@ public void delete(int id) {
 
 public List<Proveedor> findAll() {
     List<Proveedor> list = new ArrayList<>();
-    String sql = "SELECT * FROM proveedor";
+    String sql = "SELECT * FROM proveedor p INNER JOIN entidad e ON p.id = e.id";
     try (Connection conn = Conexion.getConnection();
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {
         while (rs.next()) {
             list.add( new Proveedor(
-                rs.getInt("id"),
-                    rs.getInt("codigo"),
-                rs.getString("nombre"),
-                rs.getInt("fk_id_direccion"),
-                rs.getInt("fk_id_informacion")
+                rs.getInt("e.id"),
+                    rs.getInt("e.codigo"),
+                rs.getString("e.nombre"),
+                rs.getInt("e.fk_id_direccion"),
+                rs.getInt("e.fk_id_informacion")
             ));
         }
     } catch (SQLException e) {
@@ -72,18 +72,18 @@ public List<Proveedor> findAll() {
 
 
 public Proveedor findById(int id) {
-    String sql = "SELECT * FROM proveedor WHERE id = ?";
+    String sql = "SELECT * FROM proveedor p INNER JOIN entidad e ON p.id = e.id WHERE p.id = ? ";
     try (Connection conn = Conexion.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return     new Proveedor(
-                rs.getInt("id"),
-                    rs.getInt("codigo"),
-                rs.getString("nombre"),
-                rs.getInt("fk_id_direccion"),
-                rs.getInt("fk_id_informacion")
+            return  new Proveedor(
+                rs.getInt("e.id"),
+                    rs.getInt("e.codigo"),
+                rs.getString("e.nombre"),
+                rs.getInt("e.fk_id_direccion"),
+                rs.getInt("e.fk_id_informacion")
             );
         }
     } catch (SQLException e) {

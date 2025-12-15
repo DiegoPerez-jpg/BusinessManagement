@@ -3,6 +3,7 @@ package com.mycompany.businessmanagement.services;
 import com.mycompany.businessmanagement.DAOS.DireccionDAO;
 import com.mycompany.businessmanagement.modelos.Direccion;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class DireccionService {
@@ -17,8 +18,8 @@ public class DireccionService {
         return direccionDAO.findAll();
     }
 
-    public void crearDireccion(Direccion direccion) throws IllegalArgumentException {
-        direccionDAO.insert(direccion);
+    public void crearDireccion(Direccion direccion, Connection conn) throws IllegalArgumentException {
+        direccionDAO.insert(direccion,conn);
     }
 
     public void updateDireccion(Direccion direccion) throws IllegalArgumentException {

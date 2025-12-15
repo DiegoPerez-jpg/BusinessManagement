@@ -78,8 +78,16 @@ public class PrimaryController {
 
     @FXML
     private void initialize() {
-        
-
+        cargarButton.setDisable(true);
+        cargarButton.setVisible(false);
+        empresasListView.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((obs, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        cargarButton.setDisable(false);
+                        cargarButton.setVisible(true);
+                    }
+                });
         // conectar botones con acciones (si no lo haces en FXML)
         nuevoButton.setOnMouseClicked(e -> botonNuevoAction());
         abrirButton.setOnMouseClicked(e -> botonAbrirAction());
@@ -124,10 +132,10 @@ public class PrimaryController {
             conn.setAutoCommit(false);
             Informacion informacion= new InformacionController().crearInformacion(new Informacion(0,nifTextField.getText(),emailTextField.getText(),telefonoTextField.getText()));
             Direccion direccion = new DireccionController().crearDireccion(new Direccion(0,direccionTextField.getText(),codigoPostalTextField.getText(),ciudadTextField.getText(),provinciaTextField.getText(),paisTextField.getText(),etiquetaTextField.getText()));
-            new InformacionService().crearInformacion(informacion);
-            new DireccionService().crearDireccion(direccion);
+            new InformacionService().crearInformacion(informacion,conn);
+            new DireccionService().crearDireccion(direccion,conn);
             Empresa empresa = new EmpresaController().crearEmpresa(new Empresa(0,Integer.parseInt(codigoTextField.getText()),nombreTextField.getText(),webTextField.getText(),direccion.getId(),informacion.getId()));
-            new EmpresaService().crearEmpresa(empresa);
+            new EmpresaService().crearEmpresa(empresa,conn);
             conn.commit();
             IdError.setVisible(true);
             IdError.setText("Empresa creada con exito");

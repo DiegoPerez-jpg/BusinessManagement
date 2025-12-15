@@ -30,8 +30,12 @@ public class FacturaService {
         facturaDAO.update(factura);
     }
 
-    public List<FacturaDetalleDTO> getFacturasCompletasDto(){
-        List<Factura> listaFacturas = selectAll();
+    public List<Factura> filterById(int id){
+        return facturaDAO.findByAll(null,id,null,null,null,null,null,null,null,null,null,null,null);
+    }
+
+    public List<FacturaDetalleDTO> getFacturasCompletasDto(int id){
+        List<Factura> listaFacturas = filterById(id);
         List<Facturadetalle> listaFacturaDetalle = new FacturadetalleService().selectAll();
 
         return listaFacturaDetalle.stream().map(e->{

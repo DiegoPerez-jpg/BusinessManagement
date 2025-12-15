@@ -16,6 +16,9 @@ public class TipoivaService {
     public List<Tipoiva> selectAll() {
         return tipoivaDAO.findAll();
     }
+    public Tipoiva selectById(int id) {
+        return tipoivaDAO.findById(id);
+    }
 
     public void crearTipoiva(Tipoiva tipoiva) throws IllegalArgumentException {
         tipoivaDAO.insert(tipoiva);

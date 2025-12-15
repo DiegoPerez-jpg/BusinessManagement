@@ -26,7 +26,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
     <top>
-        <VBox spacing="0">
+        <VBox fx:id="root" spacing="0">
             <children>
 
                 <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #b80f2b; -fx-padding: 8 12;">
@@ -66,14 +66,12 @@
                                 <HBox fx:id="facturasTab" disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                                     <children>
                                         <Button fx:id="btnFacturaCrear" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Crear" />
-                                        <Button fx:id="btnFacturaGenerarPdf" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Generar PDF" />
                                         <Button fx:id="btnFacturaListar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
                                     </children>
                                 </HBox>
                         <HBox fx:id="entidadeshbox" disable="true" layoutX="268.0" layoutY="90.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                            <children>
                               <Button fx:id="btnentidadesCrear" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Crear" />
-                              <Button fx:id="btnentidadeseliminar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Eliminar" />
                               <Button fx:id="btnentidadesListar" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Listar" />
                            </children>
                         </HBox>
@@ -359,7 +357,6 @@
 
                                 <TableView fx:id="tvProductosListar" prefHeight="380">
                                     <columns>
-                                        <TableColumn fx:id="colIdListar" prefWidth="100" text="ID" />
                                         <TableColumn fx:id="colCodigoListar" prefWidth="160" text="Producto" />
                                         <TableColumn fx:id="colPrecioCosteListar" prefWidth="100" text="P. coste" />
                                         <TableColumn fx:id="colPrecioVentaListar" prefWidth="100" text="P. venta" />
@@ -430,15 +427,6 @@
                                     </columnConstraints>
 
                                     <children>
-                                        <Label text="Base imponible:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <TextField fx:id="tfBaseImponibleCrear" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                                        <Label text="IVA total:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                                        <TextField fx:id="tfIvaTotalCrear" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-
-                                        <Label text="Total factura:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <TextField fx:id="tfTotalFacturaCrear" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
                                         <Label text="Estado:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                         <ComboBox fx:id="cbEstadoCrear" prefWidth="180" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
@@ -542,6 +530,11 @@
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
                            <Label fx:id="errorListarFactura" text="Error" translateX="-500.0" />
+                                    <Button fx:id="btnGenerarFacturaSeleccionada"
+                                            prefWidth="200"
+                                            text="Generar factura seleccionada"
+                                            style="-fx-background-color: #5cb85c; -fx-text-fill: white;"
+                                            translateX="-120.0" />
                                     <Button fx:id="btnCerrarFacturaListar" prefWidth="100" text="Cerrar" translateX="-100.0" />
                                 </HBox>
 
@@ -687,6 +680,7 @@
                                 </TableView>
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
+                                    <Button fx:id="btnEliminarClientesListar" prefWidth="90" text="Eliminar seleccionado" />
                                     <Label fx:id="lblErrorListadoClientes" text="Error" translateX="-250.0" />
                                     <Button fx:id="btnCerrarClientesListar" prefWidth="90" text="Cerrar" />
                                 </HBox>

@@ -1,7 +1,6 @@
 package com.mycompany.businessmanagement.DTO;
 
-import com.mycompany.businessmanagement.modelos.Direccion;
-import com.mycompany.businessmanagement.modelos.Informacion;
+import com.mycompany.businessmanagement.modelos.*;
 
 public class ClienteCompletoDTO {
 
@@ -66,5 +65,18 @@ public class ClienteCompletoDTO {
     @Override
     public String toString(){
         return "Nombre:" + getNombre();
+    }
+
+    public Cliente toCLiente(){
+        return new Cliente(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+    }
+    public Proveedor toProveedor(){
+        return new Proveedor(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+    }
+    public Entidad toEntidad(){
+        return new Entidad(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+    }
+    public Fabricante toFabricante(){
+        return new Fabricante(idCliente,nombre);
     }
 }

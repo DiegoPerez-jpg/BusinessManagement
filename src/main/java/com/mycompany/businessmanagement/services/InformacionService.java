@@ -3,6 +3,7 @@ package com.mycompany.businessmanagement.services;
 import com.mycompany.businessmanagement.DAOS.InformacionDAO;
 import com.mycompany.businessmanagement.modelos.Informacion;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class InformacionService {
@@ -21,14 +22,14 @@ public class InformacionService {
         return informacionDAO.findById(id);
     }
 
-    public void crearInformacion(Informacion informacion) throws IllegalArgumentException {
+    public void crearInformacion(Informacion informacion, Connection conn) throws IllegalArgumentException {
         if (!informacionDAO.findByAll(null, informacion.getNif(), null, null).isEmpty())
             throw new IllegalArgumentException("El nif ya existe");
         if (!informacionDAO.findByAll(null, null, informacion.getEmail(), null).isEmpty())
             throw new IllegalArgumentException("El email ya existe");
         if (!informacionDAO.findByAll(null, null, null, informacion.getTelefono()).isEmpty())
             throw new IllegalArgumentException("El telefono ya existe");
-        informacionDAO.insert(informacion);
+        informacionDAO.insert(informacion, conn);
     }
 
     public void updateInformacion(Informacion informacion) throws IllegalArgumentException {

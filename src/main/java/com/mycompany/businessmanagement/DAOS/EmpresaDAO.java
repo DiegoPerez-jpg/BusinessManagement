@@ -9,10 +9,10 @@ import java.util.List;
 
 public class EmpresaDAO {
 
-public Empresa insert(Empresa entity) {
+public Empresa insert(Empresa entity, Connection conn) {
     String sql = "INSERT INTO empresa (codigo, nombre, web, fk_id_direccion, fk_id_informacion) VALUES (?, ?, ?, ?, ?)";
 long idGenerado = -1;
-    try (Connection conn = Conexion.getConnection();
+    try (
          PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 ps.setInt(1, entity.getCodigo());
 ps.setString(2, entity.getNombre());
