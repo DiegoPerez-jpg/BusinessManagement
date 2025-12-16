@@ -29,40 +29,88 @@
                                     </columnConstraints>
                                     <children>
                                         <Label text="Código (num):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <TextField id="codigoTextField" fx:id="codigoTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <TextField id="codigoTextField" fx:id="codigoTextField" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <tooltip>
+                                                <Tooltip text="Código numérico interno para identificar la empresa" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <TextField id="nombreTextField" fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField id="nombreTextField" fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <tooltip>
+                                                <Tooltip text="Nombre completo de la empresa o cliente" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                        <TextField id="webTextField" fx:id="webTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField id="webTextField" fx:id="webTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <tooltip>
+                                                <Tooltip text="Página web (por ejemplo: https://www.empresa.com)" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                        <TextField id="direccionTextField" fx:id="direccionTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField id="direccionTextField" fx:id="direccionTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <tooltip>
+                                                <Tooltip text="Calle, número y otros datos de la dirección" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Código postal:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                                        <TextField id="cpTextField" fx:id="codigoPostalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <TextField id="cpTextField" fx:id="codigoPostalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                            <tooltip>
+                                                <Tooltip text="Código postal de la ciudad" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                                        <TextField id="ciudadTextField" fx:id="ciudadTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <TextField id="ciudadTextField" fx:id="ciudadTextField" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                            <tooltip>
+                                                <Tooltip text="Ciudad donde se encuentra la empresa" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Provincia:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                                        <TextField id="provinciaTextField" fx:id="provinciaTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                        <TextField id="provinciaTextField" fx:id="provinciaTextField" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                            <tooltip>
+                                                <Tooltip text="Provincia correspondiente a la dirección" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                                        <TextField id="paisTextField" fx:id="paisTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                        <TextField id="paisTextField" fx:id="paisTextField" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                            <tooltip>
+                                                <Tooltip text="País (por defecto suele ser ES)" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Etiqueta:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                                        <TextField id="etiquetaTextField" fx:id="etiquetaTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                        <TextField id="etiquetaTextField" fx:id="etiquetaTextField" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                            <tooltip>
+                                                <Tooltip text="Tipo de dirección: Fiscal, Envío, Oficina, etc." />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="NIF:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                                        <TextField id="nifTextField" fx:id="nifTextField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                        <TextField id="nifTextField" fx:id="nifTextField" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                            <tooltip>
+                                                <Tooltip text="NIF o CIF de la empresa" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-                                        <TextField id="emailTextField" fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                        <TextField id="emailTextField" fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                                            <tooltip>
+                                                <Tooltip text="Correo electrónico de contacto" />
+                                            </tooltip>
+                                        </TextField>
 
                                         <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-                                        <TextField id="telefonoTextField" fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                        <TextField id="telefonoTextField" fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                                            <tooltip>
+                                                <Tooltip text="Número de teléfono principal" />
+                                            </tooltip>
+                                        </TextField>
                                     </children>
                                     <rowConstraints>
                                         <RowConstraints />
