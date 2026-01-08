@@ -45,7 +45,7 @@
                                         <Button fx:id="btnMenuFacturas" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Facturas" />
                                     </children>
                                 </HBox>
-                                <HBox fx:id="entidadesTab" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+                                <HBox fx:id="entidadesTab" disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                                     <children>
                                         <Button fx:id="btnMenuFabricante" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Fabricante" />
                                         <Button fx:id="btnMenuProveedor" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Proveedor" />

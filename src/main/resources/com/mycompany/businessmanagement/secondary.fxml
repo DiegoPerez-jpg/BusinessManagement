@@ -45,7 +45,7 @@
                                         <Button fx:id="btnMenuFacturas" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0;" text="Facturas" />
                                     </children>
                                 </HBox>
-                                <HBox fx:id="entidadesTab" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+                                <HBox fx:id="entidadesTab" disable="true" layoutX="268.0" layoutY="50.0" spacing="0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                                     <children>
                                         <Button fx:id="btnMenuFabricante" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Fabricante" />
                                         <Button fx:id="btnMenuProveedor" mnemonicParsing="false" prefWidth="120" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-border-width: 0 1 0 0;" text="Proveedor" />
@@ -528,8 +528,9 @@
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
                            <Label fx:id="errorListarFactura" text="Error" translateX="-500.0" />
-                                    <Button fx:id="btnGenerarFacturaSeleccionada" prefWidth="200" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Generar factura seleccionada" translateX="-120.0" />
-                                    <Button fx:id="btnCerrarFacturaListar" prefWidth="100" text="Cerrar" translateX="-100.0" />
+                                    <Button fx:id="btnGenerarFacturaSeleccionada" prefWidth="200" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Generar factura seleccionada" translateX="-25.0" />
+                                    <Button fx:id="btnCerrarFacturaListar" prefWidth="100" text="Cerrar" />
+                           <Button fx:id="btnModificarFacturaSeleccionada1" prefWidth="200" style="-fx-background-color: #1e90ff; -fx-text-fill: white;" text="Modificar factura seleccionada" translateX="-575.0" />
                                 </HBox>
 
                             </children>
@@ -641,7 +642,7 @@
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10">
                                     <Label fx:id="lblErrorEliminarCliente" text="Error" translateX="-100.0" />
-                                    <Button fx:id="btnEliminarClienteSeleccionado" text="Eliminar seleccionado" />
+                                    <Button fx:id="btnEliminarClienteSeleccionado" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Eliminar seleccionado" />
                                     <Button fx:id="btnCerrarClientes" text="Cerrar" />
                                 </HBox>
                             </children>
@@ -674,9 +675,10 @@
                                 </TableView>
 
                                 <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 8 0 0 0;">
-                                    <Button fx:id="btnEliminarClientesListar" prefWidth="90" text="Eliminar seleccionado" />
+                                    <Button fx:id="btnEliminarClientesListar" prefWidth="90" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Eliminar seleccionado" translateX="225.0" />
                                     <Label fx:id="lblErrorListadoClientes" text="Error" translateX="-250.0" />
-                                    <Button fx:id="btnCerrarClientesListar" prefWidth="90" text="Cerrar" />
+                                    <Button fx:id="btnCerrarClientesListar" prefWidth="90" text="Cerrar" translateX="200.0" />
+                           <Button fx:id="btnModificarClienteSeleccionada2" prefWidth="200" style="-fx-background-color: #1e90ff; -fx-text-fill: white;" text="Modificar Factura Seleccionada" translateX="-225.0" />
                                 </HBox>
 
                             </children>
