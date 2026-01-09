@@ -68,13 +68,13 @@ public class ClienteCompletoDTO {
     }
 
     public Cliente toCLiente(){
-        return new Cliente(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+        return new Cliente(idCliente,codigo,nombre, informacion.getId(), direccion.getId());
     }
     public Proveedor toProveedor(){
-        return new Proveedor(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+        return new Proveedor(idCliente,codigo,nombre, informacion.getId(),direccion.getId());
     }
     public Entidad toEntidad(){
-        return new Entidad(idCliente,codigo,nombre, toCLiente().getFk_id_informacion(), toCLiente().getFk_id_informacion());
+        return new Entidad(idCliente,codigo,nombre, informacion.getId(), direccion.getId());
     }
     public Fabricante toFabricante(){
         return new Fabricante(idCliente,nombre);

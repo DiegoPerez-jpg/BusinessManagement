@@ -1,5 +1,6 @@
 package com.mycompany.businessmanagement;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.mycompany.businessmanagement.DAOS.EmpresaDAO;
 import com.mycompany.businessmanagement.DTO.ClienteCompletoDTO;
 import com.mycompany.businessmanagement.DTO.FacturaDetalleDTO;
@@ -31,6 +32,8 @@ import java.util.stream.Collectors;
 
 public class SecondaryController {
 
+    public boolean modoModificar = false;
+    public ClienteCompletoDTO clienteActual;
     public static Empresa empresaEnUso;
     public Button btnEliminarClientesListar;
     public Button btnNuevoRibbon;
@@ -51,6 +54,9 @@ public class SecondaryController {
     public TextField tfBuscarProductoModificar;
     public Label errorCrearProducto;
     public Button btnGenerarFacturaSeleccionada;
+    public Button btnCancelarModificarProducto;
+    public Button btnCancelarFacturaCrear;
+    public Button btnModificarClienteSeleccionada2;
 
     @FXML
     private TextField tfCodigo;
@@ -107,7 +113,11 @@ public class SecondaryController {
         setupColumnsModificarProducto();
         setupFacturas();
         setupTabs();
-        btnGuardarClienteCrear.setOnAction(e ->setupCrearClientes());
+        btnGuardarClienteCrear.setOnAction(e -> {
+            if (!modoModificar) setupCrearClientes();
+            if (modoModificar) setupModificarClientes();
+
+        });
         btnGuardarCrearProducto.setOnAction(e->guardarProducto());
         btnCancelarCrearProducto.setOnAction(e->cancelarCrearProducto());
         btnEliminarSeleccionadoProducto.setOnAction(e -> {
@@ -119,6 +129,23 @@ public class SecondaryController {
             BotonGenerarPdf bg = new BotonGenerarPdf();
             bg.generarPDF( tvFacturasListar.getSelectionModel().getSelectedItem().getFk_id_factura());
         });
+        btnModificarClienteSeleccionada2.setOnAction(e-> {
+            ClienteCompletoDTO cc = tvClientesListadoCompleto.getSelectionModel().getSelectedItem();
+            if(cc==null){
+                lblErrorListadoClientes.setText("Seleccione un cliente");
+                lblErrorListadoClientes.setVisible(true);
+                return;
+            }
+            modoModificar = true;
+            clienteActual  = cc;
+            cargarClienteEnFormulario(cc);
+            activarPaneles(panelEntidadCrear);
+        });
+
+        btnCancelarFacturaCrear.setOnAction(e->desactivarPaneles());
+        btnCancelarClienteCrear.setOnAction(e->desactivarPaneles());
+        btnCancelarModificarProducto.setOnAction(e->desactivarPaneles());
+        btnCancelarCrearProducto.setOnAction(e->desactivarPaneles());
 
         initializeEntidades();
     }
@@ -292,6 +319,9 @@ public class SecondaryController {
         h.setDisable(false);
         h.setVisible(true);
     }
+    private void desactivarPaneles(){
+        paneles.forEach(this::desactivarPaneles);
+    }
 
 
     private void desactivarTabs(HBox h){
@@ -427,6 +457,35 @@ public class SecondaryController {
         colRefProveedorListar.setCellValueFactory(new PropertyValueFactory<>("referencia_proveedor"));
         colStockListar.setCellValueFactory(new PropertyValueFactory<>("stock"));
     }
+
+    public void cargarClienteEnFormulario(ClienteCompletoDTO cliente) {
+
+        if (cliente == null) {
+            return; // por si acaso llega vacío
+        }
+
+        // Datos básicos
+        tfClienteCodigoCrear.setText(String.valueOf(cliente.getCodigo()));
+        tfClienteNombreCrear.setText(cliente.getNombre());
+
+        // Información (NIF, email, teléfono)
+        if (cliente.getInformacion() != null) {
+            tfClienteNifCrear.setText(cliente.getInformacion().getNif());
+            tfClienteEmailCrear.setText(cliente.getInformacion().getEmail());
+            tfClienteTelefonoCrear.setText(cliente.getInformacion().getTelefono());
+        }
+
+        // Dirección
+        if (cliente.getDireccion() != null) {
+            tfClienteDireccionCalleCrear.setText(cliente.getDireccion().getDireccion());
+            tfClienteCodigoPostalCrear.setText(cliente.getDireccion().getCodigopostal());
+            tfClienteCiudadCrear.setText(cliente.getDireccion().getCiudad());
+            tfClienteProvinciaCrear.setText(cliente.getDireccion().getProvincia());
+            tfClientePaisCrear.setText(cliente.getDireccion().getPais());
+            tfClienteEtiquetaCrear.setText(cliente.getDireccion().getEtiqueta());
+        }
+    }
+
 
 
     @FXML private TableView<Producto> tvProductosEliminar;
@@ -953,6 +1012,7 @@ public class SecondaryController {
     public Label lblErrorCrearCliente;
 
     private void setupCrearClientes() {
+        System.out.println("funcionando crear");
         // Leer datos de los TextField
         String nif = tfClienteNifCrear.getText();
         String email = tfClienteEmailCrear.getText();
@@ -1009,6 +1069,116 @@ public class SecondaryController {
 
 
 
+    }
+
+
+    private void setupModificarClientes() {
+        System.out.println("funcionando modificar");
+        // Leer datos del formulario
+        String nif = tfClienteNifCrear.getText();
+        String email = tfClienteEmailCrear.getText();
+        String telefono = tfClienteTelefonoCrear.getText();
+
+        String direccionCalle = tfClienteDireccionCalleCrear.getText();
+        String codigoPostal = tfClienteCodigoPostalCrear.getText();
+        String ciudad = tfClienteCiudadCrear.getText();
+        String provincia = tfClienteProvinciaCrear.getText();
+        String pais = tfClientePaisCrear.getText();
+        String etiqueta = tfClienteEtiquetaCrear.getText();
+
+        String nombreEntidad = tfClienteNombreCrear.getText();
+        int codigoEntidad = 0;
+
+        Connection conexion = null;
+
+        try {
+            conexion = Conexion.getConnection();
+            conexion.setAutoCommit(false);
+
+            // -------- INFORMACIÓN Y DIRECCIÓN --------
+            if (!Objects.equals(modo, "fabricante")) {
+
+                codigoEntidad = Integer.parseInt(tfClienteCodigoCrear.getText());
+
+                Informacion informacion = new Informacion(
+                        clienteActual.getInformacion().getId(),
+                        nif,
+                        email,
+                        telefono
+                );
+
+                Direccion direccion = new Direccion(
+                        clienteActual.getDireccion().getId(),
+                        direccionCalle,
+                        codigoPostal,
+                        ciudad,
+                        provincia,
+                        pais,
+                        etiqueta
+                );
+
+                new InformacionService().updateInformacion(informacion);
+                new DireccionService().updateDireccion(direccion);
+            }
+
+            // -------- ENTIDADES SEGÚN MODO --------
+            if (Objects.equals(modo, "cliente")) {
+
+                Cliente entidad = new Cliente(
+                        clienteActual.getIdCliente(),
+                        codigoEntidad,
+                        nombreEntidad,
+                        clienteActual.getInformacion().getId(),
+                        clienteActual.getDireccion().getId()
+                );
+
+                new EntidadService().updateEntidad(entidad);
+                new ClienteService().updateCliente(entidad);
+
+            } else if (Objects.equals(modo, "proveedor")) {
+
+                Proveedor entidad = new Proveedor(
+                        clienteActual.getIdCliente(),
+                        codigoEntidad,
+                        nombreEntidad,
+                        clienteActual.getInformacion().getId(),
+                        clienteActual.getDireccion().getId()
+                );
+
+                new EntidadService().updateEntidad(entidad);
+                new ProveedorService().updateProveedor(entidad);
+
+            } else if (Objects.equals(modo, "fabricante")) {
+
+                Fabricante fabricante = new Fabricante(
+                        clienteActual.getIdCliente(),
+                        nombreEntidad
+                );
+
+                new FabricanteService().updateFabricante(fabricante);
+            }
+
+            conexion.commit();
+            lblErrorCrearCliente.setText(modo + " modificado con éxito");
+
+        } catch (Exception e) {
+            try {
+                if (conexion != null) {
+                    conexion.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            lblErrorCrearCliente.setText(e.getMessage());
+        } finally {
+            try {
+                if (conexion != null) {
+                    conexion.setAutoCommit(true);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

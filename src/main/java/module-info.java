@@ -5,6 +5,7 @@ module com.mycompany.businessmanagement {
     requires jasperreports;
   // MySQL Connector
     requires mysql.connector.j;
+    requires com.fasterxml.jackson.databind;
     opens com.mycompany.businessmanagement to javafx.fxml;
     exports com.mycompany.businessmanagement;
     opens com.mycompany.businessmanagement.modelos to javafx.base;
